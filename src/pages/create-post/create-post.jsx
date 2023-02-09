@@ -3,11 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 import { addDoc, collection } from "firebase/firestore";
 
-import { db, auth } from "../utils/firebase/firebase.utils";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+import { db, auth } from "../../config/firebase";
+
+import './create-post.css';
 
 const CreatePost = ({isAuth}) => {
     const [ title, setTitle ] = useState("");
-    const [ postText, setPostText ] = useState("");
+    const [ body, setBody ] = useState("");
 
     const postCollectionRef = collection(db, "posts");
 
@@ -15,11 +20,11 @@ const CreatePost = ({isAuth}) => {
 
     useEffect(() => {
         if(!isAuth) navigate("/login");
-    }, [isAuth, navigate])
+    }, [isAuth, navigate]);
 
     const createPost = async () => {
         await addDoc(postCollectionRef, {
-            title, postText, author: {
+            title, body, author: {
                 name: auth.currentUser.displayName,
                 id: auth.currentUser.uid
             }
@@ -42,12 +47,8 @@ const CreatePost = ({isAuth}) => {
                 </div>
                 <div className="inputGp">
                     <label>Post:</label>
-                    <textarea
-                        placeholder="Post..."
-                        onChange={(event) => {
-                            setPostText(event.target.value)
-                        }}
-                    />
+                    <ReactQuill theme="snow" value={body} onChange={setBody}/>
+                    
                 </div>
                 <button onClick={createPost}>Submit Post</button>
             </div>
