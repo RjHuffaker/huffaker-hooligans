@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { doc, deleteDoc } from 'firebase/firestore';
 
 import ReactQuill from 'react-quill';
@@ -5,18 +8,22 @@ import 'react-quill/dist/quill.snow.css';
 
 import { db, auth } from '../../config/firebase';
 
+import { PostsContext } from "../../contexts/posts-context";
+
 import './post-card.css';
 
 const PostCard = ({ post, isAuth }) => {
     
-    const deletePost = async (postId) => {
-        console.log(postId);
-        const postDoc = doc(db, "posts", postId);
-        await deleteDoc(postDoc);
+    const { deletePost } = useContext(PostsContext);
+
+    let navigate = useNavigate();
+
+    const editHandler = (postId) => {
+        navigate(`/edit/`+postId);
     }
 
-    const editPost = (postId) => {
-
+    const deleteHandler = (postId) => {
+        deletePost(postId);
     }
 
     return (
@@ -29,8 +36,8 @@ const PostCard = ({ post, isAuth }) => {
                     isAuth &&
                     post.author.id === auth.currentUser.uid &&
                     <div className="icons">
-                        <button onClick={() => {deletePost(post.id)}}>&#128465;</button>
-                        <button onClick={() => {editPost(post.id)}}>&#9998;</button>
+                        <button onClick={() => {deleteHandler(post.id)}}>&#128465;</button>
+                        <button onClick={() => {editHandler(post.id)}}>&#9998;</button>
                     </div>
                     
                 }

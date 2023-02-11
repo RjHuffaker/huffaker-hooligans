@@ -1,0 +1,53 @@
+.postEditorContainer {
+    width: 600px;
+    height: auto;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.postEditorContainer h1 {
+    text-align: center;
+}
+
+.postEditorContainer label {
+    font-size: 25px;
+}
+
+.postEditorContainer .inputGp {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+    font-size: 18px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.inputGroup input {
+    height: 40px;
+}
+
+.inputGroup textarea {
+    height: 150px;
+}
+
+.postEditorContainer button {
+    margin-top: 20px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+input,
+textarea {
+    margin-top: 5px;
+}

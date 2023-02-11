@@ -1,57 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { addDoc, collection } from "firebase/firestore";
+import { PostsContext } from "../../contexts/posts-context";
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
-import { db, auth } from "../../config/firebase";
+import PostEditor from "../../components/post-editor/post-editor";
 
 import './create-post.css';
 
-const CreatePost = ({isAuth}) => {
-    const [ title, setTitle ] = useState("");
-    const [ body, setBody ] = useState("");
+const blankPost = {
+    title: "",
+    body: ""
+};
 
-    const postCollectionRef = collection(db, "posts");
+const CreatePost = () => {
+    const { createPost } = useContext(PostsContext);
+
+    const [ post, setPost ] = useState(blankPost);
 
     let navigate = useNavigate();
 
-    useEffect(() => {
-        if(!isAuth) navigate("/login");
-    }, [isAuth, navigate]);
-
-    const createPost = async () => {
-        await addDoc(postCollectionRef, {
-            title, body, author: {
-                name: auth.currentUser.displayName,
-                id: auth.currentUser.uid
-            }
-        });
+    const submitHandler = () => {
+        createPost(post);
         navigate("/");
     }
 
     return (
         <div className="createPostPage">
-            <div className="cpContainer">
-                <h1>Create A Post</h1>
-                <div className="inputGp">
-                    <label>Title:</label>
-                    <input
-                        placeholder="Title..."
-                        onChange={(event) => {
-                            setTitle(event.target.value)
-                        }}
-                    />
-                </div>
-                <div className="inputGp">
-                    <label>Post:</label>
-                    <ReactQuill theme="snow" value={body} onChange={setBody}/>
-                    
-                </div>
-                <button onClick={createPost}>Submit Post</button>
-            </div>
+            <h1>Create Post</h1>
+            <PostEditor post={post} setPost={setPost} submitHandler={submitHandler}></PostEditor>
         </div>
     )
 }
