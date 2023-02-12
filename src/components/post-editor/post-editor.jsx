@@ -1,14 +1,26 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+import Editor from '../editor/editor';
+
 import './post-editor.css';
 
-const PostEditor = ({ post, setPost, submitHandler }) => {
-    console.log(post);
-    
+const PostEditor = ({ post, setPost }) => {
+    const { title, subtitle, summary, body } = post;
+
     const onTitleChange = (event) => {
         const value = event.target.value;
         setPost({...post, title: value});
+    }
+
+    const onSubtitleChange = (event) => {
+        const value = event.target.value;
+        setPost({...post, subtitle: value});
+    }
+
+    const onSummaryChange = (event) => {
+        const value = event.target.value;
+        setPost({...post, summary: value});
     }
 
     const onBodyChange = (value) => {
@@ -21,20 +33,30 @@ const PostEditor = ({ post, setPost, submitHandler }) => {
                 <label>Title:</label>
                 <input
                     placeholder="Title..."
-                    value={post.title}
+                    value={title}
                     onChange={onTitleChange}
                 />
             </div>
             <div className="inputGroup">
-                <label>Body:</label>
-                <ReactQuill
-                    theme="snow"
-                    value={post.body}
-                    onChange={onBodyChange}
+                <label>Subtitle:</label>
+                <input
+                    placeholder="Subitle..."
+                    value={subtitle}
+                    onChange={onSubtitleChange}
                 />
-                
             </div>
-            <button onClick={submitHandler}>Submit Post</button>
+            <div className="inputGroup">
+                <label>Summary:</label>
+                <textarea
+                    placeholder="Summary..."
+                    value={summary}
+                    onChange={onSummaryChange}
+                />
+            </div>
+            <div className="inputGroup">
+                <label>Body:</label>
+                <Editor value={body} setValue={onBodyChange} />
+            </div>
         </div>
     );
 }

@@ -8,9 +8,10 @@ import NavHeader from './components/nav-header/nav-header';
 import Home from './pages/home/home';
 import Login from './pages/login/login';
 import CreatePost from './pages/create-post/create-post';
+import EditPost from './pages/edit-post/edit-post';
+import ReadPost from './pages/read-post/read-post';
 
 import './App.css';
-import EditPost from './pages/edit-post/edit-post';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/createpost" element={<CreatePost isAuth={isAuth} />} />
         <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
         <Route path="/edit/:postId" element={<EditPost />} />
+        <Route path="/read/:postId" element={<ReadPost />} />
       </Routes>
     </Router>
   );

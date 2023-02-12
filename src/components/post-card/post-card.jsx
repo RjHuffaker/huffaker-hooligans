@@ -1,7 +1,5 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { doc, deleteDoc } from 'firebase/firestore';
+import { Link, useNavigate } from "react-router-dom";
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -18,6 +16,8 @@ const PostCard = ({ post, isAuth }) => {
 
     let navigate = useNavigate();
 
+
+
     const editHandler = (postId) => {
         navigate(`/edit/`+postId);
     }
@@ -30,7 +30,7 @@ const PostCard = ({ post, isAuth }) => {
         <div className="post" key={post.id}>
             <div className='postHeader'>
                 <div className="title">
-                    <h1>{post.title}</h1>
+                    <Link to={`/read/${post.id}`}><h1>{post.title}</h1></Link>
                 </div>
                 {
                     isAuth &&
@@ -42,12 +42,8 @@ const PostCard = ({ post, isAuth }) => {
                     
                 }
             </div>
-            <div className="bodyContainer">
-                <ReactQuill
-                    value={post.body}
-                    readOnly={true}
-                    theme={"bubble"}
-                />
+            <div className="postSummary">
+                <p>{post.summary}</p>
             </div>
             <h3>@{post.author.name}</h3>
         </div>

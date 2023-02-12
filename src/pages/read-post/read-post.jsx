@@ -1,21 +1,21 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 import { PostsContext } from "../../contexts/posts-context";
 
-import PostEditor from "../../components/post-editor/post-editor";
-
-import './edit-post.css';
+import './read-post.css';
 
 const blankPost = {
     title: "",
     subtitle: "",
-    summary: "",
     body: ""
 };
 
-const EditPost = () => {
-    const { getPost, updatePost } = useContext(PostsContext);
+const ReadPost = () => {
+    const { getPost } = useContext(PostsContext);
     
     const [ post, setPost ] = useState(blankPost);
 
@@ -32,18 +32,17 @@ const EditPost = () => {
         fetchPost();
     }, []);
 
-    const submitHandler = () => {
-        updatePost(post);
-        navigate("/");
-    }
-
     return (
         <div className="editPostPage">
-            <h1>Edit Post</h1>
-            <PostEditor post={{...post, id: postId}} setPost={setPost}></PostEditor>
-            <button onClick={submitHandler}>Save Post</button>
+            <h1>{post.title}</h1>
+            <h3>{post.subtitle}</h3>
+            <ReactQuill
+                value={post.body}
+                readOnly={true}
+                theme={"bubble"}
+            />
         </div>
     )
 }
 
-export default EditPost;
+export default ReadPost;

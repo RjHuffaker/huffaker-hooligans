@@ -9,6 +9,8 @@ import './create-post.css';
 
 const blankPost = {
     title: "",
+    subtitle: "",
+    summary: "",
     body: ""
 };
 
@@ -27,7 +29,8 @@ const CreatePost = () => {
     return (
         <div className="createPostPage">
             <h1>Create Post</h1>
-            <PostEditor post={post} setPost={setPost} submitHandler={submitHandler}></PostEditor>
+            <PostEditor post={post} setPost={setPost}></PostEditor>
+            <button onClick={submitHandler}>Create Post</button>
         </div>
     )
 }
