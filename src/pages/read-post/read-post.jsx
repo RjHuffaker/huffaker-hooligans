@@ -10,7 +10,6 @@ import './read-post.css';
 
 const blankPost = {
     title: "",
-    subtitle: "",
     body: ""
 };
 
@@ -30,12 +29,12 @@ const ReadPost = () => {
         }
         
         fetchPost();
-    }, []);
+    }, [postId]);
 
     return (
         <div className="editPostPage">
             <h1>{post.title}</h1>
-            <h3>{post.subtitle}</h3>
+            <img className="titleImage" src={post.titleImage} alt="title image" />
             <ReactQuill
                 value={post.body}
                 readOnly={true}

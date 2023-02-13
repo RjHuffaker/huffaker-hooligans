@@ -42,6 +42,7 @@ const PostCard = ({ post, isAuth }) => {
                     
                 }
             </div>
+            <img className="titleImage" src={post.titleImage} alt="title image"/>
             <div className="postSummary">
                 <p>{post.summary}</p>
             </div>

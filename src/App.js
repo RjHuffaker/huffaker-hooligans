@@ -34,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
         <Route path="/edit/:postId" element={<EditPost />} />
         <Route path="/read/:postId" element={<ReadPost />} />
+
       </Routes>
     </Router>
   );

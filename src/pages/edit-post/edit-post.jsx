@@ -9,8 +9,6 @@ import './edit-post.css';
 
 const blankPost = {
     title: "",
-    subtitle: "",
-    summary: "",
     body: ""
 };
 
@@ -40,7 +38,7 @@ const EditPost = () => {
     return (
         <div className="editPostPage">
             <h1>Edit Post</h1>
-            <PostEditor post={{...post, id: postId}} setPost={setPost}></PostEditor>
+            <PostEditor post={{...post, id: postId}} setPost={setPost} />
             <button onClick={submitHandler}>Save Post</button>
         </div>
     )

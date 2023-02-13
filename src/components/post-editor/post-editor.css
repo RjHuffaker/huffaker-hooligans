@@ -13,7 +13,7 @@
 }
 
 .postEditorContainer label {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .postEditorContainer .inputGp {
@@ -31,11 +31,16 @@
 }
 
 .inputGroup input {
+    box-sizing: border-box;
     height: 40px;
+    width: 100%;
 }
 
 .inputGroup textarea {
-    height: 150px;
+    box-sizing: border-box;
+    height: 80px;
+    width: 100%;
+    resize: none;
 }
 
 .postEditorContainer button {

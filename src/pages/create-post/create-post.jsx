@@ -29,7 +29,7 @@ const CreatePost = () => {
     return (
         <div className="createPostPage">
             <h1>Create Post</h1>
-            <PostEditor post={post} setPost={setPost}></PostEditor>
+            <PostEditor post={post} setPost={setPost} />
             <button onClick={submitHandler}>Create Post</button>
         </div>
     )
