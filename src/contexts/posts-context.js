@@ -1,56 +1,74 @@
 import { createContext, useState, useEffect } from 'react';
 
-import { addDoc, doc, getDoc, getDocs, setDoc, deleteDoc, collection } from 'firebase/firestore';
+import {
+  getAllDocuments,
+  createDocument,
+  updateDocument,
+  deleteDocument,
+  readDocument
+} from '../config/firebase';
 
-import { db, auth } from '../config/firebase';
+import { auth } from '../config/firebase';
 
-export const PostsContext = createContext(null);
+export const PostsContext = createContext({
+  posts: []
+});
 
 export const PostsProvider = ({children}) => {
   const [ posts, setPosts ] = useState([]);
-
-  const postCollectionRef = collection(db, "posts");
 
   useEffect(() => {
     getPosts();
   }, []);
 
   const getPosts = async () => {
-    const response = await getDocs(postCollectionRef);
-    setPosts(response.docs.map((doc) => ({...doc.data(), id: doc.id})));
+    const postsList = await getAllDocuments('posts');
+    setPosts(postsList);
   };
 
   const getPost = async (postId) => {
-    const docRef = doc(db, "posts", postId);
-    const response = await getDoc(docRef);
-    return response.data();
+    return await readDocument("posts", postId);
   }
 
   const createPost = async (post) => {
-    await addDoc(postCollectionRef, {
+    const newPost = await createDocument("posts", {
       ...post, author: {
           name: auth.currentUser.displayName,
           id: auth.currentUser.uid
       }
     });
-    getPosts();
+    setPosts([...posts, newPost]);
   }
 
   const updatePost = async (post) => {
-    const docRef = doc(db, "posts", post.id);
-    await setDoc(docRef, {
+    const postToUpdate = await updateDocument('post', {
       ...post, author: {
           name: auth.currentUser.displayName,
           id: auth.currentUser.uid
       }
     });
-    getPosts();
+
+    const index = posts.findIndex(obj => obj.id === postToUpdate.id);
+  
+    if (index !== -1) {
+      setPosts(oldPosts => {
+        const newPosts = [...oldPosts];
+        newPosts[index] = postToUpdate;
+        return [...newPosts];
+      });
+    } else {
+      console.error('Post not found in memory');
+    }
   }
 
-  const deletePost = async (postId) => {
-    const postDoc = doc(db, "posts", postId);
-    await deleteDoc(postDoc);
-    getPosts();
+  const deletePost = async (post) => {
+    const deletedPostId = await deleteDocument('posts', post);
+    const index = posts.findIndex(obj => obj.id === deletedPostId);
+    if (index !== -1) {
+      setPosts((posts) => posts.filter((post) => post.id !== deletedPostId));
+    } else {
+      console.error('Post not found in memory');
+    }
   }
 
   const value = { posts, createPost, getPost, updatePost, deletePost };

@@ -6,6 +6,7 @@ const NavHeader = ({isAuth, signOutUser}) => {
     return (
         <nav>
             <Link to="/"> Home </Link>
+            <Link to="/places-map"> Map </Link>
             { isAuth ? (
             <>
                 <Link to="/createpost"> Create Post </Link>

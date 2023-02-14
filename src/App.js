@@ -4,12 +4,14 @@ import { signOut } from 'firebase/auth';
 
 import { auth } from './config/firebase';
 
-import NavHeader from './components/nav-header/nav-header';
+import Navigation from './components/navigation/navigation';
+
 import Home from './pages/home/home';
 import Login from './pages/login/login';
 import CreatePost from './pages/create-post/create-post';
 import EditPost from './pages/edit-post/edit-post';
 import ReadPost from './pages/read-post/read-post';
+import PlacesMap from './pages/places-map/places-map';
 
 import './App.css';
 
@@ -27,14 +29,15 @@ function App() {
 
   return (
     <Router>
-      <NavHeader isAuth={isAuth} signOutUser={signOutUser}></NavHeader>
       <Routes>
-        <Route path="/" element={<Home isAuth={isAuth} />} />
-        <Route path="/createpost" element={<CreatePost isAuth={isAuth} />} />
-        <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
-        <Route path="/edit/:postId" element={<EditPost />} />
-        <Route path="/read/:postId" element={<ReadPost />} />
-
+        <Route path='/' element={<Navigation isAuth={isAuth} signOutUser={signOutUser} />}>
+          <Route path="/" element={<Home isAuth={isAuth} />} />
+          <Route path="/createpost" element={<CreatePost isAuth={isAuth} />} />
+          <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
+          <Route path="/edit/:postId" element={<EditPost />} />
+          <Route path="/read/:postId" element={<ReadPost />} />
+          <Route path='/places-map' element={<PlacesMap />} />
+        </Route>
       </Routes>
     </Router>
   );
