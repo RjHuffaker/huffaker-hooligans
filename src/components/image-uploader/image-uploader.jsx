@@ -7,6 +7,9 @@ import {
 } from "firebase/storage";
 import { storage } from "../../config/firebase";
 
+import Button from 'react-bootstrap/Button';
+import InputGroup from "react-bootstrap/InputGroup";
+
 function ImageUploader({imageUrl, setImageUrl}) {
   const [ imageFile, setImageFile ] = useState(null);
   const [ percent, setPercent ]= useState();
@@ -38,19 +41,27 @@ function ImageUploader({imageUrl, setImageUrl}) {
   };
   
   return (
-    <div>
-      <input
-        type="file"
-        onChange={(event) => {
-          setImageFile(event.target.files[0]);
-        }}
-      />
-      <button onClick={uploadFile}> Upload Image</button>
-      {percent && <p>{percent}% done</p>}
-      {imageUrl && <div>
-        <img className="titleImage" src={imageUrl} alt={imageUrl}/>
-      </div>}
-    </div>
+    <>
+      <InputGroup>
+        <input
+          type="file"
+          className="form-control"
+          onChange={(event) => {
+            setImageFile(event.target.files[0]);
+          }}
+        />
+      </InputGroup>
+
+      {imageUrl && <img className="w-100" src={imageUrl} alt={imageUrl}/>}
+
+      {imageFile && <>
+        <InputGroup>
+          <Button className="w-100" onClick={uploadFile}> 
+            {percent ? <span>Upload Image</span> : <p>{percent}% done</p>}
+          </Button>
+        </InputGroup>
+      </>}
+    </>
   );
 }
 

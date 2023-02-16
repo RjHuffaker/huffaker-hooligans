@@ -1,11 +1,9 @@
-import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { PostsContext } from "../../contexts/posts-context";
 
-import PostEditor from "../../components/post-editor/post-editor";
-
-import './edit-post.css';
+import PostWriter from "../../components/post-writer/post-writer";
 
 const blankPost = {
     title: "",
@@ -14,7 +12,7 @@ const blankPost = {
 
 const EditPost = () => {
     const { getPost, updatePost } = useContext(PostsContext);
-    
+
     const [ post, setPost ] = useState(blankPost);
 
     const { postId } = useParams();
@@ -30,17 +28,17 @@ const EditPost = () => {
         fetchPost();
     }, []);
 
-    const submitHandler = () => {
+    const onSubmit = () => {
         updatePost(post);
-        navigate("/");
+        navigate("/blog");
+    }
+
+    const onCancel = () => {
+        navigate("/blog");
     }
 
     return (
-        <div className="editPostPage">
-            <h1>Edit Post</h1>
-            <PostEditor post={{...post, id: postId}} setPost={setPost} />
-            <button onClick={submitHandler}>Save Post</button>
-        </div>
+        <PostWriter headerText={"Edit Post"} post={post} setPost={setPost} onSubmit={onSubmit} onCancel={onCancel}/>
     )
 }
 

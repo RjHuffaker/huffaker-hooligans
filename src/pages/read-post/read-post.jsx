@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import Card from "react-bootstrap/Card";
+
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import { PostsContext } from "../../contexts/posts-context";
-
-import './read-post.css';
 
 const blankPost = {
     title: "",
@@ -32,15 +32,17 @@ const ReadPost = () => {
     }, [postId]);
 
     return (
-        <div className="editPostPage">
-            <h1>{post.title}</h1>
-            <img className="titleImage" src={post.titleImage} alt="title image" />
-            <ReactQuill
-                value={post.body}
-                readOnly={true}
-                theme={"bubble"}
-            />
-        </div>
+        <Card className="m-5">
+            <Card.Img src={post.titleImage} alt="title image" />
+            <Card.Title><h1>{post.title}</h1></Card.Title>
+            <Card.Body>
+                <ReactQuill
+                    value={post.body}
+                    readOnly={true}
+                    theme={"bubble"}
+                />
+            </Card.Body>
+        </Card>
     )
 }
 

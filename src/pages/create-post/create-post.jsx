@@ -3,14 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { PostsContext } from "../../contexts/posts-context";
 
-import PostEditor from "../../components/post-editor/post-editor";
-
-import './create-post.css';
+import PostWriter from "../../components/post-writer/post-writer";
 
 const blankPost = {
     title: "",
-    subtitle: "",
-    summary: "",
     body: ""
 };
 
@@ -21,17 +17,17 @@ const CreatePost = () => {
 
     let navigate = useNavigate();
 
-    const submitHandler = () => {
+    const onSubmit = () => {
         createPost(post);
-        navigate("/");
+        navigate("/blog");
+    }
+
+    const onCancel = () => {
+        navigate("/blog");
     }
 
     return (
-        <div className="createPostPage">
-            <h1>Create Post</h1>
-            <PostEditor post={post} setPost={setPost} />
-            <button onClick={submitHandler}>Create Post</button>
-        </div>
+        <PostWriter headerText={"Create Post"} post={post} setPost={setPost} onSubmit={onSubmit} onCancel={onCancel} />
     )
 }
 

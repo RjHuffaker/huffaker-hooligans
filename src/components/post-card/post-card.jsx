@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { auth } from '../../config/firebase';
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+
+import { auth } from "../../config/firebase";
 
 import { PostsContext } from "../../contexts/posts-context";
 
@@ -22,27 +26,33 @@ const PostCard = ({ post, isAuth }) => {
     }
 
     return (
-        <div className="post" key={post.id}>
-            <div className='postHeader'>
-                <div className="title">
-                    <Link to={`/read/${post.id}`}><h1>{post.title}</h1></Link>
-                </div>
-                {
-                    isAuth &&
-                    post.author.id === auth.currentUser.uid &&
-                    <div className="icons">
-                        <button onClick={() => {deleteHandler(post)}}>&#128465;</button>
-                        <button onClick={() => {editHandler(post.id)}}>&#9998;</button>
-                    </div>
-                    
-                }
-            </div>
-            <img className="titleImage" src={post.titleImage} alt="title"/>
-            <div className="postSummary">
-                <p>{post.summary}</p>
-            </div>
-            <h3>@{post.author.name}</h3>
-        </div>
+        <Card key={post.id} className="h-100" >
+            <Link to={`/read/${post.id}`}>
+                <Card.Img src={post.titleImage} alt="title" className="postCardImage"/>
+            </Link>
+            <Card.Title>
+                <Link to={`/read/${post.id}`}>
+                    <h1>{post.title}</h1>
+                </Link>
+            </Card.Title>
+            <Card.Body>
+                TODO: Implement Topics
+            </Card.Body>
+            <Card.Footer>
+                <span className="float-start">
+                    @{post.author.name}    
+                </span>
+                    {
+                        isAuth &&
+                        post.author.id === auth.currentUser.uid &&
+                        <ButtonGroup className="float-end">
+                            <Button variant="outline-primary" onClick={() => {editHandler(post.id)}}>&#9998;</Button>
+                            <Button variant="outline-danger" onClick={() => {deleteHandler(post)}}>&#128465;</Button>
+                        </ButtonGroup>
+                        
+                    }
+            </Card.Footer>
+        </Card>
     );
 }
 

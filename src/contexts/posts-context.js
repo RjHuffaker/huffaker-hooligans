@@ -41,7 +41,7 @@ export const PostsProvider = ({children}) => {
   }
 
   const updatePost = async (post) => {
-    const postToUpdate = await updateDocument('post', {
+    const postToUpdate = await updateDocument('posts', {
       ...post, author: {
           name: auth.currentUser.displayName,
           id: auth.currentUser.uid
