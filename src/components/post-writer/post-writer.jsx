@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form"
 import InputGroup from "react-bootstrap/InputGroup";
 
 import ImageUploader from "../../components/image-uploader/image-uploader";
-import TopicSelector from "../../components/topic-selector/topic-selector"
+import TagSelector from "../tag-selector/tag-selector"
 import QuillEditor from '../../components/quill-editor/quill-editor';
 
 
@@ -25,9 +25,14 @@ const PostWriter = ({ headerText, post, setPost, onSubmit, onCancel }) => {
         setPost({...post, title: value});
     }
 
+    const onTagsChange = (value) => {
+        setPost({...post, tags: value});
+    }
+
     const onBodyChange = (value) => {
         setPost({...post, body: value});
     }
+    
     
     return (
         <Container>
@@ -58,7 +63,7 @@ const PostWriter = ({ headerText, post, setPost, onSubmit, onCancel }) => {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <TopicSelector />
+                                    <TagSelector value={post.tags} onChange={onTagsChange}/>
                                 </Row>
                             </Container>
                         </Card.Body>

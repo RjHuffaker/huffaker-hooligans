@@ -22,6 +22,7 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPost = async() => {
             const response = await getPost(postId);
+            console.log(response);
             setPost(response);
         }
         
@@ -29,6 +30,7 @@ const EditPost = () => {
     }, []);
 
     const onSubmit = () => {
+        console.log(post);
         updatePost(post);
         navigate("/blog");
     }

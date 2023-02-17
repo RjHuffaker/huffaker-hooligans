@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Badge from "react-bootstrap/Badge"
 
 import { auth } from "../../config/firebase";
 
@@ -36,7 +37,9 @@ const PostCard = ({ post, isAuth }) => {
                 </Link>
             </Card.Title>
             <Card.Body>
-                TODO: Implement Topics
+                {post.tags && post.tags.map((tag)=> (
+                    <Badge bg="secondary" className="m-1" key={tag.value}>{tag.label}</Badge>
+                ))}
             </Card.Body>
             <Card.Footer>
                 <span className="float-start">
