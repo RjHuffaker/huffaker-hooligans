@@ -14,7 +14,7 @@ import QuillEditor from '../../components/quill-editor/quill-editor';
 
 import './post-writer.css';
 
-const PostWriter = ({ headerText, post, setPost, onSubmit, onCancel }) => {
+const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit, onCancel }) => {
     
     const setTitleImage = (value) => {
         setPost({...post, titleImage: value});
@@ -30,6 +30,7 @@ const PostWriter = ({ headerText, post, setPost, onSubmit, onCancel }) => {
     }
 
     const onBodyChange = (value) => {
+        console.log("onBodyChange", value);
         setPost({...post, body: value});
     }
     
@@ -80,7 +81,7 @@ const PostWriter = ({ headerText, post, setPost, onSubmit, onCancel }) => {
                 <Col className="xs-12">
                     <Card>
                         <Card.Body>
-                            <QuillEditor value={post.body} setValue={onBodyChange} />
+                            <QuillEditor value={bodyText} setValue={setBodyText} />
                         </Card.Body>
                     </Card>
                 </Col>

@@ -1,4 +1,9 @@
 import { useContext } from 'react';
+
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 import MapContainer from '../../components/map-container/map-container';
 
 import { PlacesContext } from '../../contexts/places-context';
@@ -20,14 +25,18 @@ function PlacesMap() {
   }
 
   return (
-    <div className="flex flex-column items-center" style={{height: '600px', border: '1px solid black'}}>
-      <MapContainer
-        places={places}
-        onPlaceSubmit={onPlaceSubmit}
-        onPlaceUpdate={onPlaceUpdate}
-        onPlaceDelete={onPlaceDelete}
-      />
-    </div>
+    <Container className="h-100">
+      <Col className="h-100">
+        <Row className="h-100">
+          <MapContainer
+            places={places}
+            onPlaceSubmit={onPlaceSubmit}
+            onPlaceUpdate={onPlaceUpdate}
+            onPlaceDelete={onPlaceDelete}
+          />
+        </Row>
+      </Col>
+    </Container>
   );
 }
 

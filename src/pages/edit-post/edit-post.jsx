@@ -7,13 +7,16 @@ import PostWriter from "../../components/post-writer/post-writer";
 
 const blankPost = {
     title: "",
-    body: ""
+    titleImage: "",
+    tags: []
 };
 
 const EditPost = () => {
     const { getPost, updatePost } = useContext(PostsContext);
 
     const [ post, setPost ] = useState(blankPost);
+
+    const [ bodyText, setBodyText ] = useState("");
 
     const { postId } = useParams();
 
@@ -22,16 +25,15 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPost = async() => {
             const response = await getPost(postId);
-            console.log(response);
             setPost(response);
+            setBodyText(response.body);
         }
         
         fetchPost();
     }, []);
 
     const onSubmit = () => {
-        console.log(post);
-        updatePost(post);
+        updatePost({...post, body: bodyText});
         navigate("/blog");
     }
 
@@ -40,7 +42,15 @@ const EditPost = () => {
     }
 
     return (
-        <PostWriter headerText={"Edit Post"} post={post} setPost={setPost} onSubmit={onSubmit} onCancel={onCancel}/>
+        <PostWriter
+            headerText={"Edit Post"}
+            post={post}
+            setPost={setPost}
+            bodyText={bodyText}
+            setBodyText={setBodyText}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+        />
     )
 }
 
