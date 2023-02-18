@@ -36,7 +36,9 @@ const ReadPost = () => {
             <Card.Img src={post.titleImage} alt="title image" />
             <Card.Title><h1>{post.title}</h1></Card.Title>
             <Card.Body>
-                <p>{post.datePublished}</p>
+                <p>Created: {new Date(post.dateCreated).toLocaleDateString()}</p>
+                <p>Modified: {new Date(post.dateModified).toLocaleDateString()}</p>
+                <p>Published: {new Date(post.datePublished).toLocaleDateString()}</p>
                 <ReactQuill
                     value={post.body}
                     readOnly={true}

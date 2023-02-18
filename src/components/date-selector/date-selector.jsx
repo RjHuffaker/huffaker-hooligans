@@ -6,8 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const DateSelector = ({labelText, date, setDate}) => {
     
-    const newDate = new Date(date);
-    
+    const newDate = date ? new Date(parseInt(date)) : new Date();
+
     return (
         <Container>
             <Row className="my-1">

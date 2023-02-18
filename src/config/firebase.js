@@ -13,7 +13,8 @@ import {
   deleteDoc,
   collection,
   query,
-  getDocs
+  getDocs,
+  where
 } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 
@@ -69,6 +70,16 @@ export const getAllDocuments = async (key) => {
   const collectionRef = collection(db, key);
   const q = query(collectionRef);
 
+  const querySnapShot = await getDocs(q);
+  
+  return querySnapShot.docs.map((docSnapShot) => docSnapShot.data());
+}
+
+export const getPublishedDocuments = async (key, timestamp) => {
+  const nowTimestamp = new Date().getTime();
+  const collectionRef = collection(db, key);
+  const q = query(collectionRef, where("datePublished", "<=", nowTimestamp));
+  
   const querySnapShot = await getDocs(q);
   
   return querySnapShot.docs.map((docSnapShot) => docSnapShot.data());

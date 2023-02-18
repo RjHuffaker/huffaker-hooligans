@@ -15,6 +15,8 @@ import './post-writer.css';
 
 const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit, onCancel }) => {
 
+    console.log(post);
+
     const setTitleImage = (value) => {
         setPost({...post, titleImage: value});
     }
@@ -29,11 +31,13 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     }
     
     const onCreatedChange = (date) => {
-        setPost({...post, dateCreated: date.toDateString()});
+    //    setPost({...post, dateCreated: date.toDateString()});
+        setPost({...post, dateCreated: date.getTime()});
     }
 
     const onPublishedChange = (date) => {
-        setPost({...post, datePublished: date.toDateString()});
+    //    setPost({...post, datePublished: date.toDateString()});
+        setPost({...post, datePublished: date.getTime()});
     }
 
     return (
@@ -71,12 +75,12 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
                                     <Col md={6}>
                                         <DateSelector
                                             labelText={"Created:"}
-                                            date={post.dateCreated || new Date()}
+                                            date={post.dateCreated}
                                             setDate={onCreatedChange}
                                         />
                                         <DateSelector
                                             labelText={"Published:"}
-                                            date={post.datePublished || new Date()}
+                                            date={post.datePublished}
                                             setDate={onPublishedChange}
                                         />
                                     </Col>

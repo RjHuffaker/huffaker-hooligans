@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 
 import {
   getAllDocuments,
+  getPublishedDocuments,
   createDocument,
   updateDocument,
   deleteDocument,
@@ -22,7 +23,8 @@ export const PostsProvider = ({children}) => {
   }, []);
 
   const getPosts = async () => {
-    const postsList = await getAllDocuments('posts');
+  //  const postsList = await getAllDocuments('posts');
+    const postsList = await getPublishedDocuments('posts');
     setPosts(postsList);
   };
 
@@ -47,7 +49,7 @@ export const PostsProvider = ({children}) => {
   }
 
   const updatePost = async (post) => {
-    const dateModified = new Date();
+    const dateModified = new Date().getTime();
 
     const postToUpdate = await updateDocument('posts', {
       ...post,
