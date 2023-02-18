@@ -36,6 +36,7 @@ const ReadPost = () => {
             <Card.Img src={post.titleImage} alt="title image" />
             <Card.Title><h1>{post.title}</h1></Card.Title>
             <Card.Body>
+                <p>{post.datePublished}</p>
                 <ReactQuill
                     value={post.body}
                     readOnly={true}

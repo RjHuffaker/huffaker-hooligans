@@ -4,7 +4,6 @@ import { signOut } from 'firebase/auth';
 
 import { auth } from './config/firebase';
 
-import Navigation from './components/navigation/navigation';
 import Navigator from './components/navigator/navigator';
 
 import Home from './pages/home/home';

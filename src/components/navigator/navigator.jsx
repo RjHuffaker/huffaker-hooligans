@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 const Navigator = ({isAuth, signOutUser}) => {
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar sticky="top" bg="light" variant="light" expand="lg">
         <Container>
           <Navbar.Brand href="/">Huffaker Hooligans</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -22,7 +22,7 @@ const Navigator = ({isAuth, signOutUser}) => {
                 <Nav.Link onClick={signOutUser}>Logout</Nav.Link>
                 </>
               ) : (
-                <Nav.Link as={Link} to="/">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>

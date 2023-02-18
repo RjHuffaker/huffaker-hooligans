@@ -31,8 +31,14 @@ export const PostsProvider = ({children}) => {
   }
 
   const createPost = async (post) => {
+    const dateCreated = new Date();
+    const dateModified = new Date();
+
     const newPost = await createDocument("posts", {
-      ...post, author: {
+      ...post,
+      dateCreated: dateCreated,
+      dateModified: dateModified,
+      author: {
           name: auth.currentUser.displayName,
           id: auth.currentUser.uid
       }
@@ -41,8 +47,12 @@ export const PostsProvider = ({children}) => {
   }
 
   const updatePost = async (post) => {
+    const dateModified = new Date();
+
     const postToUpdate = await updateDocument('posts', {
-      ...post, author: {
+      ...post,
+          dateModified: dateModified,
+          author: {
           name: auth.currentUser.displayName,
           id: auth.currentUser.uid
       }
