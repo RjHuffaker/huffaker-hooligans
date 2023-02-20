@@ -1,8 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { signOut } from 'firebase/auth';
-
-import { auth } from './config/firebase';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navigator from './components/navigator/navigator';
 
@@ -20,24 +16,14 @@ import './App.css';
 
 function App() {
 
-  const [ isAuth, setIsAuth ] = useState(localStorage.getItem('isAuth'));
-
-  const signOutUser = () => {
-    signOut(auth).then(() => {
-      localStorage.clear();
-      setIsAuth(false);
-      window.location.pathname = '/login';
-    })
-  }
-
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Navigator isAuth={isAuth} signOutUser={signOutUser} />}>
+        <Route path='/' element={<Navigator />}>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog isAuth={isAuth} />} />
-          <Route path="/createpost" element={<CreatePost isAuth={isAuth} />} />
-          <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/edit/:postId" element={<EditPost />} />
           <Route path="/read/:postId" element={<ReadPost />} />
           <Route path='/places-map' element={<PlacesMap />} />

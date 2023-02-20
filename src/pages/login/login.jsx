@@ -1,18 +1,15 @@
-import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { auth, provider } from '../../config/firebase';
+import { signInWithGooglePopup } from '../../config/firebase';
 
 import './login.css';
 
-const Login = ({ setIsAuth }) => {
+const Login = () => {
 
     let navigate = useNavigate();
 
-    const signInWithGoogle = () => {
-        signInWithPopup(auth, provider).then((response) => {
-            localStorage.setItem("isAuth", true);
-            setIsAuth(true);
+    const signIn = async () => {
+        signInWithGooglePopup().then((response) => {
             navigate("/");
         });
     }
@@ -20,7 +17,7 @@ const Login = ({ setIsAuth }) => {
     return (
         <div className="loginPage">
             <h3>Sign in with Google to continue</h3>
-            <button className="login-with-google-btn" onClick={signInWithGoogle}>
+            <button className="login-with-google-btn" onClick={signIn}>
                 Sign in with Google
             </button>
         </div>

@@ -6,13 +6,14 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Badge from "react-bootstrap/Badge"
 
-import { auth } from "../../config/firebase";
-
+import { UserContext } from "../../contexts/user-context";
 import { PostsContext } from "../../contexts/posts-context";
 
 import './post-card.css';
 
-const PostCard = ({ post, isAuth }) => {
+const PostCard = ({ post }) => {
+
+    const { currentUser } = useContext(UserContext);
     
     const { deletePost } = useContext(PostsContext);
 
@@ -46,8 +47,8 @@ const PostCard = ({ post, isAuth }) => {
                     @{post.author.name}    
                 </span>
                     {
-                        isAuth &&
-                        post.author.id === auth.currentUser.uid &&
+                        currentUser &&
+                        post.author.id === currentUser.uid &&
                         <ButtonGroup className="float-end">
                             <Button variant="outline-primary" onClick={() => {editHandler(post.id)}}>&#9998;</Button>
                             <Button variant="outline-danger" onClick={() => {deleteHandler(post)}}>&#128465;</Button>

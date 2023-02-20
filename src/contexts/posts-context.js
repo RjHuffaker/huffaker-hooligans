@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 import {
   getAllDocuments,
@@ -9,13 +9,15 @@ import {
   readDocument
 } from '../config/firebase';
 
-import { auth } from '../config/firebase';
+import { UserContext } from "./user-context";
 
 export const PostsContext = createContext({
   posts: []
 });
 
 export const PostsProvider = ({children}) => {
+  const { currentUser } = useContext(UserContext);
+
   const [ posts, setPosts ] = useState([]);
 
   useEffect(() => {
@@ -23,9 +25,13 @@ export const PostsProvider = ({children}) => {
   }, []);
 
   const getPosts = async () => {
-  //  const postsList = await getAllDocuments('posts');
-    const postsList = await getPublishedDocuments('posts');
-    setPosts(postsList);
+    if(true){
+      const allPosts = await getAllDocuments('posts');
+      setPosts(allPosts);
+    } else {
+      const publishedPosts = await getPublishedDocuments('posts');
+      setPosts(publishedPosts);
+    }
   };
 
   const getPost = async (postId) => {
@@ -41,8 +47,8 @@ export const PostsProvider = ({children}) => {
       dateCreated: dateCreated,
       dateModified: dateModified,
       author: {
-          name: auth.currentUser.displayName,
-          id: auth.currentUser.uid
+          name: currentUser.displayName,
+          id: currentUser.uid
       }
     });
     setPosts([...posts, newPost]);
@@ -55,8 +61,8 @@ export const PostsProvider = ({children}) => {
       ...post,
           dateModified: dateModified,
           author: {
-          name: auth.currentUser.displayName,
-          id: auth.currentUser.uid
+          name: currentUser.displayName,
+          id: currentUser.uid
       }
     });
 

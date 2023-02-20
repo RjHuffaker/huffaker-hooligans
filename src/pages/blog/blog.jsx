@@ -8,7 +8,7 @@ import { PostsContext } from '../../contexts/posts-context';
 
 import PostCard from '../../components/post-card/post-card';
 
-const Blog = ({isAuth}) => {
+const Blog = () => {
 
     const { posts } = useContext(PostsContext); 
     
@@ -17,7 +17,7 @@ const Blog = ({isAuth}) => {
             <Row>
             {posts.map(post => (
                 <Col lg={4} md={6} sm={12} key={post.id} className="my-2">
-                    <PostCard post={post} isAuth={isAuth} />
+                    <PostCard post={post} />
                 </Col>
             ))}
             </Row>

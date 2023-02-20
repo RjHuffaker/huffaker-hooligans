@@ -1,10 +1,26 @@
-import { Link, Outlet } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
-const Navigator = ({isAuth, signOutUser}) => {
+import { UserContext } from '../../contexts/user-context';
+
+import { signOutUser } from '../../config/firebase';
+
+const Navigator = () => {
+
+  const { currentUser } = useContext(UserContext);
+
+  let navigate = useNavigate();
+
+  const signOut = async () => {
+    signOutUser().then((response) => {
+      navigate("/");
+    })
+  }
+
   return (
     <>
       <Navbar sticky="top" bg="light" variant="light" expand="lg">
@@ -16,10 +32,10 @@ const Navigator = ({isAuth, signOutUser}) => {
               <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
               <Nav.Link as={Link} to={"/blog"}>Blog</Nav.Link>
               <Nav.Link as={Link} to={"/places-map"}>Places</Nav.Link>
-              { isAuth ? (
+              { currentUser ? (
                 <>
                 <Nav.Link as={Link} to={"/createPost"}>Create Post</Nav.Link>
-                <Nav.Link onClick={signOutUser}>Logout</Nav.Link>
+                <Nav.Link onClick={signOut}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link as={Link} to="/login">Login</Nav.Link>

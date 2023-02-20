@@ -1,9 +1,13 @@
 import { initializeApp } from "firebase/app";
+
 import {
-  getAuth, 
+  getAuth,
+  signOut,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  onAuthStateChanged
 } from "firebase/auth";
+
 import {
   getFirestore,
   doc,
@@ -16,6 +20,7 @@ import {
   getDocs,
   where
 } from 'firebase/firestore';
+
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -59,6 +64,11 @@ export const createUserDocumentFromAuth = async(userAuth, additionalInfo={}) => 
 
   return userDocRef;
 }
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
 
 export const addDocuments = async (key, objectsToAdd) => {
   objectsToAdd.forEach((object) => {
