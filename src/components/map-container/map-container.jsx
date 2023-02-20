@@ -1,5 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
+
+import { UserContext } from '../../contexts/user-context';
+
 import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
@@ -15,6 +18,8 @@ const center = {
 
 const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => {
   
+  const { currentUser } = useContext(UserContext);
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: "AIzaSyBi54ehlrrs28I7qEeU1jA6mJKB0If9KkI"
@@ -70,16 +75,21 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
     setMap(map)
     
     window.google.maps.event.addListener(map, 'click', function(event) {
-      setActivePlace({
-        id: 0,
-        title: "",
-        description: "",
-        position: event.latLng.toJSON()
-      });
+      if(currentUser){
+        setActivePlace({
+          id: 0,
+          title: "",
+          description: "",
+          position: event.latLng.toJSON()
+        });
+      } else {
+        return;
+      }
+      
     });
     
     return map;
-  }, [places]);
+  }, [places, currentUser]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)

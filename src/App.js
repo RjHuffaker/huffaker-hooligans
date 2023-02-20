@@ -1,7 +1,9 @@
+import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navigator from './components/navigator/navigator';
+import { UserContext } from './contexts/user-context';
 
+import Navigator from './components/navigator/navigator';
 import Home from './pages/home/home';
 import Blog from './pages/blog/blog';
 import Login from './pages/login/login';
@@ -16,15 +18,17 @@ import './App.css';
 
 function App() {
 
+  const { currentUser } = useContext(UserContext);
+
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Navigator />}>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/createpost" element={currentUser ? <CreatePost /> : <Login />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/edit/:postId" element={<EditPost />} />
+          <Route path="/edit/:postId" element={currentUser ? <EditPost /> : <Login />} />
           <Route path="/read/:postId" element={<ReadPost />} />
           <Route path='/places-map' element={<PlacesMap />} />
         </Route>

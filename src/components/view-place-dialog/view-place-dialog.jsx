@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from 'react';
+
+import { UserContext } from '../../contexts/user-context'; 
 
 const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSaveClick, onDeleteClick}) => {
-    const [editMode, setEditMode] = useState(false)
+  const { currentUser } = useContext(UserContext);
+
+  const [ editMode, setEditMode ] = useState(false)
     
     return(
 		editMode ?
@@ -35,7 +39,7 @@ const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
         <div className="InfoWindow" key={activePlace.id}>
             <h3>{activePlace.title}</h3>
             <p>{activePlace.description}</p>
-            <button onClick={()=>setEditMode(true)}>Edit Place</button>
+            {currentUser && <button onClick={()=>setEditMode(true)}>Edit Place</button>}
             {editMode}
         </div>
 	)

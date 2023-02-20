@@ -21,18 +21,23 @@ export const PostsProvider = ({children}) => {
   const [ posts, setPosts ] = useState([]);
 
   useEffect(() => {
-    getPosts();
-  }, []);
-
-  const getPosts = async () => {
-    if(true){
-      const allPosts = await getAllDocuments('posts');
-      setPosts(allPosts);
+    if(currentUser){
+      getAllPosts();
     } else {
-      const publishedPosts = await getPublishedDocuments('posts');
-      setPosts(publishedPosts);
+      getPublishedPosts();
     }
-  };
+
+  }, [currentUser]);
+
+  const getAllPosts = async () => {
+    const allPosts = await getAllDocuments('posts');
+    setPosts(allPosts);
+  }
+
+  const getPublishedPosts = async () => {
+    const publishedPosts = await getPublishedDocuments('posts');
+    setPosts(publishedPosts);
+  }
 
   const getPost = async (postId) => {
     return await readDocument("posts", postId);
