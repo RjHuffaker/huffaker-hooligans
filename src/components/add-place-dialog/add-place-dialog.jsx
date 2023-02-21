@@ -1,20 +1,25 @@
-import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 const AddPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, submitNewPlace}) => {
 	return(
-		<div className="InfoWindow">
-      <h3>Add Place</h3>
-      <div style={{"display": "flex", "flexDirection": "column"}}>
+		<Container className="InfoWindow">
+      <Row>
+        <h3>Add Place</h3>
+      </Row>
+      <Row>
         <label htmlFor="place-title">Title</label>
-        <input
-            id="place-title"
-            name="place-title"
-            type="text"
-            value={activePlace.title}
-            onChange={onTitleChange}
-        />
-      </div>
-      <div style={{"display": "flex", "flexDirection": "column"}}>
+          <input
+              id="place-title"
+              name="place-title"
+              type="text"
+              value={activePlace.title}
+              onChange={onTitleChange}
+          />
+      </Row>
+      <Row>
         <label htmlFor="place-description">Description</label>
         <textarea
             id="place-description"
@@ -23,15 +28,17 @@ const AddPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, submit
             value={activePlace.description}
             onChange={onDescriptionChange}
         />
-      </div>
-      <div>
+      </Row>
+      <Row>
         <span htmlFor="place-lat">Latitude: {activePlace.position.lat}</span>
-      </div>
-      <div>
+      </Row>
+      <Row>
         <span htmlFor="place-lat">Longitude: {activePlace.position.lng}</span>
-      </div>
-      <button onClick={submitNewPlace}>Submit New Place</button>
-    </div>
+      </Row>
+      <Row>
+        <Button variant="success" onClick={submitNewPlace}>Submit New Place</Button>
+      </Row>
+    </Container>
 	)
 }
 

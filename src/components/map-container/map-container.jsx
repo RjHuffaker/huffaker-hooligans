@@ -6,6 +6,8 @@ import { UserContext } from '../../contexts/user-context';
 import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
+import './map-container.css';
+
 const containerStyle = {
   width: '90%',
   height: '100%'
