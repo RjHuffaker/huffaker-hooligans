@@ -9,7 +9,7 @@ import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 import './map-container.css';
 
 const containerStyle = {
-  width: '90%',
+  width: '100%',
   height: '100%'
 };
 
@@ -70,7 +70,7 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    places.map((place)=>{
+    places?.map((place)=>{
       return bounds.extend(place.position);
     });
     map.fitBounds(bounds);
@@ -119,7 +119,7 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
           />
         </InfoWindowF>
       }
-      {places.map((place) => (
+      {places?.map((place) => (
         <Marker
           key={place.id}
           position={place.position}

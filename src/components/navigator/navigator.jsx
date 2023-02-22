@@ -32,6 +32,7 @@ const Navigator = () => {
               <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
               <Nav.Link as={Link} to={"/blog"}>Blog</Nav.Link>
               <Nav.Link as={Link} to={"/places-map"}>Places</Nav.Link>
+              <Nav.Link as={Link} to={"/journeys-map"}>Journeys</Nav.Link>
               { currentUser ? (
                 <>
                   <Nav.Link onClick={signOut}>Logout</Nav.Link>

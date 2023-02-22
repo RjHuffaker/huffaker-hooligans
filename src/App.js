@@ -11,6 +11,7 @@ import CreatePost from './pages/create-post/create-post';
 import EditPost from './pages/edit-post/edit-post';
 import ReadPost from './pages/read-post/read-post';
 import PlacesMap from './pages/places-map/places-map';
+import JourneysMap from './pages/journeys-map/journeys-map';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/edit/:postId" element={currentUser ? <EditPost /> : <Login />} />
           <Route path="/read/:postId" element={<ReadPost />} />
           <Route path='/places-map' element={<PlacesMap />} />
+          <Route path='/journeys-map' element={<JourneysMap />} />
         </Route>
       </Routes>
     </Router>
