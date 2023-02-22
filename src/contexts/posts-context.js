@@ -44,8 +44,8 @@ export const PostsProvider = ({children}) => {
   }
 
   const createPost = async (post) => {
-    const dateCreated = new Date();
-    const dateModified = new Date();
+    const dateCreated = new Date().getTime();
+    const dateModified = new Date().getTime();
 
     const newPost = await createDocument("posts", {
       ...post,

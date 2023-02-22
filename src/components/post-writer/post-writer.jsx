@@ -31,12 +31,10 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     }
     
     const onCreatedChange = (date) => {
-    //    setPost({...post, dateCreated: date.toDateString()});
         setPost({...post, dateCreated: date.getTime()});
     }
 
     const onPublishedChange = (date) => {
-    //    setPost({...post, datePublished: date.toDateString()});
         setPost({...post, datePublished: date.getTime()});
     }
 

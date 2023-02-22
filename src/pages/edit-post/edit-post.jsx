@@ -25,9 +25,6 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPost = async() => {
             const response = await getPost(postId);
-
-            console.log(response);
-
             setPost(response);
             setBodyText(response.body);
         }

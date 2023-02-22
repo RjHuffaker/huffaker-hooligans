@@ -7,7 +7,10 @@ import PostWriter from "../../components/post-writer/post-writer";
 
 const blankPost = {
     title: "",
-    body: ""
+    body: "",
+    dateCreated: new Date().getTime(),
+    dateModified: new Date().getTime(),
+    datePublished: new Date().getTime()
 };
 
 const CreatePost = () => {
@@ -15,10 +18,12 @@ const CreatePost = () => {
 
     const [ post, setPost ] = useState(blankPost);
 
+    const [ bodyText, setBodyText ] = useState("");
+
     let navigate = useNavigate();
 
     const onSubmit = () => {
-        createPost(post);
+        createPost({...post, body: bodyText});
         navigate("/blog");
     }
 
@@ -27,7 +32,11 @@ const CreatePost = () => {
     }
 
     return (
-        <PostWriter headerText={"Create Post"} post={post} setPost={setPost} onSubmit={onSubmit} onCancel={onCancel} />
+        <PostWriter
+            headerText={"Create Post"}
+            post={post} setPost={setPost}
+            bodyText={bodyText} setBodyText={setBodyText}
+            onSubmit={onSubmit} onCancel={onCancel} />
     )
 }
 
