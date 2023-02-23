@@ -18,7 +18,8 @@ import {
   collection,
   query,
   getDocs,
-  where
+  where,
+  batch
 } from 'firebase/firestore';
 
 import { getStorage } from "firebase/storage";

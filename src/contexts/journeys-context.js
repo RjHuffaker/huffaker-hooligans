@@ -20,7 +20,6 @@ export const JourneysProvider = ({ children }) => {
   useEffect(() => {
     // addDocuments("journeys", JourneysListData);
     getJourneys();
-    console.log(journeys);
   },[]);
 
   const getJourneys = async () => {
@@ -29,8 +28,9 @@ export const JourneysProvider = ({ children }) => {
   }
 
   const createJourney = async (journey) => {
-    const newJourney = await createDocument('journeys', journey);
+    const newJourney = await createDocument('journeys', journey).then(res => res);;
     setJourneys([...journeys, newJourney]);
+    return newJourney;
   }
 
   const updateJourney = async (journey) => {

@@ -77,17 +77,12 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
     setMap(map)
     
     window.google.maps.event.addListener(map, 'click', function(event) {
-      if(currentUser){
-        setActivePlace({
-          id: 0,
-          title: "",
-          description: "",
-          position: event.latLng.toJSON()
-        });
-      } else {
-        return;
-      }
-      
+      setActivePlace({
+        id: 0,
+        title: "",
+        description: "",
+        position: event.latLng.toJSON()
+      });
     });
     
     return map;

@@ -33,13 +33,14 @@ const Navigator = () => {
               <Nav.Link as={Link} to={"/blog"}>Blog</Nav.Link>
               <Nav.Link as={Link} to={"/places-map"}>Places</Nav.Link>
               <Nav.Link as={Link} to={"/journeys-map"}>Journeys</Nav.Link>
-              { currentUser ? (
+              {currentUser ? (
                 <>
                   <Nav.Link onClick={signOut}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link as={Link} to="/login">Login</Nav.Link>
               )}
+
             </Nav>
           </Navbar.Collapse>
         </Container>
