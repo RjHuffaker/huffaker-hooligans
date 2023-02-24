@@ -17,6 +17,10 @@ export const JourneysContext = createContext({
 export const JourneysProvider = ({ children }) => {
   const [journeys, setJourneys] = useState([]);
 
+  const [selectedJourney, setSelectedJourney] = useState({});
+
+  const [editableJourney, setEditableJourney] = useState({});
+
   useEffect(() => {
     // addDocuments("journeys", JourneysListData);
     getJourneys();
@@ -59,7 +63,17 @@ export const JourneysProvider = ({ children }) => {
     }
   }
 
-  const value = { journeys, setJourneys, createJourney, updateJourney, deleteJourney };
+  const value = {
+    journeys,
+    setJourneys,
+    selectedJourney,
+    setSelectedJourney,
+    editableJourney,
+    setEditableJourney,
+    createJourney,
+    updateJourney,
+    deleteJourney
+  };
 
   return (
     <JourneysContext.Provider value={value}>
