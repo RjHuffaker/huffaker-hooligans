@@ -79,14 +79,11 @@ const JourneysMap = () => {
               <Button className="w-50" variant="primary" onClick={handleShowPlaces}>
                 Show Places
               </Button>}
-
             </Col>
             <Col></Col>
           </Row>
         </Col>
       </Row>
-
-      
 
       <Offcanvas show={showJourneys} placement={"start"} backdrop={false} onHide={handleCloseJourneys}>
         <Offcanvas.Header closeButton>
