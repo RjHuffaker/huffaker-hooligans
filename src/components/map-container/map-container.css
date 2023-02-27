@@ -1,6 +1,6 @@
 .InfoWindow {
-    height: 300px;
-    width: 400px !important;
+    height: 50vh;
+    width: 50vw !important;
 }
 
 #place-description {

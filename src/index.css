@@ -7,13 +7,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: "WoodenLog";
+  src: local("WoodenLog"),
+    url("./fonts/wooden-log.regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "CaveatBrush";
+  src: local("CaveatBrush"),
+    url("./fonts/CaveatBrush-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 a {
-  font-family: Caveat;
+  font-family: CaveatBrush;
   font-size: xx-large;
   text-decoration: none;
   color: black;
@@ -23,8 +37,12 @@ a {
   box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: Caveat;
+h1 {
+  font-family: WoodenLog;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: CaveatBrush;
 }
 
 html, body, body>div {

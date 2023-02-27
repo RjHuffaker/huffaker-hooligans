@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 
@@ -20,8 +20,6 @@ const ReadPost = () => {
 
     const { postId } = useParams();
 
-    let navigate = useNavigate();
-
     useEffect(() => {
         const fetchPost = async() => {
             const response = await getPost(postId);
@@ -29,21 +27,21 @@ const ReadPost = () => {
         }
         
         fetchPost();
-    }, [postId]);
+    }, [getPost, postId]);
 
     return (
         <Card className="m-5">
             <Card.Img src={post.titleImage} alt="title image" />
-            <Card.Title><h1>{post.title}</h1></Card.Title>
+            <Card.Title><h2>{post.title}</h2></Card.Title>
             <Card.Body>
-                <p>Created: {new Date(post.dateCreated).toLocaleDateString()}</p>
-                <p>Modified: {new Date(post.dateModified).toLocaleDateString()}</p>
-                <p>Published: {new Date(post.datePublished).toLocaleDateString()}</p>
                 <ReactQuill
                     value={post.body}
                     readOnly={true}
                     theme={"bubble"}
                 />
+                <p>Created: {new Date(post.dateCreated).toLocaleDateString()}</p>
+                <p>Modified: {new Date(post.dateModified).toLocaleDateString()}</p>
+                <p>Published: {new Date(post.datePublished).toLocaleDateString()}</p>
             </Card.Body>
         </Card>
     )

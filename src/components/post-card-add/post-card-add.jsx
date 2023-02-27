@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 
 import old_map from "../../assets/old_map.jpg";
 
@@ -13,7 +12,7 @@ const PostCardAdd = () => {
             </Link>
             <Card.Title>
                 <Link to={`/createpost`}>
-                    <h1>Create New Post</h1>
+                    <h3>Create New Post</h3>
                 </Link>
             </Card.Title>
         </Card>

@@ -25,24 +25,27 @@ const Navigator = () => {
     <>
       <Navbar sticky="top" bg="light" variant="light" expand="lg">
         <Container>
-          <Navbar.Brand href="/">Huffaker Hooligans</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <h1>Huffaker Hooligans</h1>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
-              <Nav.Link as={Link} to={"/blog"}>Blog</Nav.Link>
-              <Nav.Link as={Link} to={"/places-map"}>Places</Nav.Link>
-              <Nav.Link as={Link} to={"/journeys-map"}>Journeys</Nav.Link>
+            <Nav className="ms-auto">
+              <Nav.Link as={Link} to={"/"}><h2>Home</h2></Nav.Link>
+              <Nav.Link as={Link} to={"/blog"}><h2>Blog</h2></Nav.Link>
+              <Nav.Link as={Link} to={"/places-map"}><h2>Places</h2></Nav.Link>
+              <Nav.Link as={Link} to={"/journeys-map"}><h2>Journeys</h2></Nav.Link>
               {currentUser ? (
                 <>
-                  <Nav.Link onClick={signOut}>Logout</Nav.Link>
+                  <Nav.Link onClick={signOut}><h2>Logout</h2></Nav.Link>
                 </>
               ) : (
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login"><h2>Login</h2></Nav.Link>
               )}
 
             </Nav>
           </Navbar.Collapse>
+
         </Container>
       </Navbar>
       <Outlet />

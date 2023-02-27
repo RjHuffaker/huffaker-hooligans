@@ -81,7 +81,7 @@ function TagSelector({value, onChange}) {
 
   return (
     <div className="App">
-      <CreatableSelect isMulti={true} options={options} value={value} onChange={onChange}/>
+      <CreatableSelect isMulti={true} options={options} value={value} onChange={onChange} placeholder="Select tags..."/>
     </div>
   );
 }
