@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import {
   getAllDocuments,
   getPublishedDocuments,
+  getFeaturedDocuments,
   createDocument,
   updateDocument,
   deleteDocument,
@@ -25,6 +26,7 @@ export const PostsProvider = ({children}) => {
       getAllPosts();
     } else {
       getPublishedPosts();
+      
     }
 
   }, [currentUser]);
@@ -37,6 +39,11 @@ export const PostsProvider = ({children}) => {
   const getPublishedPosts = async () => {
     const publishedPosts = await getPublishedDocuments('posts');
     setPosts(publishedPosts);
+  }
+
+  const getFeaturedPosts = async () => {
+    const featuredPosts = await getFeaturedDocuments('posts');
+    setPosts(featuredPosts);
   }
 
   const getPost = async (postId) => {

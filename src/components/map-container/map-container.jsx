@@ -10,7 +10,7 @@ import './map-container.css';
 
 const containerStyle = {
   width: '100%',
-  height: '100%'
+  height: '90%'
 };
 
 const center = {

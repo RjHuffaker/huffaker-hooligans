@@ -2,6 +2,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import FormGroup from 'react-bootstrap/FormGroup';
+import Form from 'react-bootstrap/Form';
 
 const AddPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, submitNewPlace}) => {
 	return(
@@ -12,23 +15,26 @@ const AddPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, submit
       <Row>
         <label htmlFor="place-title">Title</label>
           <input
-              id="place-title"
-              name="place-title"
-              type="text"
-              value={activePlace.title}
-              onChange={onTitleChange}
+            className="form-control"
+            id="place-title"
+            name="place-title"
+            type="text"
+            value={activePlace.title}
+            onChange={onTitleChange}
           />
       </Row>
       <Row>
         <label htmlFor="place-description">Description</label>
         <textarea
-            id="place-description"
-            name="place-description"
-            type="text"
-            value={activePlace.description}
-            onChange={onDescriptionChange}
+          className="form-control"
+          id="place-description"
+          name="place-description"
+          type="text"
+          value={activePlace.description}
+          onChange={onDescriptionChange}
         />
       </Row>
+      
       <Row>
         <span htmlFor="place-lat">Latitude: {activePlace.position.lat}</span>
       </Row>

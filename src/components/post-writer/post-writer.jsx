@@ -3,12 +3,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import ImageUploader from "../image-uploader/image-uploader";
 import TagSelector from "../tag-selector/tag-selector"
 import DateSelector from "../date-selector/date-selector";
+import Checkbox from "../checkbox/checkbox"
+
 import QuillEditor from '../quill-editor/quill-editor';
 
 import './post-writer.css';
@@ -36,6 +37,16 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
 
   const onPublishedChange = (date) => {
     setPost({ ...post, datePublished: date.getTime() });
+  }
+
+  const onCheckPublished = (event) => {
+    const checked = event.target.checked;
+    setPost({ ...post, published: checked });
+  }
+
+  const onCheckFeatured = (event) => {
+    const checked = event.target.checked;
+    setPost({ ...post, featured: checked });
   }
 
   return (
@@ -96,6 +107,20 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
             labelText={"Published:"}
             date={post.datePublished}
             setDate={onPublishedChange}
+          />
+        </Col>
+        <Col md={2} xs={6} className="my-1">
+          <Checkbox
+            label="Published"
+            value={post.published}
+            onChange={onCheckPublished}
+          />
+        </Col>
+        <Col md={2} xs={6} className="my-1">
+          <Checkbox
+            label="Featured"
+            value={post.featured}
+            onChange={onCheckFeatured}
           />
         </Col>
         <Col md={2} xs={6} className="my-1">

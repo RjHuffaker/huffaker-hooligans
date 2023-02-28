@@ -14,7 +14,6 @@ import './post-card.css';
 const PostCard = ({ post }) => {
 
     const { currentUser } = useContext(UserContext);
-    
     const { deletePost } = useContext(PostsContext);
 
     let navigate = useNavigate();
@@ -47,8 +46,7 @@ const PostCard = ({ post }) => {
                     @{post.author.name}    
                 </span>
                     {
-                        currentUser &&
-                        post.author.id === currentUser.uid &&
+                        currentUser?.uid === post.author.id &&
                         <ButtonGroup className="float-end">
                             <Button variant="outline-primary" onClick={() => {editHandler(post.id)}}>&#9998;</Button>
                             <Button variant="outline-danger" onClick={() => {deleteHandler(post)}}>&#128465;</Button>

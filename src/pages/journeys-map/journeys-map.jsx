@@ -55,7 +55,7 @@ const JourneysMap = () => {
   return (
     <Container className="h-75">
       <Row className="h-100">
-        <Col md={12}>
+        <Col className="h-100">
           <MapContainer
             places={selectedJourney?.places}
             onPlaceSubmit={onPlaceSubmit}
@@ -63,7 +63,6 @@ const JourneysMap = () => {
             onPlaceDelete={onPlaceDelete}
           />
           <Row>
-            <Col></Col>
             <Col>
               {showJourneys ? 
               <Button className="w-50" variant="primary" onClick={handleCloseJourneys}>
@@ -80,7 +79,6 @@ const JourneysMap = () => {
                 Show Places
               </Button>}
             </Col>
-            <Col></Col>
           </Row>
         </Col>
       </Row>

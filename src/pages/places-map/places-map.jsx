@@ -25,17 +25,17 @@ function PlacesMap() {
   }
 
   return (
-    <Container className="h-100">
-      <Col className="h-100">
-        <Row className="h-100">
+    <Container className="h-75">
+      <Row className="h-100">
+        <Col className="h-100">
           <MapContainer
             places={places}
             onPlaceSubmit={onPlaceSubmit}
             onPlaceUpdate={onPlaceUpdate}
             onPlaceDelete={onPlaceDelete}
-          />
-        </Row>
-      </Col>
+          /> 
+        </Col>
+      </Row>
     </Container>
   );
 }
