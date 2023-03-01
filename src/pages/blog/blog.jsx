@@ -14,12 +14,12 @@ const Blog = () => {
 
   const { currentUser } = useContext(UserContext)
 
-  const { posts } = useContext(PostsContext);
+  const { allPosts } = useContext(PostsContext);
 
   return (
-    <Container className="scrollPage">
+    <Container>
       <Row>
-        {posts
+        {allPosts
           .sort((a, b) => a.datePublished > b.datePublished ? 1 : -1)
           .map(post => (
             <Col lg={4} md={6} sm={12} key={post.id} className="my-2">

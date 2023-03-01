@@ -10,13 +10,16 @@ import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceList from '../../components/place-list/place-list';
 import MapContainer from '../../components/map-container/map-container';
+import MapView from '../../components/map-view/map-view';
 import JourneyList from '../../components/journey-list/journey-list';
+import JourneyToggle from '../../components/journey-toggle/journey-toggle';
 
 import './journeys-map.css';
 
 const JourneysMap = () => {
 
   const {
+    journeys,
     updateJourney,
     selectedJourney,
     setSelectedJourney
@@ -46,6 +49,10 @@ const JourneysMap = () => {
 
   const [showJourneys, setShowJourneys] = useState(false);
   const [showPlaces, setShowPlaces] = useState(false);
+  const [showToggle, setShowToggle] = useState(false);
+
+  const handleCloseToggle = () => setShowToggle(false);
+  const handleShowToggle = () => setShowToggle(true);
 
   const handleCloseJourneys = () => setShowJourneys(false);
   const handleClosePlaces = () => setShowPlaces(false);
@@ -56,26 +63,33 @@ const JourneysMap = () => {
     <Container className="h-75">
       <Row className="h-100">
         <Col className="h-100">
-          <MapContainer
-            places={selectedJourney?.places}
+          <MapView
+            journeys={journeys}
             onPlaceSubmit={onPlaceSubmit}
             onPlaceUpdate={onPlaceUpdate}
             onPlaceDelete={onPlaceDelete}
           />
           <Row>
             <Col>
+              {showToggle ?
+              <Button className="w-25" variant="success" onClick={handleCloseToggle}>
+                Hide Toggle
+              </Button> :
+              <Button className="w-25" variant="success" onClick={handleShowToggle}>
+                Show Toggle
+              </Button>}
               {showJourneys ? 
-              <Button className="w-50" variant="primary" onClick={handleCloseJourneys}>
+              <Button className="w-25" variant="primary" onClick={handleCloseJourneys}>
                 Hide Journeys
               </Button> : 
-              <Button className="w-50" variant="primary" onClick={handleShowJourneys}>
+              <Button className="w-25" variant="primary" onClick={handleShowJourneys}>
                 Show Journeys
               </Button>}
               {showPlaces ?
-              <Button className="w-50" variant="primary" onClick={handleClosePlaces}>
+              <Button className="w-25" variant="primary" onClick={handleClosePlaces}>
                 Hide Places
               </Button> : 
-              <Button className="w-50" variant="primary" onClick={handleShowPlaces}>
+              <Button className="w-25" variant="primary" onClick={handleShowPlaces}>
                 Show Places
               </Button>}
             </Col>
@@ -83,9 +97,18 @@ const JourneysMap = () => {
         </Col>
       </Row>
 
+      <Offcanvas show={showToggle} placement={"end"} backdrop={false} onHide={handleCloseToggle}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Toggle Journeys</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <JourneyToggle />
+        </Offcanvas.Body>
+      </Offcanvas>
+
       <Offcanvas show={showJourneys} placement={"start"} backdrop={false} onHide={handleCloseJourneys}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>Journeys</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <JourneyList />
@@ -94,7 +117,7 @@ const JourneysMap = () => {
 
       <Offcanvas show={showPlaces} placement={"end"} backdrop={false} onHide={handleClosePlaces}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>Places</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <PlaceList />

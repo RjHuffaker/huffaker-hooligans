@@ -31,7 +31,6 @@ const Navigator = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link as={Link} to={"/"}><h2>Home</h2></Nav.Link>
               <Nav.Link as={Link} to={"/blog"}><h2>Blog</h2></Nav.Link>
               <Nav.Link as={Link} to={"/places-map"}><h2>Places</h2></Nav.Link>
               <Nav.Link as={Link} to={"/journeys-map"}><h2>Journeys</h2></Nav.Link>

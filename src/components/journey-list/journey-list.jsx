@@ -50,7 +50,6 @@ const JourneyList = () => {
 
   return (
     <>
-      <h3>Journeys</h3>
       <EditableList 
         itemList = {journeys}
         selectedItem = {selectedJourney}

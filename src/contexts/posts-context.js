@@ -13,37 +13,31 @@ import {
 import { UserContext } from "./user-context";
 
 export const PostsContext = createContext({
-  posts: []
+  allPosts: []
 });
 
 export const PostsProvider = ({children}) => {
   const { currentUser } = useContext(UserContext);
 
-  const [ posts, setPosts ] = useState([]);
+  const [ allPosts, setAllPosts ] = useState([]);
+
+  const [ featuredPosts, setFeaturedPosts ] = useState([]);
 
   useEffect(() => {
-    if(currentUser){
-      getAllPosts();
-    } else {
-      getPublishedPosts();
-      
-    }
-
+    getAllPosts();
+    getFeaturedPosts();
   }, [currentUser]);
 
   const getAllPosts = async () => {
-    const allPosts = await getAllDocuments('posts');
-    setPosts(allPosts);
-  }
-
-  const getPublishedPosts = async () => {
-    const publishedPosts = await getPublishedDocuments('posts');
-    setPosts(publishedPosts);
+    const allPosts = currentUser
+       ? await getAllDocuments('posts')
+       : await getPublishedDocuments('posts');
+    setAllPosts(allPosts);
   }
 
   const getFeaturedPosts = async () => {
     const featuredPosts = await getFeaturedDocuments('posts');
-    setPosts(featuredPosts);
+    setFeaturedPosts(featuredPosts);
   }
 
   const getPost = async (postId) => {
@@ -63,7 +57,7 @@ export const PostsProvider = ({children}) => {
           id: currentUser.uid
       }
     });
-    setPosts([...posts, newPost]);
+    setAllPosts([...allPosts, newPost]);
   }
 
   const updatePost = async (post) => {
@@ -78,10 +72,10 @@ export const PostsProvider = ({children}) => {
       }
     });
 
-    const index = posts.findIndex(obj => obj.id === postToUpdate.id);
+    const index = allPosts.findIndex(obj => obj.id === postToUpdate.id);
   
     if (index !== -1) {
-      setPosts(oldPosts => {
+      setAllPosts(oldPosts => {
         const newPosts = [...oldPosts];
         newPosts[index] = postToUpdate;
         return [...newPosts];
@@ -93,15 +87,15 @@ export const PostsProvider = ({children}) => {
 
   const deletePost = async (post) => {
     const deletedPostId = await deleteDocument('posts', post);
-    const index = posts.findIndex(obj => obj.id === deletedPostId);
+    const index = allPosts.findIndex(obj => obj.id === deletedPostId);
     if (index !== -1) {
-      setPosts((posts) => posts.filter((post) => post.id !== deletedPostId));
+      setAllPosts((allPosts) => allPosts.filter((post) => post.id !== deletedPostId));
     } else {
       console.error('Post not found in memory');
     }
   }
 
-  const value = { posts, createPost, getPost, updatePost, deletePost };
+  const value = { allPosts, featuredPosts, createPost, getPost, updatePost, deletePost };
 
   return (
     <PostsContext.Provider value={value}>

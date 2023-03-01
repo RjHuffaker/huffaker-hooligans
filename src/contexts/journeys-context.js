@@ -31,6 +31,19 @@ export const JourneysProvider = ({ children }) => {
     setJourneys(journeyList);
   }
 
+  const selectJourney = (journey) => {
+    journey.selected = !journey.selected;
+    const index = journeys.findIndex(obj => obj.id === journey.id);
+    
+    if (index !== -1) {
+      setJourneys(oldJourneys => {
+        const newJourneys = [...oldJourneys];
+        newJourneys[index] = journey;
+        return [...newJourneys];
+      });
+    }
+  }
+
   const createJourney = async (journey) => {
     const newJourney = await createDocument('journeys', journey).then(res => res);;
     setJourneys([...journeys, newJourney]);
@@ -66,6 +79,7 @@ export const JourneysProvider = ({ children }) => {
   const value = {
     journeys,
     setJourneys,
+    selectJourney,
     selectedJourney,
     setSelectedJourney,
     editableJourney,

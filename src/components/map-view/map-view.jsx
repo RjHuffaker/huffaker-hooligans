@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/user-context';
 import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
-import './map-container.css';
+import './map-view.css';
 
 const containerStyle = {
   width: '100%',
@@ -18,7 +18,7 @@ const center = {
   lng: -112
 };
 
-const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => {
+const MapView = ({journeys, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => {
   
   const { currentUser } = useContext(UserContext);
 
@@ -68,9 +68,7 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    places?.map((place)=>{
-      return bounds.extend(place.position);
-    });
+    
     map.fitBounds(bounds);
     setMap(map)
     
@@ -84,7 +82,7 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
     });
     
     return map;
-  }, [places, currentUser]);
+  }, [currentUser]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -112,29 +110,32 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
           />
         </InfoWindowF>
       }
-      {places?.map((place) => (
-        <Marker
-          key={place.id}
-          position={place.position}
-          onClick={() => onMarkerClick(place)}
-        >
-          {activePlace && activePlace.id === place.id ? (
-            <InfoWindowF
-              onCloseClick={() => setActivePlace(null)}
-            >
-              <ViewPlaceDialog
-                activePlace={activePlace}
-                onTitleChange={onTitleChange}
-                onDescriptionChange={onDescriptionChange}
-                onSaveClick={onSaveClick}
-                onDeleteClick={deletePlace}
-              />
-            </InfoWindowF>
-          ) : null}
-        </Marker>
+      {journeys?.filter((obj) => obj.selected)
+      .map((journey) => (
+        journey.places?.map((place) => (
+          <Marker
+            key={place.id}
+            position={place.position}
+            onClick={() => onMarkerClick(place)}
+          >
+            {activePlace && activePlace.id === place.id ? (
+              <InfoWindowF
+                onCloseClick={() => setActivePlace(null)}
+              >
+                <ViewPlaceDialog
+                  activePlace={activePlace}
+                  onTitleChange={onTitleChange}
+                  onDescriptionChange={onDescriptionChange}
+                  onSaveClick={onSaveClick}
+                  onDeleteClick={deletePlace}
+                />
+              </InfoWindowF>
+            ) : null}
+          </Marker>
+        ))
       ))}
     </GoogleMap>
   ) : <></>
 }
 
-export default MapContainer;
+export default MapView;

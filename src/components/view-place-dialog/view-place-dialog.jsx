@@ -7,6 +7,8 @@ import Button from 'react-bootstrap/Button';
 
 import { UserContext } from '../../contexts/user-context'; 
 
+import DeleteModalButton from '../delete-modal-button/delete-modal-button'
+
 const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSaveClick, onDeleteClick}) => {
   const { currentUser } = useContext(UserContext);
 
@@ -44,7 +46,7 @@ const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
           <Row className="m-3 fixed-bottom">
             <Col>
               <Button className="w-50" variant="outline-success" onClick={()=>{setEditMode(false); onSaveClick()}}>Save</Button>
-              <Button className="w-50" variant="outline-danger" onClick={()=>{setEditMode(false); onDeleteClick()}}>Delete</Button>
+              <DeleteModalButton deleteObject={activePlace} deleteAction={onDeleteClick}>Delete</DeleteModalButton>
             </Col>
           </Row>
         </Container>

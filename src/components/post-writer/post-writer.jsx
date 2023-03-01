@@ -27,6 +27,11 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, title: value });
   }
 
+  const onSummaryChange = (event) => {
+    const value = event.target.value;
+    setPost({ ...post, summary: value });
+  }
+
   const onTagsChange = (value) => {
     setPost({ ...post, tags: value });
   }
@@ -72,6 +77,16 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
                   </Col>
                   <Col lg={6}>
                     <TagSelector value={post.tags} onChange={onTagsChange} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <textarea
+                      className="form-control"
+                      placeholder="Summary..."
+                      value={post.summary}
+                      onChange={onSummaryChange}
+                    />
                   </Col>
                 </Row>
               </Container>
