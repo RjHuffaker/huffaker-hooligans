@@ -20,7 +20,7 @@ const PostCard = ({ post }) => {
     let navigate = useNavigate();
 
     const editHandler = (postId) => {
-        navigate(`/edit/`+postId);
+        navigate(`/editPost/`+postId);
     }
 
     const deleteHandler = (post) => {
@@ -29,11 +29,11 @@ const PostCard = ({ post }) => {
 
     return (
         <Card key={post.id} className="h-100" >
-            <Link to={`/read/${post.id}`}>
+            <Link to={`/readPost/${post.id}`}>
                 <Card.Img src={post.titleImage} alt="title" className="postCardImage"/>
             </Link>
             <Card.Title>
-                <Link to={`/read/${post.id}`}>
+                <Link to={`/readPost/${post.id}`}>
                     <h3>{post.title}</h3>
                 </Link>
             </Card.Title>

@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-ma
 
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
-import './map-view.css';
+import './map-edit.css';
 
 const containerStyle = {
   width: '100%',
@@ -15,7 +15,7 @@ const center = {
   lng: -112
 };
 
-const MapView = ({journeys}) => {
+const MapEdit = ({ journey }) => {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -35,11 +35,11 @@ const MapView = ({journeys}) => {
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    
+
     map.fitBounds(bounds);
     setMap(map)
-    
-    window.google.maps.event.addListener(map, 'click', function(event) {
+
+    window.google.maps.event.addListener(map, 'click', function (event) {
       setActivePlace({
         id: 0,
         title: "",
@@ -47,7 +47,7 @@ const MapView = ({journeys}) => {
         position: event.latLng.toJSON()
       });
     });
-    
+
     return map;
   }, []);
 
@@ -63,29 +63,26 @@ const MapView = ({journeys}) => {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {journeys?.filter((obj) => obj.selected)
-        .map((journey) => (
-          journey?.places?.map((place) => (
-            <Marker
-              key={place.id}
-              position={place.position}
-              onClick={() => onMarkerClick(place)}
+      {journey?.places?.map((place) => (
+        <Marker
+          key={place.id}
+          position={place.position}
+          onClick={() => onMarkerClick(place)}
+        >
+          {activePlace?.id === place.id ? (
+            <InfoWindowF
+              onCloseClick={() => setActivePlace(null)}
             >
-              {activePlace?.id === place.id ? (
-                <InfoWindowF
-                  onCloseClick={() => setActivePlace(null)}
-                >
-                  <ViewPlaceDialog
-                    activePlace={activePlace}
-                  />
-                </InfoWindowF>
-              ) : null}
-            </Marker>
-          ))
-        ))
+              <ViewPlaceDialog
+                activePlace={activePlace}
+              />
+            </InfoWindowF>
+          ) : null}
+        </Marker>
+      ))
       }
     </GoogleMap>
   ) : <></>
 }
 
-export default MapView;
+export default MapEdit;

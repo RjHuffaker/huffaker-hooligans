@@ -3,6 +3,7 @@ import { createContext, useState, useEffect } from 'react';
 import {
   getAllDocuments,
   createDocument,
+  readDocument,
   updateDocument,
   deleteDocument,
   // addDocuments
@@ -50,6 +51,10 @@ export const JourneysProvider = ({ children }) => {
     return newJourney;
   }
 
+  const readJourney = async (journeyId) => {
+    return await readDocument("journeys", journeyId);
+  }
+
   const updateJourney = async (journey) => {
     const journeyToUpdate = await updateDocument('journeys', journey);
 
@@ -85,6 +90,7 @@ export const JourneysProvider = ({ children }) => {
     editableJourney,
     setEditableJourney,
     createJourney,
+    readJourney,
     updateJourney,
     deleteJourney
   };
