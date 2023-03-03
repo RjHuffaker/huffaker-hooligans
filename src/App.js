@@ -10,8 +10,7 @@ import Login from './pages/login/login';
 import CreatePost from './pages/create-post/create-post';
 import EditPost from './pages/edit-post/edit-post';
 import ReadPost from './pages/read-post/read-post';
-import PlacesMap from './pages/places-map/places-map';
-import JourneysMap from './pages/journeys-map/journeys-map';
+
 import ViewJourneys from './pages/view-journeys/view-journeys';
 import EditJourney from './pages/edit-journey/edit-journey';
 
@@ -33,9 +32,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/editPost/:postId" element={currentUser ? <EditPost /> : <Login />} />
           <Route path="/readPost/:postId" element={<ReadPost />} />
-          <Route path='/places-map' element={<PlacesMap />} />
-          <Route path='/journeys-map' element={<JourneysMap />} />
-          <Route path='/view-journeys' element={<ViewJourneys />} />
+          <Route path='/viewJourneys' element={<ViewJourneys />} />
           <Route path='/editJourney/:journeyId' element={<EditJourney />} />
         </Route>
       </Routes>

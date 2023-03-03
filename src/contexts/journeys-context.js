@@ -18,10 +18,6 @@ export const JourneysContext = createContext({
 export const JourneysProvider = ({ children }) => {
   const [journeys, setJourneys] = useState([]);
 
-  const [selectedJourney, setSelectedJourney] = useState({});
-
-  const [editableJourney, setEditableJourney] = useState({});
-
   useEffect(() => {
     // addDocuments("journeys", JourneysListData);
     getJourneys();
@@ -30,19 +26,6 @@ export const JourneysProvider = ({ children }) => {
   const getJourneys = async () => {
     const journeyList = await getAllDocuments('journeys');
     setJourneys(journeyList);
-  }
-
-  const selectJourney = (journey) => {
-    journey.selected = !journey.selected;
-    const index = journeys.findIndex(obj => obj.id === journey.id);
-    
-    if (index !== -1) {
-      setJourneys(oldJourneys => {
-        const newJourneys = [...oldJourneys];
-        newJourneys[index] = journey;
-        return [...newJourneys];
-      });
-    }
   }
 
   const createJourney = async (journey) => {
@@ -84,11 +67,6 @@ export const JourneysProvider = ({ children }) => {
   const value = {
     journeys,
     setJourneys,
-    selectJourney,
-    selectedJourney,
-    setSelectedJourney,
-    editableJourney,
-    setEditableJourney,
     createJourney,
     readJourney,
     updateJourney,

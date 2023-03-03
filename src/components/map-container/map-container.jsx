@@ -18,7 +18,7 @@ const center = {
   lng: -112
 };
 
-const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => {
+const MapContainer = ({places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => {
   
   const { currentUser } = useContext(UserContext);
 
@@ -28,8 +28,6 @@ const MapContainer = ({places, onPlaceSubmit, onPlaceUpdate, onPlaceDelete}) => 
   });
 
   const [map, setMap] = useState(null);
-
-  const [activePlace, setActivePlace] = useState(null);
 
   const onTitleChange = (event) => {
     setActivePlace((activePlace) => ({

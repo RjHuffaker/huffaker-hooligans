@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
+import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
 
 import './map-edit.css';
 
@@ -15,7 +16,7 @@ const center = {
   lng: -112
 };
 
-const MapEdit = ({ journey }) => {
+const MapEdit = ({ journey, setJourney, updateJourney }) => {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -26,12 +27,28 @@ const MapEdit = ({ journey }) => {
 
   const [activePlace, setActivePlace] = useState(null);
 
+  const onTitleChange = (event) => {
+    setActivePlace((activePlace) => ({
+      ...activePlace,
+      title: event.target.value
+    }));
+  }
+
+  const onDescriptionChange = (event) => {
+    setActivePlace((activePlace) => ({
+      ...activePlace,
+      description: event.target.value
+    }));
+  }
+
   const onMarkerClick = (place) => {
     if (activePlace && activePlace.id === place.id) {
       return;
     }
     setActivePlace(place);
   }
+
+
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -63,6 +80,19 @@ const MapEdit = ({ journey }) => {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
+      { activePlace && activePlace.id===0 &&
+        <InfoWindowF
+          className="InfoWindow"
+          onCloseClick={()=> {setActivePlace(null)}}
+          position={activePlace.position}
+        >
+          <AddPlaceDialog
+            activePlace={activePlace}
+            onTitleChange={onTitleChange}
+            onDescriptionChange={onDescriptionChange}
+          />
+        </InfoWindowF>
+      }
       {journey?.places?.map((place) => (
         <Marker
           key={place.id}
