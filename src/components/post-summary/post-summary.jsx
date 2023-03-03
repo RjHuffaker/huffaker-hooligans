@@ -13,11 +13,11 @@ const PostSummary = ({ post }) => {
 
     return (
         <Card key={post.id}>
-            <Link to={`/read/${post.id}`}>
+            <Link to={`/readPost/${post.id}`}>
                 <Card.Img src={post.titleImage} alt="title" className="postCardImage"/>
             </Link>
             <Card.Title>
-                <Link to={`/read/${post.id}`}>
+                <Link to={`/readPost/${post.id}`}>
                     <h3>{post.title}</h3>
                 </Link>
             </Card.Title>

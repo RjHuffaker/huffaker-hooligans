@@ -43,10 +43,10 @@ const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
               onChange={onDescriptionChange}
             />
           </Row>
-          <Row className="m-3 fixed-bottom">
+          <Row>
             <Col>
-              <Button className="w-50" variant="outline-success" onClick={()=>{setEditMode(false); onSaveClick()}}>Save</Button>
-              <DeleteModalButton deleteObject={activePlace} deleteAction={onDeleteClick}>Delete</DeleteModalButton>
+              <Button variant="outline-success" onClick={()=>{setEditMode(false); onSaveClick()}}>&#x2714;</Button>
+              <DeleteModalButton deleteObject={activePlace} deleteAction={onDeleteClick}>&#128465;</DeleteModalButton>
             </Col>
           </Row>
         </Container>
@@ -63,9 +63,9 @@ const ViewPlaceDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
             <p>{activePlace.description}</p>
           </Row>
           {currentUser && 
-            <Row className="m-3 fixed-bottom">
+            <Row>
               <Col>
-                <Button className="w-100" variant="outline-primary" onClick={()=>setEditMode(true)}>Edit place</Button>
+                <Button variant="outline-primary" onClick={() => {setEditMode(true)}}>&#9998;</Button>
               </Col>
             </Row>
           }

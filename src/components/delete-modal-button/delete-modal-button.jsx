@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const DeleteModalButton = ({ children, deleteObject, deleteAction }) => {
+const DeleteModalButton = ({ children, deleteObject, deleteAction, ...otherProps }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -10,7 +10,7 @@ const DeleteModalButton = ({ children, deleteObject, deleteAction }) => {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
+      <Button variant="danger" onClick={handleShow} {...otherProps}>
         {children}
       </Button>
 

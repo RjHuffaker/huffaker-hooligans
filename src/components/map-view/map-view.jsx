@@ -3,8 +3,6 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-ma
 
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
-import './map-view.css';
-
 const containerStyle = {
   width: '100%',
   height: '90%'
@@ -37,8 +35,9 @@ const MapView = ({journeys}) => {
     const bounds = new window.google.maps.LatLngBounds();
     
     map.fitBounds(bounds);
+
     setMap(map)
-    
+
     window.google.maps.event.addListener(map, 'click', function(event) {
       setActivePlace({
         id: 0,

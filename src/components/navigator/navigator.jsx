@@ -32,7 +32,7 @@ const Navigator = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link as={Link} to={"/blog"}><h2>Blog</h2></Nav.Link>
-              <Nav.Link as={Link} to={"/viewJourneys"}><h2>ViewJourneys</h2></Nav.Link>
+              <Nav.Link as={Link} to={"/viewJourneys"}><h2>Journeys</h2></Nav.Link>
               {currentUser ? (
                 <>
                   <Nav.Link onClick={signOut}><h2>Logout</h2></Nav.Link>

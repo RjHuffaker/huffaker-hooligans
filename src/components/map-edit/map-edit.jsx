@@ -4,8 +4,6 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-ma
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
 
-import './map-edit.css';
-
 const containerStyle = {
   width: '100%',
   height: '90%'
@@ -47,8 +45,6 @@ const MapEdit = ({ journey, setJourney, updateJourney }) => {
     }
     setActivePlace(place);
   }
-
-
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
