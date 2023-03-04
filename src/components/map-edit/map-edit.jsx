@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
-import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
-import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
+import PlaceCreateDialog from '../place-create-dialog/place-create-dialog';
+import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
+import PlaceEditDialog from '../place-edit-dialog/place-edit-dialog';
 
 const containerStyle = {
   width: '100%',
@@ -21,7 +22,9 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
     googleMapsApiKey: "AIzaSyBi54ehlrrs28I7qEeU1jA6mJKB0If9KkI"
   });
 
-  const [map, setMap] = useState(null);
+  const [ map, setMap ] = useState(null);
+
+  const [ editMode, setEditMode ] = useState(null);
 
   const onTitleChange = (event) => {
     setActivePlace((activePlace) => ({
@@ -76,7 +79,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
     });
     
     return map;
-  }, []);
+  }, [setActivePlace]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -96,7 +99,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
           onCloseClick={()=> {setActivePlace(null)}}
           position={activePlace.position}
         >
-          <AddPlaceDialog
+          <PlaceCreateDialog
             activePlace={activePlace}
             onTitleChange={onTitleChange}
             onDescriptionChange={onDescriptionChange}
@@ -114,13 +117,22 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
             <InfoWindowF
               onCloseClick={() => setActivePlace(null)}
             >
-              <ViewPlaceDialog
-                activePlace={activePlace}
-                onTitleChange={onTitleChange}
-                onDescriptionChange={onDescriptionChange}
-                onSaveClick={onSaveClick}
-                onDeleteClick={onDeleteClick}
-              />
+              {editMode ? 
+                <PlaceEditDialog
+                  activePlace={activePlace}
+                  onTitleChange={onTitleChange}
+                  onDescriptionChange={onDescriptionChange}
+                  onSaveClick={onSaveClick}
+                  onDeleteClick={onDeleteClick}
+                  setEditMode={setEditMode}
+                />
+                :
+                <PlaceReadDialog
+                  activePlace={activePlace}
+                  setEditMode={setEditMode}
+                />
+              }
+              
             </InfoWindowF>
           ) : null}
         </Marker>

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
-import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
+import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
 
 const containerStyle = {
   width: '100%',
@@ -33,25 +33,34 @@ const MapView = ({journeys}) => {
 
   useEffect(() => {
     if(isLoaded){
-      const newBounds = new window.google.maps.LatLngBounds();
-      journeys?.filter((obj) => obj.selected)
+      const bounds = new window.google.maps.LatLngBounds();
+
+      const selectedJourneys = journeys?.filter((obj) => obj.selected);
+
+      const filteredJourneys = selectedJourneys?.length ? selectedJourneys : journeys;
+
+      filteredJourneys
         .forEach((journey)=>{
           journey.places.forEach((place)=>{
-            newBounds.extend(place.position);
+            bounds.extend(place.position);
           })
         });
-      map.fitBounds(newBounds);
+
+      map?.fitBounds(bounds);
       setMap(map)
     }
-  }, [journeys]);
+  }, [isLoaded, journeys, map]);
 
   const onLoad = useCallback(function callback(map) {
     
     const bounds = new window.google.maps.LatLngBounds();
-
-    map.fitBounds(bounds);
-
-    setMap(map)
+      journeys?.forEach((journey)=>{
+        journey.places.forEach((place)=>{
+          bounds.extend(place.position);
+        })
+      });
+      map?.fitBounds(bounds);
+      setMap(map)
 
     window.google.maps.event.addListener(map, 'click', function(event) {
       setActivePlace({
@@ -63,7 +72,7 @@ const MapView = ({journeys}) => {
     });
     
     return map;
-  }, []);
+  }, [isLoaded, journeys, map]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -89,7 +98,7 @@ const MapView = ({journeys}) => {
                 <InfoWindowF
                   onCloseClick={() => setActivePlace(null)}
                 >
-                  <ViewPlaceDialog
+                  <PlaceReadDialog
                     activePlace={activePlace}
                   />
                 </InfoWindowF>
