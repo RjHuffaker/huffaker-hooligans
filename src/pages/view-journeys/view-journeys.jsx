@@ -66,7 +66,10 @@ const ViewJourneys = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <ListGroup>
-                {journeys?.map((journey) =>
+                {journeys?.sort((a, b) => {
+                    return Math.round(a?.startDate - b?.startDate);
+                  })
+                  .map((journey) =>
                     <ListGroup.Item
                       key={journey.id}
                       variant="light"

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -9,10 +9,12 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 import MapEdit from '../../components/map-edit/map-edit';
+import DateSelector from "../../components/date-selector/date-selector";
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
 const EditJourney = () => {
+
   const {
     readJourney,
     updateJourney
@@ -25,6 +27,8 @@ const EditJourney = () => {
   const { journeyId } = useParams();
 
   const [show, setShow] = useState(false);
+
+  let navigate = useNavigate();
 
   const handleClose = () => setShow(false);
 
@@ -66,6 +70,19 @@ const EditJourney = () => {
     setJourney({...journey, title: newTitle});
   }
 
+  const onStartDateChange = (date) => {
+    setJourney({ ...journey, startDate: date.getTime() });
+  }
+
+  const onSubmit = () => {
+    updateJourney(journey);
+    navigate("/viewJourneys");
+}
+
+const onCancel = () => {
+    navigate("/viewJourneys");
+}
+
   return (
     <Container className="h-75">
       <Row className="m-1">
@@ -74,6 +91,13 @@ const EditJourney = () => {
             className="ms-auto form-control"
             value={journey?.title}
             onChange={onChangeTitle}
+          />
+        </Col>
+        <Col className="my-2">
+          <DateSelector
+            labelText={"Start Date:"}
+            date={journey?.startDate}
+            setDate={onStartDateChange}
           />
         </Col>
         <Col>
@@ -118,15 +142,6 @@ const EditJourney = () => {
 
         </Col>
 
-
-
-
-
-
-
-
-
-
         <Col lg={9} md={12} className="h-100">
           <MapEdit
             places={journey?.places}
@@ -136,6 +151,14 @@ const EditJourney = () => {
             onPlaceUpdate={onPlaceUpdate}
             onPlaceDelete={onPlaceDelete}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={2} xs={6} className="my-1">
+          <Button className="w-100" variant="primary" onClick={onSubmit}>Save</Button>
+        </Col>
+        <Col md={2} xs={6} className="my-1">
+          <Button className="w-100" variant="secondary" onClick={onCancel}>Cancel</Button>
         </Col>
       </Row>
     </Container>

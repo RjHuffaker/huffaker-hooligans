@@ -48,7 +48,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
     onPlaceUpdate(activePlace);
   }
 
-  const deletePlace = (place) => {
+  const onDeleteClick = (place) => {
     setActivePlace(null);
     onPlaceDelete(place);
   }
@@ -119,7 +119,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
                 onTitleChange={onTitleChange}
                 onDescriptionChange={onDescriptionChange}
                 onSaveClick={onSaveClick}
-                onDeleteClick={deletePlace}
+                onDeleteClick={onDeleteClick}
               />
             </InfoWindowF>
           ) : null}
