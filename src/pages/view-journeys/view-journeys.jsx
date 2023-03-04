@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -18,6 +18,12 @@ const ViewJourneys = () => {
   const { journeys, setJourneys } = useContext(JourneysContext);
 
   const { currentUser } = useContext(UserContext);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handleShow = () => setShow(true);
 
   let navigate = useNavigate();
 
@@ -37,40 +43,56 @@ const ViewJourneys = () => {
   const editJourney = (journeyId) => {
     navigate(`/editJourney/`+journeyId);
   }
-  
+
   return (
     <Container className="h-75">
       <Row>
-        <h3 className="caveatBrush">Journeys</h3>
+        <Col>
+          <h3 className="caveatBrush">Journeys</h3>
+        </Col>
+        <Col>
+          <Button variant="primary" className="float-end d-lg-none" onClick={handleShow}>
+            Show/Hide Journeys
+          </Button>
+        </Col>
       </Row>
-      <Row className="h-100">
-        <Col xs={3}>
-          <ListGroup>
-            {journeys?.map((journey) =>
-                <ListGroup.Item
-                  key={journey.id}
-                  variant="light"
-                  action
-                  active={journey.selected}
-                  onClick={() => selectJourney(journey)}
-                >
-                  <Row>
-                    <Col>
-                      {journey.title}
-                    </Col>
-                    <Col xs={2}>
-                      {currentUser && <>
-                        <span className="text-primary" variant="primary" onClick={() => editJourney(journey.id)}>&#9998;</span>
-                      </>}
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-            )}
-          </ListGroup>
 
+      <Row className="h-100">
+        <Col lg={3} style={{"overflowY":"scroll", height: "100%"}} className="d-xl-block d-lg-block d-md-none d-sm-none d-none">
+          
+          <Offcanvas show={show} onHide={handleClose} responsive="lg">
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title>Show/Hide Journeys</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <ListGroup>
+                {journeys?.map((journey) =>
+                    <ListGroup.Item
+                      key={journey.id}
+                      variant="light"
+                      action
+                      active={journey.selected}
+                      onClick={() => selectJourney(journey)}
+                    >
+                      <Row>
+                        <Col>
+                          {journey.title}
+                        </Col>
+                        <Col xs={2}>
+                          {currentUser && <>
+                            <span className="text-primary" variant="primary" onClick={() => editJourney(journey.id)}>&#9998;</span>
+                          </>}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                )}
+              </ListGroup>
+
+            </Offcanvas.Body>
+          </Offcanvas>
 
         </Col>
-        <Col xs={9} className="h-100">
+        <Col lg={9} md={12} className="h-100">
           <MapView
             journeys={journeys}
           />
