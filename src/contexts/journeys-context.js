@@ -6,7 +6,7 @@ import {
   readDocument,
   updateDocument,
   deleteDocument,
-  // addDocuments
+//  addDocuments
 } from '../config/firebase';
 
 // import { JourneysListData } from '../journeysListData';
@@ -19,7 +19,7 @@ export const JourneysProvider = ({ children }) => {
   const [journeys, setJourneys] = useState([]);
 
   useEffect(() => {
-    // addDocuments("journeys", JourneysListData);
+//    addDocuments("journeys", JourneysListData);
     getJourneys();
   },[]);
 

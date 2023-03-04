@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
-import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 import AddPlaceDialog from '../add-place-dialog/add-place-dialog';
+import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
 
 const containerStyle = {
   width: '100%',
@@ -14,7 +14,7 @@ const center = {
   lng: -112
 };
 
-const MapEdit = ({ journey, setJourney, updateJourney }) => {
+const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUpdate, onPlaceDelete }) => {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -22,8 +22,6 @@ const MapEdit = ({ journey, setJourney, updateJourney }) => {
   });
 
   const [map, setMap] = useState(null);
-
-  const [activePlace, setActivePlace] = useState(null);
 
   const onTitleChange = (event) => {
     setActivePlace((activePlace) => ({
@@ -46,13 +44,29 @@ const MapEdit = ({ journey, setJourney, updateJourney }) => {
     setActivePlace(place);
   }
 
+  const onSaveClick = () => {
+    onPlaceUpdate(activePlace);
+  }
+
+  const deletePlace = (place) => {
+    setActivePlace(null);
+    onPlaceDelete(place);
+  }
+
+  const submitNewPlace = () => {
+    setActivePlace(null);
+    onPlaceSubmit(activePlace);
+  }
+
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-
+    places?.map((place)=>{
+      return bounds.extend(place.position);
+    });
     map.fitBounds(bounds);
     setMap(map)
-
-    window.google.maps.event.addListener(map, 'click', function (event) {
+    
+    window.google.maps.event.addListener(map, 'click', function(event) {
       setActivePlace({
         id: 0,
         title: "",
@@ -60,7 +74,7 @@ const MapEdit = ({ journey, setJourney, updateJourney }) => {
         position: event.latLng.toJSON()
       });
     });
-
+    
     return map;
   }, []);
 
@@ -86,27 +100,31 @@ const MapEdit = ({ journey, setJourney, updateJourney }) => {
             activePlace={activePlace}
             onTitleChange={onTitleChange}
             onDescriptionChange={onDescriptionChange}
+            submitNewPlace={submitNewPlace}
           />
         </InfoWindowF>
       }
-      {journey?.places?.map((place) => (
+      {places?.map((place) => (
         <Marker
           key={place.id}
           position={place.position}
           onClick={() => onMarkerClick(place)}
         >
-          {activePlace?.id === place.id ? (
+          {activePlace && activePlace.id === place.id ? (
             <InfoWindowF
               onCloseClick={() => setActivePlace(null)}
             >
               <ViewPlaceDialog
                 activePlace={activePlace}
+                onTitleChange={onTitleChange}
+                onDescriptionChange={onDescriptionChange}
+                onSaveClick={onSaveClick}
+                onDeleteClick={deletePlace}
               />
             </InfoWindowF>
           ) : null}
         </Marker>
-      ))
-      }
+      ))}
     </GoogleMap>
   ) : <></>
 }

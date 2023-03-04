@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
 import ViewPlaceDialog from '../view-place-dialog/view-place-dialog';
@@ -31,9 +31,24 @@ const MapView = ({journeys}) => {
     setActivePlace(place);
   }
 
+  useEffect(() => {
+    if(isLoaded){
+      const newBounds = new window.google.maps.LatLngBounds();
+      journeys?.filter((obj) => obj.selected)
+        .forEach((journey)=>{
+          journey.places.forEach((place)=>{
+            newBounds.extend(place.position);
+          })
+        });
+      map.fitBounds(newBounds);
+      setMap(map)
+    }
+  }, [journeys]);
+
   const onLoad = useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
     
+    const bounds = new window.google.maps.LatLngBounds();
+
     map.fitBounds(bounds);
 
     setMap(map)

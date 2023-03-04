@@ -27,8 +27,6 @@ code {
 }
 
 a {
-  font-family: CaveatBrush;
-  font-size: xx-large;
   text-decoration: none;
   color: black;
 }
@@ -37,11 +35,11 @@ a {
   box-sizing: border-box;
 }
 
-h1 {
+.woodenLog {
   font-family: WoodenLog;
 }
 
-h2, h3, h4, h5, h6 {
+.caveatBrush {
   font-family: CaveatBrush;
 }
 

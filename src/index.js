@@ -7,7 +7,6 @@ import './fonts/wooden-log.regular.ttf';
 import { UserProvider } from './contexts/user-context';
 import { PostsProvider } from './contexts/posts-context';
 import { JourneysProvider } from './contexts/journeys-context';
-import { PlacesProvider } from './contexts/places-context';
 
 import './index.css'
 
@@ -18,9 +17,7 @@ root.render(
     <UserProvider>
       <PostsProvider>
         <JourneysProvider>
-          <PlacesProvider>
-            <App />
-          </PlacesProvider>
+          <App />
         </JourneysProvider>
       </PostsProvider>
     </UserProvider>

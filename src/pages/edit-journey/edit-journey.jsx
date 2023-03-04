@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 
+import Navlink from 'react-bootstrap/Navlink';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import MapContainer from '../../components/map-container/map-container';
+import MapEdit from '../../components/map-edit/map-edit';
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
@@ -53,10 +54,27 @@ const EditJourney = () => {
     updateJourney(newJourney);
   }
 
-
+  const onChangeTitle = (event) => {
+    const newTitle = event.target.value;
+    setJourney({...journey, title: newTitle});
+  }
 
   return (
     <Container className="h-75">
+      <Row className="m-1">
+        <Col>
+          <Navlink to="/viewJourneys">
+            <h3 className="caveatBrush">Journeys</h3>
+          </Navlink>
+        </Col>
+        <Col>
+          <input
+            className="ms-auto form-control"
+            value={journey?.title}
+            onChange={onChangeTitle}
+          />
+        </Col>
+      </Row>
       <Row className="h-100">
         <Col xs={3}>
           <ListGroup>
@@ -81,7 +99,7 @@ const EditJourney = () => {
           </ListGroup>
         </Col>
         <Col xs={9} className="h-100">
-          <MapContainer
+          <MapEdit
             places={journey?.places}
             activePlace={activePlace}
             setActivePlace={setActivePlace}

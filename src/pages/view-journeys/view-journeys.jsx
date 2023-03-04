@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 import MapView from '../../components/map-view/map-view';
 
@@ -38,6 +40,9 @@ const ViewJourneys = () => {
   
   return (
     <Container className="h-75">
+      <Row>
+        <h3 className="caveatBrush">Journeys</h3>
+      </Row>
       <Row className="h-100">
         <Col xs={3}>
           <ListGroup>
@@ -54,9 +59,9 @@ const ViewJourneys = () => {
                       {journey.title}
                     </Col>
                     <Col xs={2}>
-                      {currentUser && 
-                        <span variant="outline-success" onClick={() => editJourney(journey.id)}>&#9998;</span>
-                      }
+                      {currentUser && <>
+                        <span className="text-primary" variant="primary" onClick={() => editJourney(journey.id)}>&#9998;</span>
+                      </>}
                     </Col>
                   </Row>
                 </ListGroup.Item>
