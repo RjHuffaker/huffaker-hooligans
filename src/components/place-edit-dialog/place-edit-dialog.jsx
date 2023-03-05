@@ -15,14 +15,14 @@ const PlaceEditDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
 				</Row>
 				<Row>
 					<label htmlFor="place-title">Title</label>
-						<input
-							className="form-control"
-							id="place-title"
-							name="place-title"
-							type="text"
-							value={activePlace.title}
-							onChange={onTitleChange}
-						/>
+					<input
+						className="form-control"
+						id="place-title"
+						name="place-title"
+						type="text"
+						value={activePlace.title}
+						onChange={onTitleChange}
+					/>
 				</Row>
 				<Row>
 					<label htmlFor="place-description">Description</label>

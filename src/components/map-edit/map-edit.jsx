@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
 
 import PlaceCreateDialog from '../place-create-dialog/place-create-dialog';
@@ -61,10 +61,23 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
     onPlaceSubmit(activePlace);
   }
 
+  useEffect(()=>{
+    if(isLoaded){
+      const bounds = new window.google.maps.LatLngBounds();
+      places?.forEach((place)=>{
+        bounds.extend(place.position);
+      });
+      map?.fitBounds(bounds);
+      setMap(map)
+    }
+  },
+  [isLoaded, map, places]);
+
+
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    places?.map((place)=>{
-      return bounds.extend(place.position);
+    places?.forEach((place)=>{
+      bounds.extend(place.position);
     });
     map.fitBounds(bounds);
     setMap(map)
@@ -79,7 +92,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
     });
     
     return map;
-  }, [setActivePlace]);
+  }, [places, setActivePlace]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)

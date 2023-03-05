@@ -13,6 +13,11 @@ import DateSelector from "../../components/date-selector/date-selector";
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
+const blankJourney = {
+  title: "",
+  places: []
+};
+
 const EditJourney = () => {
 
   const {
@@ -20,7 +25,7 @@ const EditJourney = () => {
     updateJourney
   } = useContext(JourneysContext);
 
-  const [ journey, setJourney ] = useState(null);
+  const [ journey, setJourney ] = useState(blankJourney);
 
   const [ activePlace, setActivePlace ] = useState(null);
 

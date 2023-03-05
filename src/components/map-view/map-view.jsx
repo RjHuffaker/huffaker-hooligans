@@ -54,13 +54,14 @@ const MapView = ({journeys}) => {
   const onLoad = useCallback(function callback(map) {
     
     const bounds = new window.google.maps.LatLngBounds();
-      journeys?.forEach((journey)=>{
-        journey.places.forEach((place)=>{
-          bounds.extend(place.position);
-        })
-      });
-      map?.fitBounds(bounds);
-      setMap(map)
+    journeys?.forEach((journey)=>{
+      journey.places.forEach((place)=>{
+        bounds.extend(place.position);
+      })
+    });
+
+    map?.fitBounds(bounds);
+    setMap(map)
 
     window.google.maps.event.addListener(map, 'click', function(event) {
       setActivePlace({
@@ -72,7 +73,7 @@ const MapView = ({journeys}) => {
     });
     
     return map;
-  }, [isLoaded, journeys, map]);
+  }, [journeys]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
