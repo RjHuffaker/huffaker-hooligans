@@ -18,7 +18,7 @@ const DeleteModalButton = ({ children, deleteObject, deleteAction, ...otherProps
         <Modal.Header closeButton>
           <Modal.Title>Delete Confirmation</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Delete {deleteObject.title}?</Modal.Body>
+        <Modal.Body>Delete {deleteObject?.title}?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={() => {deleteAction(deleteObject); handleClose()}}>
             Confirm

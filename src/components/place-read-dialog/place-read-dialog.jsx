@@ -5,9 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-import { UserContext } from '../../contexts/user-context'; 
+import { UserContext } from '../../contexts/user-context';
 
-const PlaceReadDialog = ({activePlace, setEditMode}) => {
+import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
+
+const PlaceReadDialog = ({activePlace, onTitleChange, onDescriptionChange, onSaveClick, onDeleteClick}) => {
   
   const { currentUser } = useContext(UserContext);
 
@@ -25,7 +27,13 @@ const PlaceReadDialog = ({activePlace, setEditMode}) => {
         {currentUser && 
           <Row>
             <Col>
-              <Button variant="outline-primary" onClick={() => {setEditMode(true)}}>&#9998;</Button>
+              <PlaceEditModal
+                place={activePlace}
+                onTitleChange={onTitleChange}
+                onDescriptionChange={onDescriptionChange}
+                onSaveClick={onSaveClick}
+                onDeleteClick={onDeleteClick}
+              />
             </Col>
           </Row>
         }

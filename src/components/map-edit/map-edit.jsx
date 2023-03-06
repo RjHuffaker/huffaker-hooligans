@@ -3,7 +3,6 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-ma
 
 import PlaceCreateDialog from '../place-create-dialog/place-create-dialog';
 import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
-import PlaceEditDialog from '../place-edit-dialog/place-edit-dialog';
 
 const containerStyle = {
   width: '100%',
@@ -23,8 +22,6 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
   });
 
   const [ map, setMap ] = useState(null);
-
-  const [ editMode, setEditMode ] = useState(null);
 
   const onTitleChange = (event) => {
     setActivePlace((activePlace) => ({
@@ -130,22 +127,13 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
             <InfoWindowF
               onCloseClick={() => setActivePlace(null)}
             >
-              {editMode ? 
-                <PlaceEditDialog
-                  activePlace={activePlace}
-                  onTitleChange={onTitleChange}
-                  onDescriptionChange={onDescriptionChange}
-                  onSaveClick={onSaveClick}
-                  onDeleteClick={onDeleteClick}
-                  setEditMode={setEditMode}
-                />
-                :
-                <PlaceReadDialog
-                  activePlace={activePlace}
-                  setEditMode={setEditMode}
-                />
-              }
-              
+              <PlaceReadDialog
+                activePlace={activePlace}
+                onTitleChange={onTitleChange}
+                onDescriptionChange={onDescriptionChange}
+                onSaveClick={onSaveClick}
+                onDeleteClick={onDeleteClick}
+              />
             </InfoWindowF>
           ) : null}
         </Marker>
