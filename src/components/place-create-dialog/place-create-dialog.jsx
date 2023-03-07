@@ -38,8 +38,8 @@ const PlaceCreateDialog = () => {
 
   const onPlaceSubmit = (place) => {
     place.id = place?.position.lat.toString() + place?.position.lng.toString();
-    activeJourney.places.push(place);
-    updateJourney(activeJourney);
+    const newPlaces = [...activeJourney.places, place];
+    updateJourney({...activeJourney, places: newPlaces});
   }
 
 	return(

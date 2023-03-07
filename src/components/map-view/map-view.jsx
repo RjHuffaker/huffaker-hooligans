@@ -1,5 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
+
+import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
 
@@ -13,7 +15,9 @@ const center = {
   lng: -112
 };
 
-const MapView = ({journeys}) => {
+const MapView = () => {
+
+  const { journeys, activePlace, setActivePlace } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -21,8 +25,6 @@ const MapView = ({journeys}) => {
   });
 
   const [map, setMap] = useState(null);
-
-  const [activePlace, setActivePlace] = useState(null);
 
   const onMarkerClick = (place) => {
     if (activePlace && activePlace.id === place.id) {
@@ -34,9 +36,7 @@ const MapView = ({journeys}) => {
   useEffect(() => {
     if(isLoaded){
       const bounds = new window.google.maps.LatLngBounds();
-
       const selectedJourneys = journeys?.filter((obj) => obj.selected);
-
       const filteredJourneys = selectedJourneys?.length ? selectedJourneys : journeys;
 
       filteredJourneys
@@ -49,6 +49,7 @@ const MapView = ({journeys}) => {
       map?.fitBounds(bounds);
       setMap(map)
     }
+
   }, [isLoaded, journeys, map]);
 
   const onLoad = useCallback(function callback(map) {
@@ -73,7 +74,7 @@ const MapView = ({journeys}) => {
     });
     
     return map;
-  }, [journeys]);
+  }, [setActivePlace, journeys]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -96,12 +97,8 @@ const MapView = ({journeys}) => {
               onClick={() => onMarkerClick(place)}
             >
               {activePlace?.id === place.id ? (
-                <InfoWindowF
-                  onCloseClick={() => setActivePlace(null)}
-                >
-                  <PlaceReadDialog
-                    activePlace={activePlace}
-                  />
+                <InfoWindowF onCloseClick={() => setActivePlace(null)} >
+                  <PlaceReadDialog />
                 </InfoWindowF>
               ) : null}
             </Marker>

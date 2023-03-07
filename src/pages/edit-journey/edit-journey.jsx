@@ -18,11 +18,11 @@ const EditJourney = () => {
   const {
     activeJourney,
     setActiveJourney,
+    activePlace,
+    setActivePlace,
     readJourney,
     updateJourney
   } = useContext(JourneysContext);
-
-  const [ activePlace, setActivePlace ] = useState(null);
 
   const { journeyId } = useParams();
 
@@ -43,31 +43,14 @@ const EditJourney = () => {
     fetchJourney();
   }, [readJourney, journeyId]);
 
-
-  const onPlaceSubmit = (place) => {
-    place.id = place?.position.lat.toString() + place?.position.lng.toString();
-    activeJourney.places.push(place);
-    updateJourney(activeJourney);
-  }
-
-  const onPlaceUpdate = (place) => {
-    const index = activeJourney.places.findIndex(obj => obj.id === place.id);
-    if (index !== -1) {
-      activeJourney.places[index] = place;
-    }
-    updateJourney(activeJourney);
-  }
-
-  const onPlaceDelete = (place) => {
-    const newPlaces = activeJourney.places.filter((obj) => obj.id !== place.id);
-    const newJourney = { ...activeJourney, places: newPlaces };
-    setActiveJourney(newJourney);
-    updateJourney(newJourney);
-  }
-
   const onChangeTitle = (event) => {
-    const newTitle = event.target.value;
-    setActiveJourney({...activeJourney, title: newTitle});
+    const newValue = event.target.value;
+    setActiveJourney({...activeJourney, title: newValue});
+  }
+
+  const onChangeDescription = (event) => {
+    const newValue = event.target.value;
+    setActiveJourney({...activeJourney, description: newValue});
   }
 
   const onStartDateChange = (date) => {

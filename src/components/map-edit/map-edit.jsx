@@ -16,9 +16,9 @@ const center = {
   lng: -112
 };
 
-const MapEdit = ({ places }) => {
+const MapEdit = () => {
 
-  const { activePlace, setActivePlace } = useContext(JourneysContext);
+  const { activePlace, setActivePlace, activeJourney } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -37,20 +37,20 @@ const MapEdit = ({ places }) => {
   useEffect(()=>{
     if(isLoaded){
       const bounds = new window.google.maps.LatLngBounds();
-      places?.forEach((place)=>{
+      
+      activeJourney?.places.forEach((place)=>{
         bounds.extend(place.position);
       });
       map?.fitBounds(bounds);
+
       setMap(map)
     }
 
-    console.log("useEffect");
-  },
-  [isLoaded, map, places]);
+  }, [isLoaded, activeJourney.id, map]);
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    places?.forEach((place)=>{
+    activeJourney?.places.forEach((place)=>{
       bounds.extend(place.position);
     });
     map.fitBounds(bounds);
@@ -66,7 +66,7 @@ const MapEdit = ({ places }) => {
     });
     
     return map;
-  }, [places, setActivePlace]);
+  }, [activeJourney, setActivePlace]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -82,23 +82,20 @@ const MapEdit = ({ places }) => {
     >
       { activePlace && activePlace.id===0 &&
         <InfoWindowF
-          className="InfoWindow"
           onCloseClick={()=> {setActivePlace(null)}}
           position={activePlace.position}
         >
           <PlaceCreateDialog />
         </InfoWindowF>
       }
-      {places?.map((place) => (
+      {activeJourney?.places.map((place) => (
         <Marker
           key={place.id}
           position={place.position}
           onClick={() => onMarkerClick(place)}
         >
           {activePlace && activePlace.id === place.id ? (
-            <InfoWindowF
-              onCloseClick={() => setActivePlace(null)}
-            >
+            <InfoWindowF onCloseClick={() => setActivePlace(null)} >
               <PlaceReadDialog />
             </InfoWindowF>
           ) : null}
