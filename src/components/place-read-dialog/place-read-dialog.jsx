@@ -21,7 +21,7 @@ const PlaceReadDialog = () => {
       <Container>
         <Row>
           <Col>
-            <h3>{activePlace.title}</h3>
+            <h3>{activePlace.title} <PlaceEditModal /></h3>
           </Col>
         </Row>
         <Row className="my-3">
@@ -30,7 +30,7 @@ const PlaceReadDialog = () => {
         {currentUser && 
           <Row>
             <Col>
-              <PlaceEditModal />
+              
             </Col>
           </Row>
         }

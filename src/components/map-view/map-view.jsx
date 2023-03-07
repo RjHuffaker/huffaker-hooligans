@@ -97,7 +97,7 @@ const MapView = () => {
               onClick={() => onMarkerClick(place)}
             >
               {activePlace?.id === place.id ? (
-                <InfoWindowF onCloseClick={() => setActivePlace(null)} >
+                <InfoWindowF onCloseClick={() => setActivePlace(null)}>
                   <PlaceReadDialog />
                 </InfoWindowF>
               ) : null}

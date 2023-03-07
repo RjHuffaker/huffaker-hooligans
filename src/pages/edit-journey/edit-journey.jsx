@@ -45,12 +45,12 @@ const EditJourney = () => {
 
   const onChangeTitle = (event) => {
     const newValue = event.target.value;
-    setActiveJourney({...activeJourney, title: newValue});
+    setActiveJourney({ ...activeJourney, title: newValue });
   }
 
   const onChangeDescription = (event) => {
     const newValue = event.target.value;
-    setActiveJourney({...activeJourney, description: newValue});
+    setActiveJourney({ ...activeJourney, description: newValue });
   }
 
   const onStartDateChange = (date) => {
@@ -60,17 +60,17 @@ const EditJourney = () => {
   const onSubmit = () => {
     updateJourney(activeJourney);
     navigate("/viewJourneys");
-}
+  }
 
-const onCancel = () => {
+  const onCancel = () => {
     navigate("/viewJourneys");
-}
+  }
 
   return (
     <Container className="h-75">
       <Row className="m-1">
         <Col>
-        <input
+          <input
             className="ms-auto form-control"
             value={activeJourney?.title}
             onChange={onChangeTitle}
@@ -91,9 +91,9 @@ const onCancel = () => {
       </Row>
 
       <Row className="h-100">
-        
-        <Col lg={3} style={{"overflowY":"scroll", height: "100%"}} className="d-xl-block d-lg-block d-md-none d-sm-none d-none">
-          
+
+        <Col lg={3} style={{ "overflowY": "scroll", height: "100%" }} className="d-xl-block d-lg-block d-md-none d-sm-none d-none">
+
           <Offcanvas show={show} onHide={handleClose} responsive="lg">
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>Show/Hide Places</Offcanvas.Title>
@@ -101,19 +101,19 @@ const onCancel = () => {
             <Offcanvas.Body>
               <ListGroup>
                 {activeJourney?.places.map((place) =>
-                    <ListGroup.Item
-                      key={place.id}
-                      variant="light"
-                      action
-                      active={place.id === activePlace?.id}
-                      onClick={() => setActivePlace(place)}
-                    >
-                      <Row>
-                        <Col>
-                          {place.title}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
+                  <ListGroup.Item
+                    key={place.id}
+                    variant="light"
+                    action
+                    active={place.id === activePlace?.id}
+                    onClick={() => setActivePlace(place)}
+                  >
+                    <Row>
+                      <Col>
+                        {place.title}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
                 )}
               </ListGroup>
 

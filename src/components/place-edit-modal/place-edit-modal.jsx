@@ -26,6 +26,7 @@ const PlaceEditModal = () => {
   const handleShow = () => setShow(true);
 
   const onTitleChange = (event) => {
+    const value = event.target.value;
     setActivePlace((activePlace) => ({
       ...activePlace,
       title: event.target.value
@@ -33,6 +34,7 @@ const PlaceEditModal = () => {
   }
 
   const onDescriptionChange = (event) => {
+    const value = event.target.value;
     setActivePlace((activePlace) => ({
       ...activePlace,
       description: event.target.value
@@ -61,9 +63,9 @@ const PlaceEditModal = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <span onClick={handleShow}>
         &#9998;
-      </Button>
+      </span>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
