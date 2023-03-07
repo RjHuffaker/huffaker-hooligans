@@ -1,5 +1,7 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindowF } from '@react-google-maps/api';
+
+import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceCreateDialog from '../place-create-dialog/place-create-dialog';
 import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
@@ -14,7 +16,9 @@ const center = {
   lng: -112
 };
 
-const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUpdate, onPlaceDelete }) => {
+const MapEdit = ({ places }) => {
+
+  const { activePlace, setActivePlace } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -23,39 +27,11 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
 
   const [ map, setMap ] = useState(null);
 
-  const onTitleChange = (event) => {
-    setActivePlace((activePlace) => ({
-      ...activePlace,
-      title: event.target.value
-    }));
-  }
-
-  const onDescriptionChange = (event) => {
-    setActivePlace((activePlace) => ({
-      ...activePlace,
-      description: event.target.value
-    }));
-  }
-
   const onMarkerClick = (place) => {
     if (activePlace && activePlace.id === place.id) {
       return;
     }
     setActivePlace(place);
-  }
-
-  const onSaveClick = () => {
-    onPlaceUpdate(activePlace);
-  }
-
-  const onDeleteClick = (place) => {
-    setActivePlace(null);
-    onPlaceDelete(place);
-  }
-
-  const submitNewPlace = () => {
-    setActivePlace(null);
-    onPlaceSubmit(activePlace);
   }
 
   useEffect(()=>{
@@ -67,9 +43,10 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
       map?.fitBounds(bounds);
       setMap(map)
     }
+
+    console.log("useEffect");
   },
   [isLoaded, map, places]);
-
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -109,12 +86,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
           onCloseClick={()=> {setActivePlace(null)}}
           position={activePlace.position}
         >
-          <PlaceCreateDialog
-            activePlace={activePlace}
-            onTitleChange={onTitleChange}
-            onDescriptionChange={onDescriptionChange}
-            submitNewPlace={submitNewPlace}
-          />
+          <PlaceCreateDialog />
         </InfoWindowF>
       }
       {places?.map((place) => (
@@ -127,13 +99,7 @@ const MapEdit = ({ places, activePlace, setActivePlace, onPlaceSubmit, onPlaceUp
             <InfoWindowF
               onCloseClick={() => setActivePlace(null)}
             >
-              <PlaceReadDialog
-                activePlace={activePlace}
-                onTitleChange={onTitleChange}
-                onDescriptionChange={onDescriptionChange}
-                onSaveClick={onSaveClick}
-                onDeleteClick={onDeleteClick}
-              />
+              <PlaceReadDialog />
             </InfoWindowF>
           ) : null}
         </Marker>

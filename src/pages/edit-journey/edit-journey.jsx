@@ -13,19 +13,14 @@ import DateSelector from "../../components/date-selector/date-selector";
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
-const blankJourney = {
-  title: "",
-  places: []
-};
-
 const EditJourney = () => {
 
   const {
+    activeJourney,
+    setActiveJourney,
     readJourney,
     updateJourney
   } = useContext(JourneysContext);
-
-  const [ journey, setJourney ] = useState(blankJourney);
 
   const [ activePlace, setActivePlace ] = useState(null);
 
@@ -42,7 +37,7 @@ const EditJourney = () => {
   useEffect(() => {
     const fetchJourney = async () => {
       const response = await readJourney(journeyId);
-      setJourney(response);
+      setActiveJourney(response);
     }
 
     fetchJourney();
@@ -51,36 +46,36 @@ const EditJourney = () => {
 
   const onPlaceSubmit = (place) => {
     place.id = place?.position.lat.toString() + place?.position.lng.toString();
-    journey.places.push(place);
-    updateJourney(journey);
+    activeJourney.places.push(place);
+    updateJourney(activeJourney);
   }
 
   const onPlaceUpdate = (place) => {
-    const index = journey.places.findIndex(obj => obj.id === place.id);
+    const index = activeJourney.places.findIndex(obj => obj.id === place.id);
     if (index !== -1) {
-      journey.places[index] = place;
+      activeJourney.places[index] = place;
     }
-    updateJourney(journey);
+    updateJourney(activeJourney);
   }
 
   const onPlaceDelete = (place) => {
-    const newPlaces = journey.places.filter((obj) => obj.id !== place.id);
-    const newJourney = { ...journey, places: newPlaces };
-    setJourney(newJourney);
+    const newPlaces = activeJourney.places.filter((obj) => obj.id !== place.id);
+    const newJourney = { ...activeJourney, places: newPlaces };
+    setActiveJourney(newJourney);
     updateJourney(newJourney);
   }
 
   const onChangeTitle = (event) => {
     const newTitle = event.target.value;
-    setJourney({...journey, title: newTitle});
+    setActiveJourney({...activeJourney, title: newTitle});
   }
 
   const onStartDateChange = (date) => {
-    setJourney({ ...journey, startDate: date.getTime() });
+    setActiveJourney({ ...activeJourney, startDate: date.getTime() });
   }
 
   const onSubmit = () => {
-    updateJourney(journey);
+    updateJourney(activeJourney);
     navigate("/viewJourneys");
 }
 
@@ -94,14 +89,14 @@ const onCancel = () => {
         <Col>
         <input
             className="ms-auto form-control"
-            value={journey?.title}
+            value={activeJourney?.title}
             onChange={onChangeTitle}
           />
         </Col>
         <Col className="my-2">
           <DateSelector
             labelText={"Start Date:"}
-            date={journey?.startDate}
+            date={activeJourney?.startDate}
             setDate={onStartDateChange}
           />
         </Col>
@@ -122,7 +117,7 @@ const onCancel = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <ListGroup>
-                {journey?.places.map((place) =>
+                {activeJourney?.places.map((place) =>
                     <ListGroup.Item
                       key={place.id}
                       variant="light"
@@ -133,9 +128,6 @@ const onCancel = () => {
                       <Row>
                         <Col>
                           {place.title}
-                        </Col>
-                        <Col xs={2}>
-                          <span variant="outline-success" onClick={() => onPlaceUpdate(place.id)}>&#9998;</span>
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -149,12 +141,7 @@ const onCancel = () => {
 
         <Col lg={9} md={12} className="h-100">
           <MapEdit
-            places={journey?.places}
-            activePlace={activePlace}
-            setActivePlace={setActivePlace}
-            onPlaceSubmit={onPlaceSubmit}
-            onPlaceUpdate={onPlaceUpdate}
-            onPlaceDelete={onPlaceDelete}
+            places={activeJourney?.places}
           />
         </Col>
       </Row>

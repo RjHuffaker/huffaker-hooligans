@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,13 +6,58 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import { JourneysContext } from '../../contexts/journeys-context';
+
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
-const PlaceEditModal = ({ place, onTitleChange, onDescriptionChange, onSaveClick, onDeleteClick }) => {
+const PlaceEditModal = () => {
+  
+  const {
+    activePlace,
+    setActivePlace,
+    activeJourney,
+    setActiveJourney,
+    updateJourney
+  } = useContext(JourneysContext);
+  
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const onTitleChange = (event) => {
+    setActivePlace((activePlace) => ({
+      ...activePlace,
+      title: event.target.value
+    }));
+  }
+
+  const onDescriptionChange = (event) => {
+    setActivePlace((activePlace) => ({
+      ...activePlace,
+      description: event.target.value
+    }));
+  }
+
+  const onStartDateChange = (date) => {
+    setActivePlace({ ...activePlace, startDate: date.getTime() });
+  }
+
+  const onPlaceUpdate = (place) => {
+    const index = activeJourney.places.findIndex(obj => obj.id === place.id);
+    if (index !== -1) {
+      activeJourney.places[index] = place;
+    }
+    updateJourney(activeJourney);
+    setActivePlace(null);
+  }
+
+  const onPlaceDelete = (place) => {
+    const newPlaces = activeJourney.places.filter((obj) => obj.id !== place.id);
+    const newJourney = { ...activeJourney, places: newPlaces };
+    setActiveJourney(newJourney);
+    updateJourney(newJourney);
+  }
 
   return (
     <>
@@ -33,7 +78,7 @@ const PlaceEditModal = ({ place, onTitleChange, onDescriptionChange, onSaveClick
                 id="place-title"
                 name="place-title"
                 type="text"
-                value={place?.title}
+                value={activePlace?.title}
                 onChange={onTitleChange}
               />
             </Row>
@@ -44,7 +89,7 @@ const PlaceEditModal = ({ place, onTitleChange, onDescriptionChange, onSaveClick
                 id="place-description"
                 name="place-description"
                 type="text"
-                value={place?.description}
+                value={activePlace?.description}
                 onChange={onDescriptionChange}
               />
             </Row>
@@ -53,8 +98,8 @@ const PlaceEditModal = ({ place, onTitleChange, onDescriptionChange, onSaveClick
         <Modal.Footer>
           <Row>
             <Col>
-              <Button variant="outline-success" onClick={()=>{onSaveClick(); handleClose()}}>&#x2714;</Button>
-              <DeleteModalButton deleteObject={place} deleteAction={onDeleteClick}>&#128465;</DeleteModalButton>
+              <Button variant="outline-success" onClick={()=>{onPlaceUpdate(activePlace); handleClose()}}>&#x2714;</Button>
+              <DeleteModalButton deleteObject={activePlace} deleteAction={() => onPlaceDelete(activePlace)}>&#128465;</DeleteModalButton>
             </Col>
           </Row>
         </Modal.Footer>

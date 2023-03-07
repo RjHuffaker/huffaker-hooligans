@@ -1,9 +1,47 @@
+import { useContext } from 'react';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-const PlaceCreateDialog = ({activePlace, onTitleChange, onDescriptionChange, submitNewPlace}) => {
+import { JourneysContext } from '../../contexts/journeys-context';
+
+const PlaceCreateDialog = () => {
+
+  const {
+    activePlace,
+    setActivePlace,
+    activeJourney,
+    setActiveJourney,
+    updateJourney
+  } = useContext(JourneysContext);
+
+  const onTitleChange = (event) => {
+    const newValue = event.target.value;
+    setActivePlace({...activePlace, title: newValue});
+  }
+
+  const onDescriptionChange = (event) => {
+    const newValue = event.target.value;
+    setActivePlace({...activePlace, description: newValue});
+  }
+
+  const onStartDateChange = (date) => {
+    setActivePlace({ ...activePlace, startDate: date.getTime() });
+  }
+
+  const submitNewPlace = () => {
+    setActivePlace(null);
+    onPlaceSubmit(activePlace);
+  }
+
+  const onPlaceSubmit = (place) => {
+    place.id = place?.position.lat.toString() + place?.position.lng.toString();
+    activeJourney.places.push(place);
+    updateJourney(activeJourney);
+  }
+
 	return(
 		<Container className="InfoWindow">
       <Row>

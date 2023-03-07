@@ -6,12 +6,15 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 import { UserContext } from '../../contexts/user-context';
+import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
 
-const PlaceReadDialog = ({activePlace, onTitleChange, onDescriptionChange, onSaveClick, onDeleteClick}) => {
+const PlaceReadDialog = () => {
   
   const { currentUser } = useContext(UserContext);
+
+  const { activePlace } = useContext(JourneysContext);
 
   return (
     <div className="InfoWindow" key={activePlace.id}>
@@ -27,13 +30,7 @@ const PlaceReadDialog = ({activePlace, onTitleChange, onDescriptionChange, onSav
         {currentUser && 
           <Row>
             <Col>
-              <PlaceEditModal
-                place={activePlace}
-                onTitleChange={onTitleChange}
-                onDescriptionChange={onDescriptionChange}
-                onSaveClick={onSaveClick}
-                onDeleteClick={onDeleteClick}
-              />
+              <PlaceEditModal />
             </Col>
           </Row>
         }

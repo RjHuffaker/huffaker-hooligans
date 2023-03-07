@@ -5,21 +5,33 @@ import {
   createDocument,
   readDocument,
   updateDocument,
-  deleteDocument,
-//  addDocuments
+  deleteDocument
 } from '../config/firebase';
-
-// import { JourneysListData } from '../journeysListData';
 
 export const JourneysContext = createContext({
   Journeys: []
 });
 
+const blankJourney = {
+  title: "",
+  description: "",
+  places: []
+};
+
+const blankPlace = {
+  title: "",
+  description: ""
+}
+
 export const JourneysProvider = ({ children }) => {
-  const [journeys, setJourneys] = useState([]);
+
+  const [ journeys, setJourneys ] = useState([]);
+
+  const [ activeJourney, setActiveJourney ] = useState(blankJourney);
+
+  const [ activePlace, setActivePlace ] = useState(blankPlace);
 
   useEffect(() => {
-//    addDocuments("journeys", JourneysListData);
     getJourneys();
   },[]);
 
@@ -67,6 +79,10 @@ export const JourneysProvider = ({ children }) => {
   const value = {
     journeys,
     setJourneys,
+    activeJourney,
+    setActiveJourney,
+    activePlace,
+    setActivePlace,
     createJourney,
     readJourney,
     updateJourney,
