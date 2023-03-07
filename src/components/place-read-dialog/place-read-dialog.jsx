@@ -21,7 +21,10 @@ const PlaceReadDialog = () => {
       <Container>
         <Row>
           <Col>
-            <h3>{activePlace.title} <PlaceEditModal /></h3>
+            <h3>{activePlace.title}</h3>
+          </Col>
+          <Col xs={2}>
+            <PlaceEditModal />
           </Col>
         </Row>
         <Row className="my-3">

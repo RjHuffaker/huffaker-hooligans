@@ -35,26 +35,33 @@ const EditJourney = () => {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    const fetchJourney = async () => {
-      const response = await readJourney(journeyId);
-      setActiveJourney(response);
-    }
-
     fetchJourney();
-  }, [readJourney, journeyId]);
+  }, []);
 
-  const onChangeTitle = (event) => {
-    const newValue = event.target.value;
-    setActiveJourney({ ...activeJourney, title: newValue });
+  const fetchJourney = async () => {
+    const response = await readJourney(journeyId);
+    setActiveJourney(response);
   }
 
-  const onChangeDescription = (event) => {
-    const newValue = event.target.value;
-    setActiveJourney({ ...activeJourney, description: newValue });
+  const onTitleChange = (event) => {
+    setActiveJourney((activeJourney) => ({
+      ...activeJourney,
+      title: event.target.value
+    }));
+  }
+
+  const onDescriptionChange = (event) => {
+    setActiveJourney((activeJourney) => ({
+      ...activeJourney,
+      description: event.target.value
+    }));
   }
 
   const onStartDateChange = (date) => {
-    setActiveJourney({ ...activeJourney, startDate: date.getTime() });
+    setActiveJourney((activeJourney) => ({
+      ...activeJourney,
+      startDate: date.getTime()
+    }));
   }
 
   const onSubmit = () => {
@@ -72,8 +79,11 @@ const EditJourney = () => {
         <Col>
           <input
             className="ms-auto form-control"
+            id="title"
+            name="title"
+            type="text"
             value={activeJourney?.title}
-            onChange={onChangeTitle}
+            onChange={onTitleChange}
           />
         </Col>
         <Col className="my-2">
