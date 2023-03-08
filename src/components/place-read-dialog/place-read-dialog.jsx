@@ -21,22 +21,17 @@ const PlaceReadDialog = () => {
       <Container>
         <Row>
           <Col>
-            <h3>{activePlace.title}</h3>
-          </Col>
-          <Col xs={2}>
-            <PlaceEditModal />
+            <h3>{activePlace.title} {currentUser && <PlaceEditModal />}</h3>
           </Col>
         </Row>
         <Row className="my-3">
           <p>{activePlace.description}</p>
         </Row>
-        {currentUser && 
-          <Row>
-            <Col>
-              
-            </Col>
-          </Row>
-        }
+        <Row>
+          <Col>
+            {new Date(activePlace.arrivalDate).toLocaleDateString()}
+          </Col>
+        </Row>
       </Container>
     </div>
   );

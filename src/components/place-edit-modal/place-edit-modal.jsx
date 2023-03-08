@@ -8,7 +8,9 @@ import Modal from 'react-bootstrap/Modal';
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
+import DateSelector from '../date-selector/date-selector';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
+import { NavLink } from 'react-router-dom';
 
 const PlaceEditModal = () => {
   
@@ -40,8 +42,8 @@ const PlaceEditModal = () => {
     }));
   }
 
-  const onStartDateChange = (date) => {
-    setActivePlace({ ...activePlace, startDate: date.getTime() });
+  const onArrivalDateChange = (date) => {
+    setActivePlace({ ...activePlace, arrivalDate: date.getTime() });
   }
 
   const onPlaceUpdate = (place) => {
@@ -62,7 +64,7 @@ const PlaceEditModal = () => {
 
   return (
     <>
-      <span className="text-primary" onClick={handleShow}>&#9998;</span>
+      <NavLink className="text-primary" onClick={handleShow}>&#9998;</NavLink>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -90,6 +92,13 @@ const PlaceEditModal = () => {
                 type="text"
                 value={activePlace?.description}
                 onChange={onDescriptionChange}
+              />
+            </Row>
+            <Row>
+              <DateSelector
+                labelText={"Arrival Date:"}
+                date={activePlace?.arrivalDate}
+                setDate={onArrivalDateChange}
               />
             </Row>
           </Container>

@@ -116,7 +116,7 @@ const EditJourney = () => {
                     variant="light"
                     action
                     active={place.id === activePlace?.id}
-                    onClick={() => setActivePlace(place)}
+                    onClick={() => activePlace?.id === place.id ? setActivePlace(null) : setActivePlace(place)}
                   >
                     <Row>
                       <Col>
