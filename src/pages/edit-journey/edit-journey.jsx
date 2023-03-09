@@ -43,18 +43,9 @@ const EditJourney = () => {
     setActiveJourney(response);
   }
 
-  const onTitleChange = (event) => {
-    setActiveJourney((activeJourney) => ({
-      ...activeJourney,
-      title: event.target.value
-    }));
-  }
-
-  const onDescriptionChange = (event) => {
-    setActiveJourney((activeJourney) => ({
-      ...activeJourney,
-      description: event.target.value
-    }));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setActiveJourney({ ...activeJourney, [name]: value })
   }
 
   const onStartDateChange = (date) => {
@@ -83,7 +74,7 @@ const EditJourney = () => {
             name="title"
             type="text"
             value={activeJourney?.title}
-            onChange={onTitleChange}
+            onChange={handleChange}
           />
         </Col>
         <Col className="my-2">

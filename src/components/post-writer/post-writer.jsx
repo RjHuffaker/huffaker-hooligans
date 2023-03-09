@@ -22,18 +22,9 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, titleImage: value });
   }
 
-  const onTitleChange = (event) => {
-    const value = event.target.value;
-    setPost({ ...post, title: value });
-  }
-
-  const onSummaryChange = (event) => {
-    const value = event.target.value;
-    setPost({ ...post, summary: value });
-  }
-
-  const onTagsChange = (value) => {
-    setPost({ ...post, tags: value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setPost({ ...post, [name]: value })
   }
 
   const onCreatedChange = (date) => {
@@ -68,24 +59,26 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
                   <Col lg={6} className="my-1">
                     <InputGroup>
                       <input
+                        name="title"
                         className="form-control"
                         placeholder="Title..."
                         value={post.title}
-                        onChange={onTitleChange}
+                        onChange={handleChange}
                       />
                     </InputGroup>
                   </Col>
                   <Col lg={6}>
-                    <TagSelector value={post.tags} onChange={onTagsChange} />
+                    <TagSelector name="tags" value={post.tags} onChange={handleChange} />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <textarea
+                      name="summary"
                       className="form-control"
                       placeholder="Summary..."
                       value={post.summary}
-                      onChange={onSummaryChange}
+                      onChange={handleChange}
                     />
                   </Col>
                 </Row>

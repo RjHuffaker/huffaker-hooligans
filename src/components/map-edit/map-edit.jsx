@@ -18,7 +18,7 @@ const center = {
 
 const MapEdit = () => {
 
-  const { activePlace, setActivePlace, activeJourney } = useContext(JourneysContext);
+  const { activePlace, setActivePlace, activeJourney, setActiveJourney } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -85,7 +85,9 @@ const MapEdit = () => {
           onCloseClick={()=> {setActivePlace(null)}}
           position={activePlace.position}
         >
-          <PlaceCreateDialog />
+          <PlaceCreateDialog
+            journey={activeJourney}
+          />
         </InfoWindowF>
       }
       {activeJourney?.places.map((place) => (
@@ -96,7 +98,10 @@ const MapEdit = () => {
         >
           {activePlace && activePlace.id === place.id ? (
             <InfoWindowF onCloseClick={() => setActivePlace(null)} >
-              <PlaceReadDialog />
+              <PlaceReadDialog
+                journey={activeJourney}
+                place={place}
+              />
             </InfoWindowF>
           ) : null}
         </Marker>

@@ -12,7 +12,7 @@ import DateSelector from '../date-selector/date-selector';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 import { NavLink } from 'react-router-dom';
 
-const PlaceEditModal = () => {
+const PlaceEditModal = ({ journey, place }) => {
   
   const {
     activePlace,
@@ -27,19 +27,9 @@ const PlaceEditModal = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const onTitleChange = (event) => {
-    setActivePlace((activePlace) => ({
-      ...activePlace,
-      title: event.target.value
-    }));
-  }
-
-  const onDescriptionChange = (event) => {
-    const value = event.target.value;
-    setActivePlace((activePlace) => ({
-      ...activePlace,
-      description: event.target.value
-    }));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setActivePlace({ ...activePlace, [name]: value })
   }
 
   const onArrivalDateChange = (date) => {
@@ -76,22 +66,20 @@ const PlaceEditModal = () => {
               <label htmlFor="place-title">Title</label>
               <input
                 className="form-control"
-                id="place-title"
-                name="place-title"
+                name="title"
                 type="text"
                 value={activePlace?.title}
-                onChange={onTitleChange}
+                onChange={handleChange}
               />
             </Row>
             <Row>
               <label htmlFor="place-description">Description</label>
               <textarea
                 className="form-control"
-                id="place-description"
-                name="place-description"
+                name="description"
                 type="text"
                 value={activePlace?.description}
-                onChange={onDescriptionChange}
+                onChange={handleChange}
               />
             </Row>
             <Row>

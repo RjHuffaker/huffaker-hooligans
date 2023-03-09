@@ -7,7 +7,9 @@ import Button from 'react-bootstrap/Button';
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
-const PlaceCreateDialog = () => {
+import DateSelector from '../date-selector/date-selector';
+
+const PlaceCreateDialog = ({ journey }) => {
 
   const {
     activePlace,
@@ -17,29 +19,20 @@ const PlaceCreateDialog = () => {
     updateJourney
   } = useContext(JourneysContext);
 
-  const onTitleChange = (event) => {
-    const newValue = event.target.value;
-    setActivePlace({...activePlace, title: newValue});
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setActivePlace({ ...activePlace, [name]: value })
   }
 
-  const onDescriptionChange = (event) => {
-    const newValue = event.target.value;
-    setActivePlace({...activePlace, description: newValue});
+  const onArrivalDateChange = (date) => {
+    setActivePlace({ ...activePlace, arrivalDate: date.getTime() });
   }
 
-  const onStartDateChange = (date) => {
-    setActivePlace({ ...activePlace, startDate: date.getTime() });
-  }
-
-  const submitNewPlace = () => {
-    setActivePlace(null);
-    onPlaceSubmit(activePlace);
-  }
-
-  const onPlaceSubmit = (place) => {
+  const submitNewPlace = (place) => {
     place.id = place?.position.lat.toString() + place?.position.lng.toString();
-    const newPlaces = [...activeJourney.places, place];
-    updateJourney({...activeJourney, places: newPlaces});
+    activeJourney.places.push(place);
+    updateJourney(activeJourney);
+    setActivePlace(null);
   }
 
 	return(
@@ -51,33 +44,33 @@ const PlaceCreateDialog = () => {
         <label htmlFor="place-title">Title</label>
           <input
             className="form-control"
-            id="place-title"
-            name="place-title"
+            name="title"
             type="text"
             value={activePlace.title}
-            onChange={onTitleChange}
+            onChange={handleChange}
           />
       </Row>
       <Row>
         <label htmlFor="place-description">Description</label>
         <textarea
           className="form-control"
-          id="place-description"
-          name="place-description"
+          name="description"
           type="text"
           value={activePlace.description}
-          onChange={onDescriptionChange}
+          onChange={handleChange}
         />
       </Row>
       
       <Row>
-        <span htmlFor="place-lat">Latitude: {activePlace.position.lat}</span>
+        <DateSelector
+          labelText={"Arrival Date:"}
+          date={activePlace.arrivalDate}
+          setDate={onArrivalDateChange}
+        />
       </Row>
+
       <Row>
-        <span htmlFor="place-lat">Longitude: {activePlace.position.lng}</span>
-      </Row>
-      <Row>
-        <Button variant="success" onClick={submitNewPlace}>Submit New Place</Button>
+        <Button variant="success" onClick={() => submitNewPlace(activePlace)}>Submit New Place</Button>
       </Row>
     </Container>
 	)
