@@ -34,14 +34,14 @@ const EditJourney = () => {
 
   const handleShow = () => setShow(true);
 
-  useEffect(() => {
-    fetchJourney();
-  }, []);
-
   const fetchJourney = async () => {
     const response = await readJourney(journeyId);
     setActiveJourney(response);
   }
+
+  useEffect(() => {
+    fetchJourney();
+  }, [fetchJourney]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -94,13 +94,12 @@ const EditJourney = () => {
       <Row className="h-100">
 
         <Col lg={3} style={{ "overflowY": "scroll", height: "100%" }} className="d-xl-block d-lg-block d-md-none d-sm-none d-none">
-
           <Offcanvas show={show} onHide={handleClose} responsive="lg">
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>Show/Hide Places</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <ListGroup>
+              <ListGroup className="w-100">
                 {activeJourney?.places.map((place) =>
                   <ListGroup.Item
                     key={place.id}
@@ -120,7 +119,6 @@ const EditJourney = () => {
 
             </Offcanvas.Body>
           </Offcanvas>
-
         </Col>
 
         <Col lg={9} md={12} className="h-100">

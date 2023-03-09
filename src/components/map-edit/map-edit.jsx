@@ -28,7 +28,7 @@ const MapEdit = () => {
   const [ map, setMap ] = useState(null);
 
   const onMarkerClick = (place) => {
-    if (activePlace && activePlace.id === place.id) {
+    if (activePlace?.id === place.id) {
       return;
     }
     setActivePlace(place);
@@ -46,7 +46,7 @@ const MapEdit = () => {
       setMap(map)
     }
 
-  }, [isLoaded, activeJourney.id, map]);
+  }, [isLoaded, activeJourney?.id, map]);
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -69,7 +69,8 @@ const MapEdit = () => {
   }, [activeJourney, setActivePlace]);
 
   const onUnmount = useCallback(function callback(map) {
-    setMap(null)
+    setMap(null);
+    setActivePlace(null);
   }, []);
 
   return isLoaded ? (
@@ -80,7 +81,7 @@ const MapEdit = () => {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      { activePlace && activePlace.id===0 &&
+      {activePlace?.id===0 &&
         <InfoWindowF
           onCloseClick={()=> {setActivePlace(null)}}
           position={activePlace.position}
@@ -90,13 +91,13 @@ const MapEdit = () => {
           />
         </InfoWindowF>
       }
-      {activeJourney?.places.map((place) => (
+      {activeJourney.places.map((place) => (
         <Marker
           key={place.id}
           position={place.position}
           onClick={() => onMarkerClick(place)}
         >
-          {activePlace && activePlace.id === place.id ? (
+          {activePlace?.id === place.id ? (
             <InfoWindowF onCloseClick={() => setActivePlace(null)} >
               <PlaceReadDialog
                 journey={activeJourney}

@@ -40,8 +40,8 @@ const ViewJourneys = () => {
     }
   }
 
-  const editJourney = (journeyId) => {
-    navigate(`/editJourney/`+journeyId);
+  const editJourney = (journey) => {
+    navigate(`/editJourney/`+journey.id);
   }
 
   return (
@@ -65,7 +65,7 @@ const ViewJourneys = () => {
               <Offcanvas.Title>Show/Hide Journeys</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <ListGroup>
+              <ListGroup className="w-100">
                 {journeys?.sort((a, b) => {
                     return Math.round(a?.startDate - b?.startDate);
                   })
@@ -83,7 +83,7 @@ const ViewJourneys = () => {
                         </Col>
                         <Col xs={2}>
                           {currentUser && <>
-                            <span className="text-primary" variant="primary" onClick={() => editJourney(journey.id)}>&#9998;</span>
+                            <span className="text-primary" variant="primary" onClick={() => editJourney(journey)}>&#9998;</span>
                           </>}
                         </Col>
                       </Row>

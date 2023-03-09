@@ -27,7 +27,7 @@ const MapView = () => {
   const [map, setMap] = useState(null);
 
   const onMarkerClick = (journey, place) => {
-    if (activePlace && activePlace.id === place.id) {
+    if (activePlace?.id === place.id) {
       return;
     }
     setActiveJourney(journey);
@@ -66,11 +66,12 @@ const MapView = () => {
     setMap(map);
     
     return map;
-  }, [setActivePlace, journeys]);
+  }, [journeys]);
 
   const onUnmount = useCallback(function callback(map) {
-    setMap(null)
-  }, []);
+    setMap(null);
+    setActivePlace(null);
+  }, [setActivePlace]);
 
   return isLoaded ? (
     <GoogleMap
@@ -88,7 +89,7 @@ const MapView = () => {
               position={place.position}
               onClick={() => onMarkerClick(journey, place)}
             >
-              {activePlace?.id === place.id ? (
+              {activePlace?.id === place.id && activePlace?.id!==0 ? (
                 <InfoWindowF onCloseClick={() => {setActiveJourney(null); setActivePlace(null)}}>
                   <PlaceReadDialog
                     journey={journey}
