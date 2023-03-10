@@ -32,7 +32,7 @@ const EditJourney = () => {
 
   const [show, setShow] = useState(false);
 
-  const [ journey, setJourney ] = useState(blankJourney);
+  const [journey, setJourney] = useState(blankJourney);
 
   let navigate = useNavigate();
 
@@ -73,28 +73,37 @@ const EditJourney = () => {
   return (
     <Container className="h-75">
       <Row className="m-1">
-        <Col>
-          <input
-            className="ms-auto form-control"
-            id="title"
-            name="title"
-            type="text"
-            value={journey?.title}
-            onChange={handleChange}
-          />
+        <Col lg={8} md={6}>
+
+          <Row>
+            <Col xs="auto">
+              <label htmlFor="title">Journey Title: </label>
+            </Col>
+            
+            <Col>
+              <input
+                className="ms-auto form-control"
+                id="title"
+                name="title"
+                type="text"
+                value={journey?.title}
+                onChange={handleChange}
+              />
+            </Col>
+          </Row>
         </Col>
-        <Col className="my-2">
+
+        <Col lg={4} md={6}>
           <DateSelector
             labelText={"Start Date:"}
             date={journey?.startDate}
             setDate={onStartDateChange}
           />
         </Col>
-        <Col>
-          <Button variant="primary" className="float-end d-lg-none" onClick={handleShow}>
-            Show/Hide Places
-          </Button>
-        </Col>
+
+        <Button md={6} variant="primary" className="float-end d-lg-none" onClick={handleShow}>
+          Show/Hide Places
+        </Button>
       </Row>
 
       <Row className="h-100">

@@ -3,22 +3,27 @@ import { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceEditModal from '../place-edit-modal/place-edit-modal';
 
 const PlaceCreateDialog = ({ journey }) => {
+  
+  const { activePlace } = useContext(JourneysContext);
+
 	return(
 		<Container className="InfoWindow">
       <Row>
-        <h3>Add Place</h3>
+        <span>{activePlace.position.lat}, {activePlace.position.lng}</span>
       </Row>
       <Row>
-        <PlaceEditModal journey={journey}>
-          <Button className="success">Create New Place</Button>
-        </PlaceEditModal>
+        <PlaceEditModal
+          journey={journey}
+          modalHeader={"Create New Place"}
+          buttonText={"Create New Place"}
+          variant="success"
+        />
       </Row>
     </Container>
 	)

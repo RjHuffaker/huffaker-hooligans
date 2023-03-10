@@ -103,28 +103,28 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
       </Row>
       <Row>
-        <Col md={4} xs={6} className="my-2">
+        <Col md={4} xs={6}>
           <DateSelector
             labelText={"Created:"}
             date={post.dateCreated}
             setDate={onCreatedChange}
           />
         </Col>
-        <Col md={4} xs={6} className="my-2">
+        <Col md={4} xs={6}>
           <DateSelector
             labelText={"Published:"}
             date={post.datePublished}
             setDate={onPublishedChange}
           />
         </Col>
-        <Col md={2} xs={6} className="my-1">
+        <Col md={2} xs={6}>
           <Checkbox
             label="Published"
             value={post.published}
             onChange={onCheckPublished}
           />
         </Col>
-        <Col md={2} xs={6} className="my-1">
+        <Col md={2} xs={6}>
           <Checkbox
             label="Featured"
             value={post.featured}

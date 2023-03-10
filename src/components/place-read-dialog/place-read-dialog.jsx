@@ -25,11 +25,19 @@ const PlaceReadDialog = ({ journey }) => {
             <h3>{activePlace.title} {currentUser &&
               <PlaceEditModal
                 journey={journey}
-              >
-                <NavLink className="text-primary">&#9998;</NavLink>
-              </PlaceEditModal>
+                modalHeader={"Edit Place"}
+                buttonText="&#9998;"
+                variant="light"
+                className="text-primary py-1"
+                style={{"fontSize":"20pt"}}
+              />
             }</h3>
           </Col>
+        </Row>
+        <Row>
+          {activePlace.titleImage &&
+            <img className="x-100 y-100" src={activePlace.titleImage} alt="place" />
+          }
         </Row>
         <Row className="my-3">
           <p>{activePlace.description}</p>

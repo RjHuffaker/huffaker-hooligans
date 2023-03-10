@@ -10,9 +10,10 @@ import Modal from 'react-bootstrap/Modal';
 import { JourneysContext } from '../../contexts/journeys-context';
 
 import DateSelector from '../date-selector/date-selector';
+import ImageUploader from '../image-uploader/image-uploader';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
-const PlaceEditModal = ({ children, journey }) => {
+const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
   
   const {
     activePlace,
@@ -32,6 +33,10 @@ const PlaceEditModal = ({ children, journey }) => {
 
   const onArrivalDateChange = (date) => {
     setActivePlace({ ...activePlace, arrivalDate: date.getTime() });
+  }
+
+  const setTitleImage = (value) => {
+    setActivePlace({ ...activePlace, titleImage: value });
   }
 
   const onPlaceUpdate = (place) => {
@@ -55,41 +60,52 @@ const PlaceEditModal = ({ children, journey }) => {
 
   return (
     <>
-      <span onClick={handleShow}>{children}</span>
+      <Button {...otherProps} onClick={handleShow}>{buttonText}</Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Place</Modal.Title>
+          <Modal.Title>{modalHeader}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
             <Row>
-              <label htmlFor="place-title">Title</label>
-              <input
-                className="form-control"
-                name="title"
-                type="text"
-                value={activePlace?.title}
-                onChange={handleChange}
-              />
+              <Col>
+                <label htmlFor="place-title">Title</label>
+              </Col>
             </Row>
-            <Row>
-              <label htmlFor="place-description">Description</label>
-              <textarea
-                className="form-control"
-                name="description"
-                type="text"
-                value={activePlace?.description}
-                onChange={handleChange}
-              />
+            <Row className="my-2">
+              <Col>
+                <input
+                  className="form-control"
+                  name="title"
+                  type="text"
+                  value={activePlace?.title}
+                  onChange={handleChange}
+                />
+              </Col>
             </Row>
-            <Row>
-              <DateSelector
-                labelText={"Arrival Date:"}
-                date={activePlace?.arrivalDate}
-                setDate={onArrivalDateChange}
-              />
+            <Row className="my-2">
+              <Col>
+                <label htmlFor="place-description">Description</label>
+              </Col>
             </Row>
+            <Row className="my-2">
+              <Col>
+                <textarea
+                  className="form-control"
+                  name="description"
+                  type="text"
+                  value={activePlace?.description}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Row>
+            <DateSelector
+              labelText={"Arrival Date:"}
+              date={activePlace?.arrivalDate}
+              setDate={onArrivalDateChange}
+            />
+            <ImageUploader imageUrl={activePlace.titleImage} setImageUrl={setTitleImage} />
           </Container>
         </Modal.Body>
         <Modal.Footer>
