@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,9 +11,8 @@ import { JourneysContext } from '../../contexts/journeys-context';
 
 import DateSelector from '../date-selector/date-selector';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
-import { NavLink } from 'react-router-dom';
 
-const PlaceEditModal = ({ journey }) => {
+const PlaceEditModal = ({ children, journey }) => {
   
   const {
     activePlace,
@@ -35,9 +35,14 @@ const PlaceEditModal = ({ journey }) => {
   }
 
   const onPlaceUpdate = (place) => {
-    const index = journey.places.findIndex(obj => obj.id === place.id);
-    if (index !== -1) {
-      journey.places[index] = place;
+    if(place.id){
+      const index = journey.places.findIndex(obj => obj.id === place.id);
+      if (index !== -1) {
+        journey.places[index] = place;
+      }
+    } else {
+      place.id = place?.position.lat.toString() + place?.position.lng.toString();
+      journey.places.push(place);
     }
     updateJourney(journey);
     setActivePlace(null);
@@ -50,7 +55,7 @@ const PlaceEditModal = ({ journey }) => {
 
   return (
     <>
-      <NavLink className="text-primary" onClick={handleShow}>&#9998;</NavLink>
+      <span onClick={handleShow}>{children}</span>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

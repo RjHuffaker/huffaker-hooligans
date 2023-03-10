@@ -57,7 +57,7 @@ function ImageUploader({imageUrl, setImageUrl}) {
       {imageFile && <>
         <InputGroup>
           <Button className="w-100" onClick={uploadFile}> 
-            {percent ? <span>Upload Image</span> : <p>{percent}% done</p>}
+            {percent > 0 ? <p>{percent}% done</p> : <span>Upload Image</span>}
           </Button>
         </InputGroup>
       </>}

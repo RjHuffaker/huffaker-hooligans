@@ -9,6 +9,7 @@ import { UserContext } from '../../contexts/user-context';
 import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
+import { NavLink } from 'react-router-dom';
 
 const PlaceReadDialog = ({ journey }) => {
   
@@ -24,7 +25,9 @@ const PlaceReadDialog = ({ journey }) => {
             <h3>{activePlace.title} {currentUser &&
               <PlaceEditModal
                 journey={journey}
-              />
+              >
+                <NavLink className="text-primary">&#9998;</NavLink>
+              </PlaceEditModal>
             }</h3>
           </Col>
         </Row>
