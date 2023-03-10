@@ -17,9 +17,9 @@ const ViewJourneys = () => {
   
   const { journeys, setJourneys } = useContext(JourneysContext);
 
-  const { currentUser } = useContext(UserContext);
-
   const [show, setShow] = useState(false);
+  
+  const { currentUser } = useContext(UserContext);
 
   const handleClose = () => setShow(false);
 

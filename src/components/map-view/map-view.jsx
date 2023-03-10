@@ -15,9 +15,9 @@ const center = {
   lng: -112
 };
 
-const MapView = () => {
+const MapView = ({journeys}) => {
 
-  const { journeys, activePlace, setActivePlace, setActiveJourney } = useContext(JourneysContext);
+  const { activePlace, setActivePlace } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -30,7 +30,6 @@ const MapView = () => {
     if (activePlace?.id === place.id) {
       return;
     }
-    setActiveJourney(journey);
     setActivePlace(place);
   }
 
@@ -90,7 +89,7 @@ const MapView = () => {
               onClick={() => onMarkerClick(journey, place)}
             >
               {activePlace?.id === place.id && activePlace?.id!==0 ? (
-                <InfoWindowF onCloseClick={() => {setActiveJourney(null); setActivePlace(null)}}>
+                <InfoWindowF onCloseClick={() => {setActivePlace(null)}}>
                   <PlaceReadDialog
                     journey={journey}
                     place={place}

@@ -12,12 +12,6 @@ export const JourneysContext = createContext({
   Journeys: []
 });
 
-const blankJourney = {
-  title: "",
-  description: "",
-  places: []
-};
-
 const blankPlace = {
   title: "",
   description: ""
@@ -26,8 +20,6 @@ const blankPlace = {
 export const JourneysProvider = ({ children }) => {
 
   const [ journeys, setJourneys ] = useState([]);
-
-  const [ activeJourney, setActiveJourney ] = useState(blankJourney);
 
   const [ activePlace, setActivePlace ] = useState(blankPlace);
 
@@ -79,8 +71,6 @@ export const JourneysProvider = ({ children }) => {
   const value = {
     journeys,
     setJourneys,
-    activeJourney,
-    setActiveJourney,
     activePlace,
     setActivePlace,
     createJourney,

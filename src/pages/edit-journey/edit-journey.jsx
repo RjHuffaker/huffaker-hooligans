@@ -13,11 +13,15 @@ import DateSelector from "../../components/date-selector/date-selector";
 
 import { JourneysContext } from '../../contexts/journeys-context';
 
+const blankJourney = {
+  title: "",
+  description: "",
+  places: []
+};
+
 const EditJourney = () => {
 
   const {
-    activeJourney,
-    setActiveJourney,
     activePlace,
     setActivePlace,
     readJourney,
@@ -28,35 +32,37 @@ const EditJourney = () => {
 
   const [show, setShow] = useState(false);
 
+  const [ journey, setJourney ] = useState(blankJourney);
+
   let navigate = useNavigate();
 
   const handleClose = () => setShow(false);
 
   const handleShow = () => setShow(true);
 
-  const fetchJourney = async () => {
-    const response = await readJourney(journeyId);
-    setActiveJourney(response);
-  }
-
   useEffect(() => {
+    const fetchJourney = async () => {
+      const response = await readJourney(journeyId);
+      setJourney(response);
+    }
+
     fetchJourney();
-  }, [fetchJourney]);
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setActiveJourney({ ...activeJourney, [name]: value })
+    setJourney({ ...journey, [name]: value });
   }
 
   const onStartDateChange = (date) => {
-    setActiveJourney((activeJourney) => ({
-      ...activeJourney,
+    setJourney((journey) => ({
+      ...journey,
       startDate: date.getTime()
     }));
   }
 
   const onSubmit = () => {
-    updateJourney(activeJourney);
+    updateJourney(journey);
     navigate("/viewJourneys");
   }
 
@@ -73,14 +79,14 @@ const EditJourney = () => {
             id="title"
             name="title"
             type="text"
-            value={activeJourney?.title}
+            value={journey?.title}
             onChange={handleChange}
           />
         </Col>
         <Col className="my-2">
           <DateSelector
             labelText={"Start Date:"}
-            date={activeJourney?.startDate}
+            date={journey?.startDate}
             setDate={onStartDateChange}
           />
         </Col>
@@ -100,7 +106,7 @@ const EditJourney = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <ListGroup className="w-100">
-                {activeJourney?.places.map((place) =>
+                {journey?.places.map((place) =>
                   <ListGroup.Item
                     key={place.id}
                     variant="light"
@@ -123,7 +129,7 @@ const EditJourney = () => {
 
         <Col lg={9} md={12} className="h-100">
           <MapEdit
-            places={activeJourney?.places}
+            journey={journey}
           />
         </Col>
       </Row>

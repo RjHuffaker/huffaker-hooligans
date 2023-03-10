@@ -12,13 +12,11 @@ import DateSelector from '../date-selector/date-selector';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 import { NavLink } from 'react-router-dom';
 
-const PlaceEditModal = ({ journey, place }) => {
+const PlaceEditModal = ({ journey }) => {
   
   const {
     activePlace,
     setActivePlace,
-    activeJourney,
-    setActiveJourney,
     updateJourney
   } = useContext(JourneysContext);
   
@@ -37,19 +35,17 @@ const PlaceEditModal = ({ journey, place }) => {
   }
 
   const onPlaceUpdate = (place) => {
-    const index = activeJourney.places.findIndex(obj => obj.id === place.id);
+    const index = journey.places.findIndex(obj => obj.id === place.id);
     if (index !== -1) {
-      activeJourney.places[index] = place;
+      journey.places[index] = place;
     }
-    updateJourney(activeJourney);
+    updateJourney(journey);
     setActivePlace(null);
   }
 
   const onPlaceDelete = (place) => {
-    const newPlaces = activeJourney.places.filter((obj) => obj.id !== place.id);
-    const newJourney = { ...activeJourney, places: newPlaces };
-    setActiveJourney(newJourney);
-    updateJourney(newJourney);
+    journey.places = journey.places.filter((obj) => obj.id !== place.id);
+    updateJourney(journey);
   }
 
   return (

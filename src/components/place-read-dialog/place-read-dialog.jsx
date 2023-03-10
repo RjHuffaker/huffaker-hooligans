@@ -10,29 +10,30 @@ import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
 
-const PlaceReadDialog = ({ journey, place }) => {
+const PlaceReadDialog = ({ journey }) => {
   
   const { currentUser } = useContext(UserContext);
 
+  const { activePlace } = useContext(JourneysContext);
+
   return (
-    <div className="InfoWindow" key={place.id}>
+    <div className="InfoWindow" key={activePlace.id}>
       <Container>
         <Row>
           <Col>
-            <h3>{place.title} {currentUser &&
+            <h3>{activePlace.title} {currentUser &&
               <PlaceEditModal
                 journey={journey}
-                place={place}
               />
             }</h3>
           </Col>
         </Row>
         <Row className="my-3">
-          <p>{place.description}</p>
+          <p>{activePlace.description}</p>
         </Row>
         <Row>
           <Col>
-            {new Date(place.arrivalDate).toLocaleDateString()}
+            {new Date(activePlace.arrivalDate).toLocaleDateString()}
           </Col>
         </Row>
       </Container>

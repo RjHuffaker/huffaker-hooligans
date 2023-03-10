@@ -16,9 +16,9 @@ const center = {
   lng: -112
 };
 
-const MapEdit = () => {
+const MapEdit = ({journey}) => {
 
-  const { activePlace, setActivePlace, activeJourney, setActiveJourney } = useContext(JourneysContext);
+  const { activePlace, setActivePlace } = useContext(JourneysContext);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -38,7 +38,7 @@ const MapEdit = () => {
     if(isLoaded){
       const bounds = new window.google.maps.LatLngBounds();
       
-      activeJourney?.places.forEach((place)=>{
+      journey?.places.forEach((place)=>{
         bounds.extend(place.position);
       });
       map?.fitBounds(bounds);
@@ -46,11 +46,11 @@ const MapEdit = () => {
       setMap(map)
     }
 
-  }, [isLoaded, activeJourney?.id, map]);
+  }, [isLoaded, journey?.id, map]);
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    activeJourney?.places.forEach((place)=>{
+    journey?.places.forEach((place)=>{
       bounds.extend(place.position);
     });
     map.fitBounds(bounds);
@@ -66,7 +66,7 @@ const MapEdit = () => {
     });
     
     return map;
-  }, [activeJourney, setActivePlace]);
+  }, [journey, setActivePlace]);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null);
@@ -87,11 +87,11 @@ const MapEdit = () => {
           position={activePlace.position}
         >
           <PlaceCreateDialog
-            journey={activeJourney}
+            journey={journey}
           />
         </InfoWindowF>
       }
-      {activeJourney.places.map((place) => (
+      {journey?.places.map((place) => (
         <Marker
           key={place.id}
           position={place.position}
@@ -100,8 +100,7 @@ const MapEdit = () => {
           {activePlace?.id === place.id ? (
             <InfoWindowF onCloseClick={() => setActivePlace(null)} >
               <PlaceReadDialog
-                journey={activeJourney}
-                place={place}
+                journey={journey}
               />
             </InfoWindowF>
           ) : null}

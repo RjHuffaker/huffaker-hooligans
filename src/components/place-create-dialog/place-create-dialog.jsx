@@ -14,8 +14,6 @@ const PlaceCreateDialog = ({ journey }) => {
   const {
     activePlace,
     setActivePlace,
-    activeJourney,
-    setActiveJourney,
     updateJourney
   } = useContext(JourneysContext);
 
@@ -30,8 +28,8 @@ const PlaceCreateDialog = ({ journey }) => {
 
   const submitNewPlace = (place) => {
     place.id = place?.position.lat.toString() + place?.position.lng.toString();
-    activeJourney.places.push(place);
-    updateJourney(activeJourney);
+    journey.places.push(place);
+    updateJourney(journey);
     setActivePlace(null);
   }
 
