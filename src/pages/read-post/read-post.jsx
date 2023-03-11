@@ -13,6 +13,8 @@ import 'react-quill/dist/quill.snow.css';
 import { UserContext } from "../../contexts/user-context";
 import { PostsContext } from "../../contexts/posts-context";
 
+import "./read-post.css";
+
 const blankPost = {
   title: "",
   body: ""
@@ -46,7 +48,7 @@ const ReadPost = () => {
       <Row>
         <Col>
           <Card>
-            <Card.Img src={post.titleImage} alt="title image" />
+            <Card.Img className="read-post-img" src={post.titleImage} alt="title image" />
             <Card.Title><h2>{post.title}</h2></Card.Title>
             <Card.Body>
               <ReactQuill

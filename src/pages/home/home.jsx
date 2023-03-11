@@ -15,14 +15,13 @@ const Home = () => {
 
   return (
     <Container>
-      <Row>
+      <Row className="my-3">
         <Col>
           {featuredPosts.map(post =>
             <PostSummary key={post.id} post={post} />
           )}
         </Col>
       </Row>
-
     </Container>
   )
 }
