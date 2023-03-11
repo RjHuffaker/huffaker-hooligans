@@ -11,6 +11,8 @@ import { JourneysContext } from '../../contexts/journeys-context';
 import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
 import { NavLink } from 'react-router-dom';
 
+import "./place-read-dialog.css";
+
 const PlaceReadDialog = ({ journey }) => {
   
   const { currentUser } = useContext(UserContext);
@@ -21,25 +23,28 @@ const PlaceReadDialog = ({ journey }) => {
     <div className="InfoWindow" key={activePlace.id}>
       <Container>
         <Row>
-          <Col>
-            <h3>{activePlace.title} {currentUser &&
+          <Col>-
+            <h4>{activePlace.title} {currentUser &&
               <PlaceEditModal
                 journey={journey}
                 modalHeader={"Edit Place"}
                 buttonText="&#9998;"
                 variant="light"
-                className="text-primary py-1"
-                style={{"fontSize":"20pt"}}
+                className="text-primary py-0"
+                style={{"fontSize":"16pt"}}
               />
-            }</h3>
+            }</h4>
           </Col>
         </Row>
         <Row>
           {activePlace.titleImage &&
-            <img className="x-100 y-100" src={activePlace.titleImage} alt="place" />
+            <img
+              className="read-post-dialog-img x-100 y-100"
+              src={activePlace.titleImage} alt="place"
+            />
           }
         </Row>
-        <Row className="my-3">
+        <Row className="my-2">
           <p>{activePlace.description}</p>
         </Row>
         <Row>

@@ -8,7 +8,7 @@ import PlaceReadDialog from '../place-read-dialog/place-read-dialog';
 
 const containerStyle = {
   width: '100%',
-  height: '90%'
+  height: '100%'
 };
 
 const center = {
