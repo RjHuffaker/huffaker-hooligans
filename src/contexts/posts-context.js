@@ -13,7 +13,8 @@ import {
 import { UserContext } from "./user-context";
 
 export const PostsContext = createContext({
-  allPosts: []
+  allPosts: [],
+  featuredPosts: []
 });
 
 export const PostsProvider = ({children}) => {

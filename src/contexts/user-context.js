@@ -6,14 +6,13 @@ import {
 } from '../config/firebase';
 
 export const UserContext = createContext({
-  setCurrentUser: () => null,
   currentUser: null,
+  setCurrentUser: () => null,
 });
 
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const value = { currentUser, setCurrentUser };
-
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
@@ -24,6 +23,8 @@ export const UserProvider = ({ children }) => {
 
     return unsubscribe;
   }, []);
+
+  const value = { currentUser, setCurrentUser };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

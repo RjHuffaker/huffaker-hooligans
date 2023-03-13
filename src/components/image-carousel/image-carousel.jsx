@@ -4,7 +4,7 @@ const ImageCarousel = ({slideList}) => {
   return (
     <Carousel>
       {slideList.map((slide) => (
-        <Carousel.Item>
+        <Carousel.Item key={slide.label}>
           <img
             className="d-block w-100"
             src={slide.image}
