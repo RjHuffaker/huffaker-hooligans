@@ -1,4 +1,3 @@
-import "./image-uploader.css";
 import { useState } from "react";
 import {
   ref,
@@ -9,6 +8,8 @@ import { storage } from "../../config/firebase";
 
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
+
+import "./image-uploader.css";
 
 function ImageUploader({imageUrl, setImageUrl}) {
   const [ imageFile, setImageFile ] = useState(null);

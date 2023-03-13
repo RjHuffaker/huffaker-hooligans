@@ -32,6 +32,7 @@ const Navigator = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto caveatBrush">
               <Nav.Link as={Link} to={"/blog"}><h2>Blog</h2></Nav.Link>
+              <Nav.Link as={Link} to={"/gallery"}><h2>Gallery</h2></Nav.Link>
               <Nav.Link as={Link} to={"/viewJourneys"}><h2>Journeys</h2></Nav.Link>
               {currentUser ? (
                 <>

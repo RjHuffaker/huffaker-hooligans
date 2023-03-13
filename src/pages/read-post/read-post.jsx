@@ -40,7 +40,7 @@ const ReadPost = () => {
   }, [getPost, postId]);
 
   const editHandler = (postId) => {
-    navigate(`/edit/` + postId);
+    navigate(`/editPost/` + postId);
   }
 
   return (

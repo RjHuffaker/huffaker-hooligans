@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,6 +10,7 @@ import { JourneysContext } from '../../contexts/journeys-context';
 
 import DateSelector from '../date-selector/date-selector';
 import ImageUploader from '../image-uploader/image-uploader';
+import ImageUploadModal from '../image-upload-modal/image-upload-modal';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
 const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
@@ -106,6 +106,8 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               setDate={onArrivalDateChange}
             />
             <ImageUploader imageUrl={activePlace.titleImage} setImageUrl={setTitleImage} />
+            <ImageUploadModal imageUrl={activePlace.titleImage} setImageUrl={setTitleImage} />
+            
           </Container>
         </Modal.Body>
         <Modal.Footer>

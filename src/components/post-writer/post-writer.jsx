@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
-import ImageUploader from "../image-uploader/image-uploader";
+import ImageUploadModal from '../image-upload-modal/image-upload-modal';
 import TagSelector from "../tag-selector/tag-selector"
 import DateSelector from "../date-selector/date-selector";
 import Checkbox from "../checkbox/checkbox"
@@ -88,7 +88,7 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
         <Col xl={3} className="my-2">
           <Card className="h-100">
-            <ImageUploader imageUrl={post.titleImage} setImageUrl={setTitleImage} />
+            <ImageUploadModal imageUrl={post.titleImage} setImageUrl={setTitleImage} />
           </Card>
         </Col>
       </Row>

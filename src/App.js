@@ -6,6 +6,7 @@ import { UserContext } from './contexts/user-context';
 import Navigator from './components/navigator/navigator';
 import Home from './pages/home/home';
 import Blog from './pages/blog/blog';
+import Gallery from './pages/gallery/gallery';
 import Login from './pages/login/login';
 import CreatePost from './pages/create-post/create-post';
 import EditPost from './pages/edit-post/edit-post';
@@ -28,6 +29,7 @@ function App() {
         <Route path='/' element={<Navigator />}>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/createpost" element={currentUser ? <CreatePost /> : <Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/editPost/:postId" element={currentUser ? <EditPost /> : <Login />} />
