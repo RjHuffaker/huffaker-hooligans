@@ -37,12 +37,11 @@ export const ImagesProvider = ({ children }) => {
     listAll(imagesListRef).then((response) => {
       response.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
-          
           setImageUrls((prev) => [...prev, url]);
         });
       });
     });
-  }, [imagesListRef]);
+  }, []);
 
   const value = { imageUrls, setImageUrls, uploadImage };
 
