@@ -1,15 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
-  ref,
-  uploadBytesResumable,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-  listAll,
-  list
-} from "firebase/storage";
-import { storage } from "../config/firebase";
+  getFile,
+  uploadFile,
+  deleteFile,
+  getAllFiles
+} from '../config/firebase-storage';
 
 export const ImagesContext = createContext({
   imageUrls: [],
@@ -17,33 +13,34 @@ export const ImagesContext = createContext({
 });
 
 export const ImagesProvider = ({ children }) => {
-  const [ imageUpload, setImageUpload ] = useState(null);
 
   const [ imageUrls, setImageUrls ] = useState([]);
 
-  const imagesListRef = ref(storage, "images/");
+  const getImage = async () => {
+    getFile()
+  }
 
-  const uploadImage = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrls((prev) => [...prev, url]);
-      });
-    });
+  const uploadImage = (imageFile) => {
+    uploadFile(imageFile).then((res)=>{
+      console.log(res);
+    })
   };
 
-  useEffect(() => {
-    listAll(imagesListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageUrls((prev) => [...prev, url]);
-        });
-      });
+  const deleteImage = () => {
+    deleteFile()
+  }
+
+  const getAllImages = async () => {
+    getAllFiles().then((res) => {
+      console.log(res);
     });
+  }
+  
+  useEffect(() => {
+    getAllImages();
   }, []);
 
-  const value = { imageUrls, setImageUrls, uploadImage };
+  const value = { imageUrls, setImageUrls, getImage, uploadImage, deleteImage, getAllImages };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };
