@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
-  getFile,
+  getFileUrl,
   uploadFile,
   deleteFile,
-  getAllFiles
+  getAllFileUrls
 } from '../config/firebase-storage';
 
 export const ImagesContext = createContext({
@@ -16,8 +16,8 @@ export const ImagesProvider = ({ children }) => {
 
   const [ imageUrls, setImageUrls ] = useState([]);
 
-  const getImage = async () => {
-    getFile()
+  const getImageUrl = async (filePath) => {
+    getFileUrl('images', filePath);
   }
 
   const uploadImage = (imageFile) => {
@@ -30,17 +30,15 @@ export const ImagesProvider = ({ children }) => {
     deleteFile()
   }
 
-  const getAllImages = async () => {
-    getAllFiles().then((res) => {
-      console.log(res);
-    });
+  const getAllImageUrls = async () => {
+    getAllFileUrls('images', setImageUrls)
   }
   
   useEffect(() => {
-    getAllImages();
+    getAllImageUrls();
   }, []);
 
-  const value = { imageUrls, setImageUrls, getImage, uploadImage, deleteImage, getAllImages };
+  const value = { imageUrls, setImageUrls, getImageUrl, uploadImage, deleteImage, getAllImageUrls };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };

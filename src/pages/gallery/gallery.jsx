@@ -8,9 +8,9 @@ const Gallery = () => {
 
 	return (
 		<>
-			{imageUrls.map((url) => (
-				<img key={url} src={url} alt={url} />
-      ))}
+			{imageUrls.map((url, index) => (
+				<img key={index} src={url} alt={url} />
+			))}
 		</>
 	);
 }
