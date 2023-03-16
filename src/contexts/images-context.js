@@ -16,8 +16,11 @@ export const ImagesProvider = ({ children }) => {
 
   const [ imageUrls, setImageUrls ] = useState([]);
 
+  let isMounted = true;
+
   const getImageUrl = async (filePath) => {
-    getFileUrl('images', filePath);
+    let imageUrl = await getFileUrl('images', filePath);
+    return imageUrl;
   }
 
   const uploadImage = (imageFile) => {
@@ -31,11 +34,12 @@ export const ImagesProvider = ({ children }) => {
   }
 
   const getAllImageUrls = async () => {
-    getAllFileUrls('images', setImageUrls)
+    getAllFileUrls('images', setImageUrls, true)
   }
-  
+
   useEffect(() => {
-    getAllImageUrls();
+      getAllFileUrls('images', setImageUrls, isMounted);
+      isMounted = false;
   }, []);
 
   const value = { imageUrls, setImageUrls, getImageUrl, uploadImage, deleteImage, getAllImageUrls };

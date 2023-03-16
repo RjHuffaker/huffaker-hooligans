@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   ref,
   uploadBytesResumable,
@@ -12,18 +13,19 @@ import Modal from 'react-bootstrap/Modal';
 
 import { storage } from "../../config/firebase-storage";
 
-const ImageUploadModal = ({imageUrl, setImageUrl}) => {
-    
+import { resizeImageFile } from "../../config/image-resizer";
+
+const UploadModal = ({onFileChosen}) => {
   const [ show, setShow ] = useState(false);
-  const [ imageFile, setImageFile ] = useState(null);
   const [ percent, setPercent ] = useState();
+  const [ imageUrl, setImageUrl ] = useState();
   const [ downloadUrl, setDownloadUrl ] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const onAccept = () => {
-    setImageUrl(downloadUrl);
+    onFileChosen(downloadUrl);
     handleClose();
   }
 
@@ -31,43 +33,36 @@ const ImageUploadModal = ({imageUrl, setImageUrl}) => {
     handleClose();
   }
 
-  const onDelete = () => {
-    setImageUrl(null);
-    const imageRef = ref(storage, imageUrl);
-
-    console.log(imageRef);
-
-    deleteObject(imageRef).then(() => {
-      handleClose();
-    }).catch((error) => {
-      console.log(error);
-    });
-
-  }
-
-  const uploadFile = (imageFile) => {
+  const uploadFile = async (imageFile) => {
     if (imageFile == null) return;
-    const imageRef = ref(storage, `images/${imageFile.name}`);
-    const uploadTask = uploadBytesResumable(imageRef, imageFile);
+    await resizeImageFile(imageFile, 400, 400)
+      .then((uri) =>{
+        console.log(uri);
+        const imageRef = ref(storage, `images/${imageFile.name}`);
+        const uploadTask = uploadBytesResumable(imageRef, uri);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const percent = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
+            );
+          
+            // update progress
+            setPercent(percent);
+          },
+          (err) => console.log(err),
+          () => {
+            // download url
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              setDownloadUrl(url);
+            });
+          }
         );
-      
-        // update progress
-        setPercent(percent);
-      },
-      (err) => console.log(err),
-      () => {
-        // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setDownloadUrl(url);
-        });
-      }
-    );
+
+      });
+
+    
   };
 
   return (
@@ -75,14 +70,12 @@ const ImageUploadModal = ({imageUrl, setImageUrl}) => {
       <Button variant="primary" onClick={handleShow}>
         Upload Image
       </Button>
-      {imageUrl && <img className="w-100" src={imageUrl} alt={imageUrl}/>}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Upload Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
           <InputGroup>
             <input
               type="file"
@@ -101,23 +94,16 @@ const ImageUploadModal = ({imageUrl, setImageUrl}) => {
 
         </Modal.Body>
         <Modal.Footer>
-          {percent===100 &&
-            <Button variant="primary" onClick={onAccept}>
-              Accept
-            </Button>
-          }
+          <Button variant="primary" onClick={onAccept}>
+            Accept
+          </Button>
           <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
-          {imageFile &&
-            <Button variant="danger" onClick={onDelete}>
-              Delete
-            </Button>
-          }
         </Modal.Footer>
       </Modal>
     </>
   );
 }
 
-export default ImageUploadModal;
+export default UploadModal;

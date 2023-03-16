@@ -13,8 +13,10 @@ import { app } from "./firebase";
 
 export const storage = getStorage(app);
 
-export const getFileUrl = async (filePath) => {
-  const fileRef = ref(storage, filePath);
+export const getFileUrl = async (folder, filePath) => {
+  const storageRef = ref(storage, folder);
+  const fileRef = ref(storageRef, filePath);
+  console.log(fileRef);
   return getDownloadURL(fileRef);
 }
 
@@ -45,12 +47,12 @@ export const deleteFile = async (filePath) => {
   }
 }
 
-export const getAllFileUrls = async (folder, setFileUrls) => {
+export const getAllFileUrls = async (folder, setFileUrls, isMounted) => {
   const storageRef = ref(storage, folder);
   listAll(storageRef).then((response) => {
     response.items.forEach((item) => {
       getDownloadURL(item).then((url) => {
-        setFileUrls((prev) => [...prev, url]);
+        if(isMounted) setFileUrls((prev) => [...prev, url]);
       });
     });
   });
