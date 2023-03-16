@@ -4,10 +4,11 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from "firebase/storage";
-import { storage } from "../../config/firebase";
 
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
+
+import { storage } from "../../config/firebase-storage";
 
 import "./image-uploader.css";
 

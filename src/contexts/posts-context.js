@@ -8,7 +8,7 @@ import {
   updateDocument,
   deleteDocument,
   readDocument
-} from '../config/firebase';
+} from '../config/firebase-firestore';
 
 import { UserContext } from "./user-context";
 

@@ -1,16 +1,16 @@
 import { useState } from "react";
-
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   deleteObject
 } from "firebase/storage";
-import { storage } from "../../config/firebase";
 
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from 'react-bootstrap/Modal';
+
+import { storage } from "../../config/firebase-storage";
 
 const ImageUploadModal = ({imageUrl, setImageUrl}) => {
     

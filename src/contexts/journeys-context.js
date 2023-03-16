@@ -6,7 +6,7 @@ import {
   readDocument,
   updateDocument,
   deleteDocument
-} from '../config/firebase';
+} from '../config/firebase-firestore';
 
 export const JourneysContext = createContext({
   Journeys: []

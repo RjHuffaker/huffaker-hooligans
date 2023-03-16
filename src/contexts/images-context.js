@@ -26,8 +26,8 @@ export const ImagesProvider = ({ children }) => {
     })
   };
 
-  const deleteImage = () => {
-    deleteFile()
+  const deleteImage = (filePath) => {
+    deleteFile(filePath);
   }
 
   const getAllImageUrls = async () => {

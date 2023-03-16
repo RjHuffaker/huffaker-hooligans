@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 
 import { UserContext } from '../../contexts/user-context';
 
-import { signOutUser } from '../../config/firebase';
+import { signOutUser } from '../../config/firebase-auth';
 
 const Navigator = () => {
 

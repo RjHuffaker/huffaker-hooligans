@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { signInWithGooglePopup } from '../../config/firebase';
+import { signInWithGooglePopup } from '../../config/firebase-auth';
 
 import './login.css';
 
