@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import { ImagesContext } from "../../contexts/images-context";
 
 const UploadModal = ({onFileChosen}) => {
-  const { uploadImage } = useContext(ImagesContext);
+  const { stageImage, uploadImage } = useContext(ImagesContext);
   
   const [ show, setShow ] = useState(false);
   const [ percent, setPercent ] = useState();
@@ -18,7 +18,8 @@ const UploadModal = ({onFileChosen}) => {
   const handleShow = () => setShow(true);
 
   const onAccept = () => {
-    onFileChosen(downloadUrl);
+    uploadImage();
+  //  onFileChosen(downloadUrl);
     handleClose();
   }
 
@@ -27,10 +28,13 @@ const UploadModal = ({onFileChosen}) => {
   }
 
   const onFileChange = (imageFile) => {
+    stageImage(imageFile, setPercent);
+    /*
     uploadImage(imageFile, 200, 200, setPercent, setDownloadUrl);
     uploadImage(imageFile, 400, 400, setPercent, ()=>{});
     uploadImage(imageFile, 600, 600, setPercent, ()=>{});
     uploadImage(imageFile, 800, 800, setPercent, ()=>{});
+    */
   }
 
   return (

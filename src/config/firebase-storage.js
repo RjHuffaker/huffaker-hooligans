@@ -11,6 +11,8 @@ import {
 
 import { app } from "./firebase";
 
+import { resizeImageFile } from '../config/image-resizer';
+
 export const storage = getStorage(app);
 
 export const getFileUrl = async (folder, filePath) => {
@@ -20,10 +22,11 @@ export const getFileUrl = async (folder, filePath) => {
   return getDownloadURL(fileRef);
 }
 
-export const uploadFile = async (folder, filePath, setProgress) => {
-  const storageRef = ref(storage, folder);
+export const uploadFile = async (filePath, file, setProgress, setDownloadUrl) => {
+  
   const fileRef = ref(storage, filePath);
-  const uploadTask = uploadBytesResumable(storageRef, fileRef);
+
+  const uploadTask = uploadBytesResumable(fileRef, file);
 
   uploadTask.on('state_changed', (snapshot) => {
     const progress =
@@ -34,9 +37,46 @@ export const uploadFile = async (folder, filePath, setProgress) => {
     alert(error);
   },
   () => {
-    return getDownloadURL(uploadTask.snapshot.ref);
+    getDownloadURL(uploadTask.snapshot.ref)
+      .then((url) => {
+        setDownloadUrl(url);
+      });
   })
 }
+
+
+export const uploadImageFile = async (imageFile, maxWidth, maxHeight, setProgress, setDownloadUrl) => {
+  if (imageFile == null) return;
+  await resizeImageFile(imageFile, maxWidth, maxHeight)
+    .then((uri) =>{
+      let[filename, extension] = imageFile.name.toUpperCase().split('.JPG');
+      
+      let newFileName = filename+'_'+maxWidth+'x'+maxHeight+extension+'.JPG';
+
+      const imageRef = ref(storage, `images/${newFileName}`);
+      const uploadTask = uploadBytesResumable(imageRef, uri);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
+          );
+        
+          // update progress
+          setProgress(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setDownloadUrl(url);
+          });
+        }
+      );
+    });
+};
+
 
 export const deleteFile = async (filePath) => {
   const fileRef = ref(storage, filePath);

@@ -1,18 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject
-} from "firebase/storage";
+  createDocument
+} from '../config/firebase-firestore';
 
 import {
   storage,
   getFileUrl,
   uploadFile,
   deleteFile,
-  getAllFileUrls
+  getAllFileUrls,
+  uploadImageFile
 } from '../config/firebase-storage';
 
 import { resizeImageFile } from '../config/image-resizer';
@@ -22,47 +20,84 @@ export const ImagesContext = createContext({
   setImageUrls: () => null
 });
 
+const defaultImageData = {
+  name: "",
+  url_xs: "",
+  url_sm: "",
+  url_md: "",
+  url_lg: "",
+  url_xl: "",
+}
+
+const defaultBlobs = {
+  xsImg: null,
+  smImg: null,
+  mdImg: null,
+  lgImg: null,
+  xlImg: null
+}
+
+const imageSizes = [
+  { size: 'xs_img', maxWidth: 200, maxHeight: 200 },
+  { size: 'sm_img', maxWidth: 400, maxHeight: 400 },
+  { size: 'md_img', maxWidth: 600, maxHeight: 600 },
+//  { size: 'lg_img', maxWidth: 800, maxHeight: 800 },
+//  { size: 'xl_img', maxWidth: 1000, maxHeight: 1000 }
+];
+
+
 export const ImagesProvider = ({ children }) => {
 
   const [ imageUrls, setImageUrls ] = useState([]);
 
+  const [ imageBlobs, setImageBlobs ] = useState([]);
+
+  const [ blobs, setBlobs ] = useState([]);
+
+  const [ imageData, setImageData ] = useState();
+
   let isMounted = true;
 
-  const uploadImage = async (imageFile, maxHeight, maxWidth, setProgress, setDownloadUrl) => {
-    if (imageFile == null) return;
-    await resizeImageFile(imageFile, maxWidth, maxHeight)
-      .then((uri) =>{
-        let[filename, extension] = imageFile.name.toUpperCase().split('.JPG');
-        console.log(extension);
-        let newFileName = filename+'_'+maxWidth+'x'+maxHeight+extension+'.JPG';
+  const stageImage = async (imageFile, setPercent) => {
 
-        const imageRef = ref(storage, `images/${newFileName}`);
-        const uploadTask = uploadBytesResumable(imageRef, uri);
+    await Promise.all(imageSizes.map(item => {
+      resizeImageFile(imageFile, item.maxWidth, item.maxHeight)
+        .then((uri) => {
+          let [ filename, extension ] = imageFile.name.toUpperCase().split('.JPG');
+          let newFileName = filename+'_'+item.maxWidth+'x'+item.maxHeight+extension+'.JPG';
 
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const percent = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
-            );
-          
-            // update progress
-            setProgress(percent);
-          },
-          (err) => console.log(err),
-          () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              setDownloadUrl(url);
-            });
+          const imageBlob = {
+            ...item,
+            uri: uri,
+            name: newFileName
+          };
+          setImageBlobs((prev)=>[...prev, imageBlob]);
+          console.log(imageBlob);
+        });
+    }));
+
+  }
+
+  const uploadImage = async () => {
+    Promise.all(
+      imageBlobs.map(imageBlob => {
+        uploadFile(
+          'images/'+imageBlob.name,
+          imageBlob.uri,
+          ()=>{},
+          (url)=>{
+            
+            setImageData({...imageData, [imageBlob.size]: url});
+            console.log(imageData);
           }
-        );
-      });
-  };
-
-
-
-
+        )
+      })
+    )
+    .then((url)=>{
+      console.log(url);
+    //  createDocument('images', imageData);
+    });
+  }
 
 
   const deleteImage = (filePath) => {
@@ -78,7 +113,7 @@ export const ImagesProvider = ({ children }) => {
     isMounted = false;
   }, []);
 
-  const value = { imageUrls, setImageUrls, uploadImage, deleteImage, getAllImageUrls };
+  const value = { imageUrls, setImageUrls, stageImage, uploadImage, deleteImage, getAllImageUrls };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };
