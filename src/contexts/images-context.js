@@ -1,11 +1,21 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject
+} from "firebase/storage";
+
+import {
+  storage,
   getFileUrl,
   uploadFile,
   deleteFile,
   getAllFileUrls
 } from '../config/firebase-storage';
+
+import { resizeImageFile } from '../config/image-resizer';
 
 export const ImagesContext = createContext({
   imageUrls: [],
@@ -18,16 +28,42 @@ export const ImagesProvider = ({ children }) => {
 
   let isMounted = true;
 
-  const getImageUrl = async (filePath) => {
-    let imageUrl = await getFileUrl('images', filePath);
-    return imageUrl;
-  }
+  const uploadImage = async (imageFile, maxHeight, maxWidth, setProgress, setDownloadUrl) => {
+    if (imageFile == null) return;
+    await resizeImageFile(imageFile, maxWidth, maxHeight)
+      .then((uri) =>{
+        let[filename, extension] = imageFile.name.toUpperCase().split('.JPG');
+        console.log(extension);
+        let newFileName = filename+'_'+maxWidth+'x'+maxHeight+extension+'.JPG';
 
-  const uploadImage = (imageFile) => {
-    uploadFile(imageFile).then((res)=>{
-      console.log(res);
-    })
+        const imageRef = ref(storage, `images/${newFileName}`);
+        const uploadTask = uploadBytesResumable(imageRef, uri);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const percent = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
+            );
+          
+            // update progress
+            setProgress(percent);
+          },
+          (err) => console.log(err),
+          () => {
+            // download url
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              setDownloadUrl(url);
+            });
+          }
+        );
+      });
   };
+
+
+
+
+
 
   const deleteImage = (filePath) => {
     deleteFile(filePath);
@@ -38,11 +74,11 @@ export const ImagesProvider = ({ children }) => {
   }
 
   useEffect(() => {
-      getAllFileUrls('images', setImageUrls, isMounted);
-      isMounted = false;
+    getAllFileUrls('images', setImageUrls, isMounted);
+    isMounted = false;
   }, []);
 
-  const value = { imageUrls, setImageUrls, getImageUrl, uploadImage, deleteImage, getAllImageUrls };
+  const value = { imageUrls, setImageUrls, uploadImage, deleteImage, getAllImageUrls };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };

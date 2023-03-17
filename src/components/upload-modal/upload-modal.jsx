@@ -1,21 +1,14 @@
-import { useState } from "react";
-
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject
-} from "firebase/storage";
+import { useContext, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from 'react-bootstrap/Modal';
 
-import { storage } from "../../config/firebase-storage";
-
-import { resizeImageFile } from "../../config/image-resizer";
+import { ImagesContext } from "../../contexts/images-context";
 
 const UploadModal = ({onFileChosen}) => {
+  const { uploadImage } = useContext(ImagesContext);
+  
   const [ show, setShow ] = useState(false);
   const [ percent, setPercent ] = useState();
   const [ imageUrl, setImageUrl ] = useState();
@@ -33,37 +26,12 @@ const UploadModal = ({onFileChosen}) => {
     handleClose();
   }
 
-  const uploadFile = async (imageFile) => {
-    if (imageFile == null) return;
-    await resizeImageFile(imageFile, 400, 400)
-      .then((uri) =>{
-        console.log(uri);
-        const imageRef = ref(storage, `images/${imageFile.name}`);
-        const uploadTask = uploadBytesResumable(imageRef, uri);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const percent = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
-            );
-          
-            // update progress
-            setPercent(percent);
-          },
-          (err) => console.log(err),
-          () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              setDownloadUrl(url);
-            });
-          }
-        );
-
-      });
-
-    
-  };
+  const onFileChange = (imageFile) => {
+    uploadImage(imageFile, 200, 200, setPercent, setDownloadUrl);
+    uploadImage(imageFile, 400, 400, setPercent, ()=>{});
+    uploadImage(imageFile, 600, 600, setPercent, ()=>{});
+    uploadImage(imageFile, 800, 800, setPercent, ()=>{});
+  }
 
   return (
     <>
@@ -81,7 +49,7 @@ const UploadModal = ({onFileChosen}) => {
               type="file"
               className="form-control"
               onChange={(event) => {
-                uploadFile(event.target.files[0]);
+                onFileChange(event.target.files[0]);
               }}
             />
           </InputGroup>

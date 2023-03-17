@@ -16,8 +16,6 @@ const Gallery = () => {
 	const [ newImage, setNewImage ] = useState(null);
 
 	const addImage = (url) => {
-		console.log(url);
-		console.log(imageUrls);
 		setImageUrls((prev) => [...prev, url]);
 	}
 
