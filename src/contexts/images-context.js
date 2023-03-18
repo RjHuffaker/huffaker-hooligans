@@ -41,8 +41,8 @@ const imageSizes = [
   { size: 'xs_img', maxWidth: 200, maxHeight: 200 },
   { size: 'sm_img', maxWidth: 400, maxHeight: 400 },
   { size: 'md_img', maxWidth: 600, maxHeight: 600 },
-//  { size: 'lg_img', maxWidth: 800, maxHeight: 800 },
-//  { size: 'xl_img', maxWidth: 1000, maxHeight: 1000 }
+  { size: 'lg_img', maxWidth: 800, maxHeight: 800 },
+  { size: 'xl_img', maxWidth: 1000, maxHeight: 1000 }
 ];
 
 
@@ -54,12 +54,14 @@ export const ImagesProvider = ({ children }) => {
 
   const [ blobs, setBlobs ] = useState([]);
 
-  const [ imageData, setImageData ] = useState();
+  const [ fileName, setFileName ] = useState("");
+
+//  const [ imageData, setImageData ] = useState({});
 
   let isMounted = true;
 
   const stageImage = async (imageFile, setPercent) => {
-
+    setFileName(imageFile.name);
     await Promise.all(imageSizes.map(item => {
       resizeImageFile(imageFile, item.maxWidth, item.maxHeight)
         .then((uri) => {
@@ -71,6 +73,7 @@ export const ImagesProvider = ({ children }) => {
             uri: uri,
             name: newFileName
           };
+          
           setImageBlobs((prev)=>[...prev, imageBlob]);
           console.log(imageBlob);
         });
@@ -79,6 +82,8 @@ export const ImagesProvider = ({ children }) => {
   }
 
   const uploadImage = async () => {
+    let urls = [];
+    let imageData = { name: fileName };
     Promise.all(
       imageBlobs.map(imageBlob => {
         uploadFile(
@@ -86,16 +91,18 @@ export const ImagesProvider = ({ children }) => {
           imageBlob.uri,
           ()=>{},
           (url)=>{
-            
-            setImageData({...imageData, [imageBlob.size]: url});
-            console.log(imageData);
+            imageData[imageBlob.size] = url;
+
+            urls.push(url);
+            if(urls.length === imageBlobs.length){
+              createDocument('images', imageData)
+            }
+            return url;
           }
         )
       })
-    )
-    .then((url)=>{
-      console.log(url);
-    //  createDocument('images', imageData);
+    ).then((values) => {
+      console.log(values);
     });
   }
 
