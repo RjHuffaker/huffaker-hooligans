@@ -18,7 +18,7 @@ const Gallery = () => {
 		<Container>
 			<Row>
 				{allImages?.map((image)=>(
-					<Col xs={3} key={image.id}>
+					<Col xs={3} key={image.id ? image.id : image.name}>
 						<ImageCard image={image} />
 					</Col>
 				))}

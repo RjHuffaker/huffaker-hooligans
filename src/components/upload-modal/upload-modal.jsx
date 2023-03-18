@@ -59,9 +59,11 @@ const UploadModal = ({onFileChosen}) => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={onAccept}>
-            Accept
-          </Button>
+          {percent===100 && 
+            <Button variant="primary" onClick={onAccept}>
+              Accept
+            </Button>
+          }
           <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>

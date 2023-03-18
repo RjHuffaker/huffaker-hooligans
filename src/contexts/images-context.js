@@ -1,8 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
+  getAllDocuments,
   createDocument,
-  getAllDocuments
+  deleteDocument
 } from '../config/firebase-firestore';
 
 import {
@@ -61,10 +62,8 @@ export const ImagesProvider = ({ children }) => {
 
   const getAllImages = async () => {
     const images = await getAllDocuments('images');
-    console.log(images);
     setAllImages(images);
   }
-
 
   const stageImage = async (imageFile, setPercent) => {
     setFileName(imageFile.name);
@@ -103,8 +102,8 @@ export const ImagesProvider = ({ children }) => {
 
             urls.push(url);
             if(urls.length === imageBlobs.length){
-              const newImage = createDocument('images', imageData);
-              setAllImages([...allImages, newImage]);
+              createDocument('images', imageData);
+              getAllImages();
             }
             return url;
           }
@@ -113,9 +112,15 @@ export const ImagesProvider = ({ children }) => {
     );
   }
 
-
-  const deleteImage = (filePath) => {
-    deleteFile(filePath);
+  const deleteImage = async (image) => {
+  //  Promise.all(
+      ['xs_img','sm_img','md_img','lg_img','xl_img']
+        .forEach(size => {
+          deleteFile(image[size]);
+        })
+  //  )
+    await deleteDocument('images', image);
+    await getAllImages();
   }
 
   const getAllImageUrls = async () => {
