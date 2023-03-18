@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -7,29 +7,23 @@ import Col from 'react-bootstrap/Col';
 
 import { ImagesContext } from '../../contexts/images-context';
 
-import UploadModal from '../../components/upload-modal/upload-modal'
+import UploadModal from '../../components/upload-modal/upload-modal';
+import ImageCard from '../../components/image-card/image-card';
 
 const Gallery = () => {
 
-	const { imageUrls, setImageUrls, getAllImageUrls } = useContext(ImagesContext);
-
-	const [ newImage, setNewImage ] = useState(null);
-
-	const addImage = (url) => {
-		setImageUrls((prev) => [...prev, url]);
-	}
+	const { allImages } = useContext(ImagesContext);
 
 	return (
 		<Container>
 			<Row>
-				{imageUrls
-					.map((url, index) => (
-						<Col xs={3} key={index}>
-							<img src={url} alt={url} />
-						</Col>
-					))}
+				{allImages?.map((image)=>(
+					<Col xs={3} key={image.id}>
+						<ImageCard image={image} />
+					</Col>
+				))}
 				<Col xs={3}>
-					<UploadModal onFileChosen={addImage} />
+					<UploadModal />
 				</Col>
 			</Row>
 		</Container>

@@ -30,10 +30,10 @@ export const PostsProvider = ({children}) => {
   }, [currentUser]);
 
   const getAllPosts = async () => {
-    const allPosts = currentUser
+    const posts = currentUser
        ? await getAllDocuments('posts')
        : await getPublishedDocuments('posts');
-    setAllPosts(allPosts);
+    setAllPosts(posts);
   }
 
   const getFeaturedPosts = async () => {

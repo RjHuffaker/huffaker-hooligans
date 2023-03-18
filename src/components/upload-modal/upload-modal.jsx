@@ -19,7 +19,6 @@ const UploadModal = ({onFileChosen}) => {
 
   const onAccept = () => {
     uploadImage();
-  //  onFileChosen(downloadUrl);
     handleClose();
   }
 
@@ -29,12 +28,6 @@ const UploadModal = ({onFileChosen}) => {
 
   const onFileChange = (imageFile) => {
     stageImage(imageFile, setPercent);
-    /*
-    uploadImage(imageFile, 200, 200, setPercent, setDownloadUrl);
-    uploadImage(imageFile, 400, 400, setPercent, ()=>{});
-    uploadImage(imageFile, 600, 600, setPercent, ()=>{});
-    uploadImage(imageFile, 800, 800, setPercent, ()=>{});
-    */
   }
 
   return (

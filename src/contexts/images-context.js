@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
-  createDocument
+  createDocument,
+  getAllDocuments
 } from '../config/firebase-firestore';
 
 import {
@@ -52,16 +53,22 @@ export const ImagesProvider = ({ children }) => {
 
   const [ imageBlobs, setImageBlobs ] = useState([]);
 
-  const [ blobs, setBlobs ] = useState([]);
+  const [ allImages, setAllImages ] = useState([]);
 
   const [ fileName, setFileName ] = useState("");
 
-//  const [ imageData, setImageData ] = useState({});
-
   let isMounted = true;
+
+  const getAllImages = async () => {
+    const images = await getAllDocuments('images');
+    console.log(images);
+    setAllImages(images);
+  }
+
 
   const stageImage = async (imageFile, setPercent) => {
     setFileName(imageFile.name);
+    let percent = 0;
     await Promise.all(imageSizes.map(item => {
       resizeImageFile(imageFile, item.maxWidth, item.maxHeight)
         .then((uri) => {
@@ -75,7 +82,8 @@ export const ImagesProvider = ({ children }) => {
           };
           
           setImageBlobs((prev)=>[...prev, imageBlob]);
-          console.log(imageBlob);
+          percent+=20;
+          setPercent(percent);
         });
     }));
 
@@ -95,15 +103,14 @@ export const ImagesProvider = ({ children }) => {
 
             urls.push(url);
             if(urls.length === imageBlobs.length){
-              createDocument('images', imageData)
+              const newImage = createDocument('images', imageData);
+              setAllImages([...allImages, newImage]);
             }
             return url;
           }
         )
       })
-    ).then((values) => {
-      console.log(values);
-    });
+    );
   }
 
 
@@ -117,10 +124,11 @@ export const ImagesProvider = ({ children }) => {
 
   useEffect(() => {
     getAllFileUrls('images', setImageUrls, isMounted);
+    getAllImages();
     isMounted = false;
   }, []);
 
-  const value = { imageUrls, setImageUrls, stageImage, uploadImage, deleteImage, getAllImageUrls };
+  const value = { allImages, setAllImages, imageUrls, setImageUrls, stageImage, uploadImage, deleteImage, getAllImageUrls };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };
