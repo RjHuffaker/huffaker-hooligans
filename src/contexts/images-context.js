@@ -69,89 +69,71 @@ export const ImagesProvider = ({ children }) => {
           });
       })
     );
-
   }
 
   const uploadImage = async () => {
-    let urls = [];
-    let imageData = { name: fileName };
-
-    const uploadTasks = stagedImages.map((stagedImage, i) => {
-      uploadFile(
-        'images/'+stagedImage.name,
-        stagedImage.uri,
-        ()=>{},
-        (url)=>{
-          imageData[stagedImage.size] = url;
-
-          urls.push(url);
-          if(urls.length === stagedImages.length){
-            createDocument('images', imageData);
-            getAllImages();
-          }
-          return url;
-        }
-      )
-    })
-  }
-
-  const uploadImageData = async () => {
     let downloadUrls = [];
     let imageData = { name: fileName };
     let uploadTasks = stagedImages.map((stagedImage, i) => {
-      const task = uploadTask('images/'+stagedImage.name, stagedImage.uri)
-      task.on("state_changed",
-        (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const task = uploadTask('images/'+stagedImage.name, stagedImage.uri);
+      return task
+        .on("state_changed",
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 
-          console.log("stage changed for ", i, snapshot);
-          const progress = snapshot.bytesTransferred / snapshot.totalBytes;
+            console.log("state changed for ", i, snapshot);
 
-          setProgressPercent(progress * 100);
+            if(i+1 === stagedImages.length){
+              const progress = snapshot.bytesTransferred / snapshot.totalBytes;
+              setProgressPercent(progress * 100);
+            }
 
-          console.log("Upload is " + progressPercent + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+            }
+          },
+          (error) => {
+            console.log("failed ============================== ", error);
+            switch (error.code) {
+              case "storage/unknown":
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            //Update Progress
 
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
+            console.log("Trying to get url: ", i);
+
+            getDownloadURL(task.snapshot.ref)
+              .then((downloadUrl) => {
+                imageData[stagedImage.size] = downloadUrl;
+
+                downloadUrls.push(downloadUrl);
+
+                if(i+1 === stagedImages.length){
+                  createDocument('images', imageData);
+                  setStagedImages([]);
+                  getAllImages();
+                  setProgressPercent(0);
+                }
+              })
+              .catch((e) => {
+                console.log("error foo: ", e);
+              });
+
+              
           }
-        },
-        (error) => {
-          console.log("failed ============================== ", error);
-          switch (error.code) {
-            case "storage/unknown":
-              // Unknown error occurred, inspect error.serverResponse
-              break;
-          }
-        },
-        () => {
-          // Upload completed successfully, now we can get the download URL
-          //Update Progress
-          console.log("Trying to get url: ", i);
-          getDownloadURL(task.snapshot.ref)
-            .then((downloadUrl) => {
-              imageData[stagedImage.size] = downloadUrl;
-
-              downloadUrls.push(downloadUrl);
-
-              if(i+1 === stagedImages.length){
-                createDocument('images', imageData);
-                setStagedImages([])
-                getAllImages();
-              }
-            })
-            .catch((e) => {
-              console.log("error foo: ", e);
-            });
-        }
-      )
+        );
     });
 
-    Promise.allSettled(uploadTasks);
+    await Promise.allSettled(uploadTasks);
 
   }
 
@@ -169,7 +151,7 @@ export const ImagesProvider = ({ children }) => {
     getAllImages();
   }, []);
 
-  const value = { allImages, setAllImages, stageImage, stagedImages, uploadImage, uploadImageData, uploadTask, deleteImage };
+  const value = { allImages, setAllImages, stageImage, stagedImages, uploadImage, progressPercent, uploadTask, deleteImage };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };

@@ -12,7 +12,7 @@ import ImageCard from '../../components/image-card/image-card';
 
 const Gallery = () => {
 
-	const { allImages } = useContext(ImagesContext);
+	const { allImages, progressPercent } = useContext(ImagesContext);
 
 	return (
 		<Container>
@@ -22,9 +22,14 @@ const Gallery = () => {
 						<ImageCard image={image} />
 					</Col>
 				))}
+				
 				<Col xs={3}>
-					<UploadModal />
-				</Col>
+					{progressPercent === 0 ?
+						<UploadModal /> : 
+						<p>{progressPercent}</p>
+					}
+				</Col> : 
+				
 			</Row>
 		</Container>
 	);

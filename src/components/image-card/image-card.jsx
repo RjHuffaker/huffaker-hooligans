@@ -2,11 +2,13 @@ import { useContext } from 'react';
 
 import { ImagesContext } from '../../contexts/images-context';
 
+import DeleteModalButton from '../delete-modal-button/delete-modal-button'
+
 const ImageCard = ({ image }) => {
 
   const { deleteImage } = useContext(ImagesContext);
 
-  const onDelete = () => {
+  const deleteHandler = () => {
     deleteImage(image);
   }
 
@@ -14,7 +16,7 @@ const ImageCard = ({ image }) => {
     <div>
       <p>{image.id ? image.id : image.name}</p>
       <img src={image.xs_img} alt={image.id ? image.id : image.name} />
-      <button onClick={onDelete}>Delete</button>
+      <DeleteModalButton deleteObject={image} deleteAction={deleteHandler}>&#128465;</DeleteModalButton>
     </div>
   );
 }

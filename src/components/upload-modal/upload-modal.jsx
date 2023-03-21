@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import { ImagesContext } from "../../contexts/images-context";
 
 const UploadModal = () => {
-  const { stageImage, uploadImage, uploadImageData } = useContext(ImagesContext);
+  const { stageImage, uploadImage } = useContext(ImagesContext);
   
   const [ show, setShow ] = useState(false);
   const [ percent, setPercent ] = useState();
@@ -23,7 +23,7 @@ const UploadModal = () => {
   const handleShow = () => setShow(true);
 
   const onAccept = () => {
-    uploadImageData();
+    uploadImage();
     handleClose();
   }
 
