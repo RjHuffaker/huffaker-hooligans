@@ -6,19 +6,24 @@ import Modal from 'react-bootstrap/Modal';
 
 import { ImagesContext } from "../../contexts/images-context";
 
-const UploadModal = ({onFileChosen}) => {
-  const { stageImage, uploadImage } = useContext(ImagesContext);
+const UploadModal = () => {
+  const { stageImage, uploadImage, uploadImageData } = useContext(ImagesContext);
   
   const [ show, setShow ] = useState(false);
   const [ percent, setPercent ] = useState();
-  const [ imageUrl, setImageUrl ] = useState();
-  const [ downloadUrl, setDownloadUrl ] = useState();
+  const [ imageFile, setImageFile ] = useState();
 
-  const handleClose = () => setShow(false);
+
+  const handleClose = () => {
+    setImageFile(null);
+    setPercent(0);
+    setShow(false);
+  };
+  
   const handleShow = () => setShow(true);
 
   const onAccept = () => {
-    uploadImage();
+    uploadImageData();
     handleClose();
   }
 
@@ -26,8 +31,9 @@ const UploadModal = ({onFileChosen}) => {
     handleClose();
   }
 
-  const onFileChange = (imageFile) => {
-    stageImage(imageFile, setPercent);
+  const onFileChange = (file) => {
+    setImageFile(URL.createObjectURL(file));
+    stageImage(file, setPercent);
   }
 
   return (
@@ -50,11 +56,10 @@ const UploadModal = ({onFileChosen}) => {
               }}
             />
           </InputGroup>
-
+          
           {
-            downloadUrl ? <img className="w-100" src={downloadUrl} alt={downloadUrl}/> :
-              imageUrl ? <img className="w-100" src={imageUrl} alt={imageUrl}/> :
-              percent > 0 ? <p>{percent}% done</p> : <p>Upload Image</p>
+            imageFile ? <img className="h-100 w-100" src={imageFile} alt={imageFile.name} /> :
+            percent > 0 ? <p>{percent}% done</p> : <p>Upload Image</p>
           }
 
         </Modal.Body>

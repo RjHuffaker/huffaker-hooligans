@@ -44,6 +44,10 @@ export const uploadFile = async (filePath, file, setProgress, setDownloadUrl) =>
   })
 }
 
+export const uploadTask = (filePath, file) => {
+  const fileRef = ref(storage, filePath);
+  return uploadBytesResumable(fileRef, file);
+}
 
 export const uploadImageFile = async (imageFile, maxWidth, maxHeight, setProgress, setDownloadUrl) => {
   if (imageFile == null) return;
