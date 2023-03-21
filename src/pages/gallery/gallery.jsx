@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -11,8 +11,38 @@ import UploadModal from '../../components/upload-modal/upload-modal';
 import ImageCard from '../../components/image-card/image-card';
 
 const Gallery = () => {
+	
+  const {
+		allImages,
+		getAllImages,
+		stageImage,
+		stagedImages,
+		progress,
+		setProgress,
+		uploadImage,
+		createImageData,
+		percent,
+		setPercent,
+		imageFile,
+		setImageFile
+	} = useContext(ImagesContext);
 
-	const { allImages, progressPercent } = useContext(ImagesContext);
+	const handleAccept = async () => {
+    const downloadUrls = await uploadImage(stagedImages);
+    createImageData(downloadUrls);
+		getAllImages();
+  }
+
+	const handleFileChange = (file) => {
+    setImageFile(URL.createObjectURL(file));
+    stageImage(file, setPercent);
+  }
+
+	const handleCancel = () => {
+    setImageFile(null);
+		stageImage(null);
+    setPercent(0);
+	}
 
 	return (
 		<Container>
@@ -24,9 +54,13 @@ const Gallery = () => {
 				))}
 				
 				<Col xs={3}>
-					{progressPercent === 0 ?
-						<UploadModal /> : 
-						<p>{progressPercent}</p>
+					{progress === 0 ?
+						<UploadModal
+							handleAccept={handleAccept}
+							handleFileChange={handleFileChange}
+							handleCancel={handleCancel}
+						/> : 
+						<p>{progress}</p>
 					}
 				</Col> : 
 				

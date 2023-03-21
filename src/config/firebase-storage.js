@@ -22,65 +22,27 @@ export const getFileUrl = async (folder, filePath) => {
   return getDownloadURL(fileRef);
 }
 
-export const uploadFile = async (filePath, file, setProgress, setDownloadUrl) => {
-  
-  const fileRef = ref(storage, filePath);
+export const uploadFiles = async (folder, files, setProgress) => {
 
-  const uploadTask = uploadBytesResumable(fileRef, file);
-
-  uploadTask.on('state_changed', (snapshot) => {
-    const progress =
-      Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-      setProgress(progress);
-  },
-  (error) => {
-    alert(error);
-  },
-  () => {
-    getDownloadURL(uploadTask.snapshot.ref)
-      .then((url) => {
-        setDownloadUrl(url);
-      });
-  })
-}
-
-export const uploadTask = (filePath, file) => {
-  const fileRef = ref(storage, filePath);
-  return uploadBytesResumable(fileRef, file);
-}
-
-export const uploadImageFile = async (imageFile, maxWidth, maxHeight, setProgress, setDownloadUrl) => {
-  if (imageFile == null) return;
-  await resizeImageFile(imageFile, maxWidth, maxHeight)
-    .then((uri) =>{
-      let[filename, extension] = imageFile.name.toUpperCase().split('.JPG');
+  const promises = files.map((file, i) => {
+    const fileRef = ref(storage, folder+file.name);
+    const task = uploadBytesResumable(fileRef, file.uri);
       
-      let newFileName = filename+'_'+maxWidth+'x'+maxHeight+extension+'.JPG';
-
-      const imageRef = ref(storage, `images/${newFileName}`);
-      const uploadTask = uploadBytesResumable(imageRef, uri);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
-          );
-        
-          // update progress
-          setProgress(percent);
-        },
-        (err) => console.log(err),
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setDownloadUrl(url);
-          });
-        }
-      );
+    return task
+      .then((snapshot) => {
+        // Get the download URL for the uploaded image
+        return getDownloadURL(snapshot.ref).then((downloadUrl) => {
+          return downloadUrl;
+        });
     });
-};
+  });
 
+  const downloadUrls = await Promise.all(promises);
+
+  console.log(downloadUrls);
+  
+  return downloadUrls;
+}
 
 export const deleteFile = async (filePath) => {
   const fileRef = ref(storage, filePath);

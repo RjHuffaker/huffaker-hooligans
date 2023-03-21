@@ -9,7 +9,8 @@ import {
 import {
   uploadFile,
   deleteFile,
-  uploadTask
+  uploadTask,
+  uploadFiles
 } from '../config/firebase-storage';
 
 import {
@@ -40,10 +41,14 @@ export const ImagesProvider = ({ children }) => {
 
   const [ fileName, setFileName ] = useState("");
 
-  const [ progressPercent, setProgressPercent ] = useState(0);
+  const [ progress, setProgress ] = useState(0);
+
+  const [ percent, setPercent ] = useState(0);
+
+  const [ imageFile, setImageFile ] = useState(null);
 
   const getAllImages = async () => {
-    const images = await getAllDocuments('images');
+    const images = await getAllDocuments('imageData');
     setAllImages(images);
   }
 
@@ -71,70 +76,20 @@ export const ImagesProvider = ({ children }) => {
     );
   }
 
-  const uploadImage = async () => {
-    let downloadUrls = [];
-    let imageData = { name: fileName };
-    let uploadTasks = stagedImages.map((stagedImage, i) => {
-      const task = uploadTask('images/'+stagedImage.name, stagedImage.uri);
-      return task
-        .on("state_changed",
-          (snapshot) => {
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  const uploadImage = async (imageFiles) => {
+    const downloadUrls = await uploadFiles('images/', imageFiles, setProgress);
+    return downloadUrls;
+  }
 
-            console.log("state changed for ", i, snapshot);
-
-            if(i+1 === stagedImages.length){
-              const progress = snapshot.bytesTransferred / snapshot.totalBytes;
-              setProgressPercent(progress * 100);
-            }
-
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
-                break;
-              case "running":
-                console.log("Upload is running");
-                break;
-            }
-          },
-          (error) => {
-            console.log("failed ============================== ", error);
-            switch (error.code) {
-              case "storage/unknown":
-                // Unknown error occurred, inspect error.serverResponse
-                break;
-            }
-          },
-          () => {
-            // Upload completed successfully, now we can get the download URL
-            //Update Progress
-
-            console.log("Trying to get url: ", i);
-
-            getDownloadURL(task.snapshot.ref)
-              .then((downloadUrl) => {
-                imageData[stagedImage.size] = downloadUrl;
-
-                downloadUrls.push(downloadUrl);
-
-                if(i+1 === stagedImages.length){
-                  createDocument('images', imageData);
-                  setStagedImages([]);
-                  getAllImages();
-                  setProgressPercent(0);
-                }
-              })
-              .catch((e) => {
-                console.log("error foo: ", e);
-              });
-
-              
-          }
-        );
-    });
-
-    await Promise.allSettled(uploadTasks);
-
+  const createImageData = async (downloadUrls) => {
+    const imageData = {
+      xs_img: downloadUrls[0],
+      sm_img: downloadUrls[1],
+      md_img: downloadUrls[2],
+      lg_img: downloadUrls[3],
+      xl_img: downloadUrls[4]
+    };
+    return createDocument('imageData', imageData);
   }
 
 
@@ -143,7 +98,7 @@ export const ImagesProvider = ({ children }) => {
       .forEach(size => {
         deleteFile(image[size]);
       })
-    await deleteDocument('images', image);
+    await deleteDocument('imageData', image);
     await getAllImages();
   }
 
@@ -151,7 +106,22 @@ export const ImagesProvider = ({ children }) => {
     getAllImages();
   }, []);
 
-  const value = { allImages, setAllImages, stageImage, stagedImages, uploadImage, progressPercent, uploadTask, deleteImage };
+  const value = {
+    allImages,
+    setAllImages,
+    getAllImages,
+    stageImage,
+    stagedImages,
+    uploadImage,
+    createImageData,
+    progress,
+    setProgress,
+    deleteImage,
+    percent,
+    setPercent,
+    imageFile,
+    setImageFile
+  };
 
   return <ImagesContext.Provider value={value}>{children}</ImagesContext.Provider>;
 };
