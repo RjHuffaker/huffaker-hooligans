@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Image from 'react-bootstrap/Image';
+
+import './image-modal.css';
 
 const ImageModal = ({image}) => {
 
@@ -11,11 +13,11 @@ const ImageModal = ({image}) => {
 
   return (
     <>
-        <img src={image.xs_img} alt={image.xs_img} onClick={handleShow} />
+      <img src={image.xs_img} alt={image.xs_img} onClick={handleShow} />
       
-      <Modal size="lg" show={show} onHide={handleClose}>
+      <Modal dialogClassName="image-modal" size="lg" show={show} onHide={handleClose}>
         <Modal.Body>
-          <img src={image.lg_img} alt={image.lg_img} />
+          <Image src={image.lg_img} alt={image.lg_img} rounded={true}/>
         </Modal.Body>
       </Modal>
     </>
