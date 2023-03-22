@@ -18,7 +18,6 @@ const Gallery = () => {
 		stagedImages,
 		uploadImage,
 		uploadPercent,
-		setUploadPercent,
 		createImageData
 	} = useContext(ImagesContext);
 

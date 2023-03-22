@@ -46,11 +46,12 @@ export const ImagesProvider = ({ children }) => {
   }
 
   const stageImage = async (imageFile) => {
+    setStagePercent(0);
+    setUploadPercent(0);
+
     if(!imageFile){
       setImageFile(null);
       setStagedImages([]);
-      setStagePercent(0);
-      setUploadPercent(0);
       return;
     }
 
@@ -72,9 +73,9 @@ export const ImagesProvider = ({ children }) => {
             };
             
             setStagedImages((prev)=>[...prev, image]);
-
-            percent+=20;
-
+          })
+          .then(()=>{
+            percent += 20;
             setStagePercent(percent);
           });
       })
@@ -113,7 +114,7 @@ export const ImagesProvider = ({ children }) => {
     imageSizes
       .forEach(size => {
         deleteFile(image[size.size]);
-      })
+      });
     await deleteDocument('imageData', image);
     await getAllImages();
   }

@@ -8,7 +8,7 @@ import { ImagesContext } from "../../contexts/images-context";
 
 const UploadModal = ({handleAccept, handleFileChange, handleCancel}) => {
   
-  const { imageFile, stagePercent, setStagePercent } = useContext(ImagesContext);
+  const { stagePercent } = useContext(ImagesContext);
 
   const [ previewImage, setPreviewImage ] = useState();
 
@@ -58,18 +58,23 @@ const UploadModal = ({handleAccept, handleFileChange, handleCancel}) => {
             />
           </InputGroup>
           
-          {
-            previewImage ? <img className="h-100 w-100" src={previewImage} alt={previewImage.name} /> :
-            stagePercent > 0 ? <p>{stagePercent}% done</p> : <p>Upload Image</p>
+          {previewImage && 
+            <img className="h-100 w-100" src={previewImage} alt="preview" /> 
           }
+          
 
         </Modal.Body>
         <Modal.Footer>
-          {stagePercent === 100 && 
+          {stagePercent === 100 &&
             <Button variant="primary" onClick={onAccept}>
               Accept
             </Button>
           }
+          
+          {stagePercent !== 0 && stagePercent !== 100 &&
+            <p>{stagePercent}% done</p>
+          }
+
           <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>

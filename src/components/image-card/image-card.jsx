@@ -4,6 +4,8 @@ import { ImagesContext } from '../../contexts/images-context';
 
 import DeleteModalButton from '../delete-modal-button/delete-modal-button'
 
+import ImageModal from '../image-modal/image-modal';
+
 const ImageCard = ({ image }) => {
 
   const { deleteImage } = useContext(ImagesContext);
@@ -14,7 +16,7 @@ const ImageCard = ({ image }) => {
 
   return (
     <div>
-      <img src={image.xs_img} alt={image.id ? image.id : image.name} />
+      <ImageModal image={image}/>
       <DeleteModalButton deleteObject={image} deleteAction={deleteHandler}>&#128465;</DeleteModalButton>
     </div>
   );
