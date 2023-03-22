@@ -14,7 +14,6 @@ const ImageCard = ({ image }) => {
 
   return (
     <div>
-      <p>{image.id ? image.id : image.name}</p>
       <img src={image.xs_img} alt={image.id ? image.id : image.name} />
       <DeleteModalButton deleteObject={image} deleteAction={deleteHandler}>&#128465;</DeleteModalButton>
     </div>

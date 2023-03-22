@@ -1,17 +1,13 @@
 import {
   getStorage,
   ref,
-  uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
-  listAll,
-  list
+  listAll
 } from "firebase/storage";
 
 import { app } from "./firebase";
-
-import { resizeImageFile } from '../config/image-resizer';
 
 export const storage = getStorage(app);
 
@@ -22,22 +18,31 @@ export const getFileUrl = async (folder, filePath) => {
   return getDownloadURL(fileRef);
 }
 
-export const uploadFiles = async (folder, files, setProgress) => {
+export const uploadFiles = async (folder, files, setPercent) => {
+  
+  let percent = 0;
+
+  setPercent(percent)
 
   const promises = files.map((file, i) => {
     const fileRef = ref(storage, folder+file.name);
     const task = uploadBytesResumable(fileRef, file.uri);
-      
+    
     return task
+      .then((snapshot)=>{
+        percent += 20;
+        setPercent(percent);
+        return snapshot;
+      })
       .then((snapshot) => {
         // Get the download URL for the uploaded image
         return getDownloadURL(snapshot.ref).then((downloadUrl) => {
           return downloadUrl;
         });
-    });
+      });
   });
 
-  const downloadUrls = await Promise.all(promises);
+  const downloadUrls = await Promise.allSettled(promises);
 
   console.log(downloadUrls);
   

@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -17,52 +16,46 @@ const Gallery = () => {
 		getAllImages,
 		stageImage,
 		stagedImages,
-		progress,
-		setProgress,
 		uploadImage,
-		createImageData,
-		percent,
-		setPercent,
-		imageFile,
-		setImageFile
+		uploadPercent,
+		setUploadPercent,
+		createImageData
 	} = useContext(ImagesContext);
 
 	const handleAccept = async () => {
     const downloadUrls = await uploadImage(stagedImages);
     createImageData(downloadUrls);
+		stageImage(null);
 		getAllImages();
   }
 
 	const handleFileChange = (file) => {
-    setImageFile(URL.createObjectURL(file));
-    stageImage(file, setPercent);
+    stageImage(file);
   }
 
 	const handleCancel = () => {
-    setImageFile(null);
 		stageImage(null);
-    setPercent(0);
 	}
 
 	return (
 		<Container>
 			<Row>
-				{allImages?.map((image)=>(
-					<Col xs={3} key={image.id ? image.id : image.name}>
+				{allImages?.map((image, i)=>(
+					<Col xs={3} key={i}>
 						<ImageCard image={image} />
 					</Col>
 				))}
 				
 				<Col xs={3}>
-					{progress === 0 ?
+					{uploadPercent===0 ?
 						<UploadModal
 							handleAccept={handleAccept}
 							handleFileChange={handleFileChange}
 							handleCancel={handleCancel}
 						/> : 
-						<p>{progress}</p>
+						<p>{uploadPercent}</p>
 					}
-				</Col> : 
+				</Col>
 				
 			</Row>
 		</Container>
