@@ -22,7 +22,9 @@ const Gallery = () => {
 	} = useContext(ImagesContext);
 
 	const handleAccept = async () => {
+		
     const downloadUrls = await uploadImage(stagedImages);
+	
     createImageData(downloadUrls);
 		stageImage(null);
 		getAllImages();

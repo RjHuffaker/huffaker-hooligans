@@ -48,7 +48,16 @@ const ReadPost = () => {
       <Row>
         <Col>
           <Card>
-            <Card.Img className="read-post-img" src={post.titleImage} alt="title image" />
+            <Card.Img
+              className="read-post-img"
+              srcSet={`
+                ${post?.titleImage?.md_img} 992w,
+                ${post?.titleImage?.lg_img} 1200w,
+                ${post?.titleImage?.xl_img} 1400w
+              `}
+              src={post?.titleImage?.sm_img}
+              alt="title image"
+            />
             <Card.Title><h2>{post.title}</h2></Card.Title>
             <Card.Body>
               <ReactQuill

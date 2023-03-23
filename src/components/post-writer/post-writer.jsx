@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -5,7 +7,10 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import { ImagesContext } from '../../contexts/images-context';
+
 import ImageUploadModal from '../image-upload-modal/image-upload-modal';
+import UploadModal from '../upload-modal/upload-modal';
 import TagSelector from "../tag-selector/tag-selector"
 import DateSelector from "../date-selector/date-selector";
 import Checkbox from "../checkbox/checkbox"
@@ -17,6 +22,14 @@ import './post-writer.css';
 const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit, onCancel }) => {
 
   console.log(post);
+
+  const {
+		stageImage,
+		stagedImages,
+		uploadImage,
+		uploadPercent,
+		createImageData
+	} = useContext(ImagesContext);
 
   const setTitleImage = (value) => {
     setPost({ ...post, titleImage: value });
@@ -44,6 +57,27 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     const checked = event.target.checked;
     setPost({ ...post, featured: checked });
   }
+
+
+  const handleAccept = async () => {
+		
+    const downloadUrls = await uploadImage(stagedImages);
+	
+    const newImage = await createImageData(downloadUrls);
+		stageImage(null);
+
+    console.log(newImage);
+    setPost({ ...post, titleImage: newImage });
+  }
+
+	const handleFileChange = (file) => {
+    stageImage(file);
+  }
+
+	const handleCancel = () => {
+		stageImage(null);
+	}
+
 
   return (
     <Container>
@@ -88,7 +122,12 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
         <Col xl={3} className="my-2">
           <Card className="h-100">
-            <ImageUploadModal imageUrl={post.titleImage} setImageUrl={setTitleImage} />
+            <UploadModal
+							handleAccept={handleAccept}
+							handleFileChange={handleFileChange}
+							handleCancel={handleCancel}
+						/>
+            <img src={post?.titleImage?.xs_img} alt="title" />
           </Card>
         </Col>
       </Row>
