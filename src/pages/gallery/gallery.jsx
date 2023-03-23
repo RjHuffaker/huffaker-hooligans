@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import { ImagesContext } from '../../contexts/images-context';
 
 import UploadModal from '../../components/upload-modal/upload-modal';
-import ImageCard from '../../components/image-card/image-card';
+import ImageCardModal from '../../components/image-card-modal/image-card-modal';
 
 const Gallery = () => {
 	
@@ -41,7 +41,7 @@ const Gallery = () => {
 			<Row>
 				{allImages?.map((image, i)=>(
 					<Col xs={3} key={i}>
-						<ImageCard image={image} />
+						<ImageCardModal image={image} />
 					</Col>
 				))}
 				

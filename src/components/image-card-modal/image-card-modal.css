@@ -1,0 +1,5 @@
+.image-modal-div {
+	overflow: hidden;
+	display: flex;
+  justify-content: center;
+}
