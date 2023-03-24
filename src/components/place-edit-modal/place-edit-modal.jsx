@@ -7,10 +7,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import { JourneysContext } from '../../contexts/journeys-context';
+import { ImagesContext } from '../../contexts/images-context';
 
 import DateSelector from '../date-selector/date-selector';
 import ImageUploader from '../image-uploader/image-uploader';
 import ImageUploadModal from '../image-upload-modal/image-upload-modal';
+
+import UploadModal from '../upload-modal/upload-modal';
+
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
 const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
@@ -20,6 +24,14 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     setActivePlace,
     updateJourney
   } = useContext(JourneysContext);
+
+  const {
+		stageImage,
+		stagedImages,
+		uploadImage,
+		uploadPercent,
+		createImageData
+	} = useContext(ImagesContext);
   
   const [show, setShow] = useState(false);
 
@@ -57,6 +69,26 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     journey.places = journey.places.filter((obj) => obj.id !== place.id);
     updateJourney(journey);
   }
+
+  const handleAccept = async () => {
+    const downloadUrls = await uploadImage(stagedImages);
+    const newImage = await createImageData(downloadUrls);
+
+		stageImage(null);
+
+    let images = activePlace.images ? activePlace.images : [];
+    images.push(newImage);
+
+    setActivePlace({ ...activePlace, images: [...images] });
+  }
+
+	const handleFileChange = (file) => {
+    stageImage(file);
+  }
+
+	const handleCancel = () => {
+		stageImage(null);
+	}
 
   return (
     <>
@@ -105,8 +137,11 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               date={activePlace?.arrivalDate}
               setDate={onArrivalDateChange}
             />
-            <ImageUploader imageUrl={activePlace.titleImage} setImageUrl={setTitleImage} />
-            <ImageUploadModal imageUrl={activePlace.titleImage} setImageUrl={setTitleImage} />
+            <UploadModal
+							handleAccept={handleAccept}
+							handleFileChange={handleFileChange}
+							handleCancel={handleCancel}
+						/>
             
           </Container>
         </Modal.Body>

@@ -9,7 +9,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import { ImagesContext } from '../../contexts/images-context';
 
-import ImageUploadModal from '../image-upload-modal/image-upload-modal';
 import UploadModal from '../upload-modal/upload-modal';
 import TagSelector from "../tag-selector/tag-selector"
 import DateSelector from "../date-selector/date-selector";

@@ -17,9 +17,7 @@ const Home = () => {
 
   const { featuredPosts } = useContext(PostsContext);
 
-  const {
-		allImages
-	} = useContext(ImagesContext);
+  const { allImages } = useContext(ImagesContext);
 
   return (
     <Container>

@@ -9,7 +9,7 @@ import { UserContext } from '../../contexts/user-context';
 import { JourneysContext } from '../../contexts/journeys-context';
 
 import PlaceEditModal from '../../components/place-edit-modal/place-edit-modal';
-import { NavLink } from 'react-router-dom';
+import ImageCarousel from "../../components/image-carousel/image-carousel";
 
 import "./place-read-dialog.css";
 
@@ -37,11 +37,8 @@ const PlaceReadDialog = ({ journey }) => {
           </Col>
         </Row>
         <Row>
-          {activePlace.titleImage &&
-            <img
-              className="read-post-dialog-img x-100 y-100"
-              src={activePlace.titleImage} alt="place"
-            />
+          {activePlace.images &&
+            <ImageCarousel slideList={activePlace.images} />
           }
         </Row>
         <Row className="my-2">
