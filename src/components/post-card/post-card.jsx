@@ -30,7 +30,7 @@ const PostCard = ({ post }) => {
     return (
         <Card key={post.id} className="h-100" >
             <Link to={`/readPost/${post.id}`}>
-                <Card.Img src={post.titleImage?.xs_img} alt="title" className="postCardImage"/>
+                <Card.Img src={post?.titleImage?.xs_img} alt="title" className="postCardImage"/>
             </Link>
             <Card.Title>
                 <Link to={`/readPost/${post.id}`}>

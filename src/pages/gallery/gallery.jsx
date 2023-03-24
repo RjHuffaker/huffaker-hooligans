@@ -9,6 +9,8 @@ import { ImagesContext } from '../../contexts/images-context';
 import UploadModal from '../../components/upload-modal/upload-modal';
 import ImageCardModal from '../../components/image-card-modal/image-card-modal';
 
+import './gallery.css';
+
 const Gallery = () => {
 	
   const {
@@ -42,12 +44,12 @@ const Gallery = () => {
 		<Container>
 			<Row>
 				{allImages?.map((image, i)=>(
-					<Col xs={3} key={i}>
+					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
 						<ImageCardModal image={image} />
 					</Col>
 				))}
 				
-				<Col xs={3}>
+				<Col xl={3} md={4} xs={6} className="gallery-item my-auto">
 					{uploadPercent===0 ?
 						<UploadModal
 							handleAccept={handleAccept}

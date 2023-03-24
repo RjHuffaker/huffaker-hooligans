@@ -23,21 +23,21 @@ const ImageCardModal = ({image}) => {
 
   return (
     <>
-      <div className="image-modal-div">
-        <img
-          src={image.xs_img}
-          srcSet={`
-            ${image.xs_img} 1200w,
-            ${image.sm_img} 1400w
-          `}
-          alt={image.xs_img}
-          onClick={handleShow}
-        />
+      <div className="image-thumb">
+          <img
+            src={image.xs_img}
+            srcSet={`
+              ${image.xs_img} 1200w,
+              ${image.sm_img} 1400w
+            `}
+            alt={image.xs_img}
+            onClick={handleShow}
+          />
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>
         <Modal.Body>
-          <div className="image-modal-div">
+          <div className="image-modal">
             <img
               src={image.lg_img}
               srcSet={`

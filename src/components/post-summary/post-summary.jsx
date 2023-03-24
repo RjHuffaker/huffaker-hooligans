@@ -19,7 +19,7 @@ const PostSummary = ({ post }) => {
     <div key={post.id} className="card mb-3 x-100">
       <Link className="row no-gutters" to={`/readPost/${post.id}`}>
         <div className="col-md-4">
-          <img src={post.titleImage} className="card-img summary-img" alt="title" />
+          <img src={post.titleImage?.xs_img} className="card-img summary-img" alt="title" />
         </div>
         <div className="col-md-8">
           <div className="card-body">

@@ -1,4 +1,11 @@
-.image-modal-div {
+.image-thumb {
+}
+
+.image-thumb img {
+	width: 100%;
+}
+
+.image-modal {
 	overflow: hidden;
 	display: flex;
   justify-content: center;
