@@ -42,10 +42,12 @@ const Gallery = () => {
 
 	return (
 		<Container>
-			<Row>
+			<Row className="g-2">
 				{allImages?.map((image, i)=>(
 					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
-						<ImageCardModal image={image} />
+						<div>
+							<ImageCardModal image={image} />
+						</div>
 					</Col>
 				))}
 				

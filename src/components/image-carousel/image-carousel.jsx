@@ -4,16 +4,17 @@ const ImageCarousel = ({slideList}) => {
   return (
     <Carousel>
       {slideList.map((slide) => (
-        <Carousel.Item key={slide.label}>
+        <Carousel.Item key={slide?.id}>
           <img
             className="d-block w-100"
-            src={slide.image}
-            alt={slide.label}
+            src={slide?.md_img}
+            srcSet={`
+                ${slide?.md_img} 992w,
+                ${slide?.lg_img} 1200w,
+                ${slide?.xl_img} 1400w
+              `}
+            alt={slide?.id}
           />
-          <Carousel.Caption>
-            <h3>{slide.label}</h3>
-            <p>{slide.text}</p>
-          </Carousel.Caption>
         </Carousel.Item>
       ))}
     </Carousel>

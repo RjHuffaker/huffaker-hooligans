@@ -1,5 +1,9 @@
 .gallery-item {
-    overflow: hidden;
-    padding: 1rem;
-    
+  overflow: hidden;
+	padding: 0.25rem;
+}
+
+.gallery-item div {
+	overflow: hidden;
+	height: 25vh;
 }
