@@ -10,11 +10,8 @@ import { JourneysContext } from '../../contexts/journeys-context';
 import { ImagesContext } from '../../contexts/images-context';
 
 import DateSelector from '../date-selector/date-selector';
-import ImageUploader from '../image-uploader/image-uploader';
-import ImageUploadModal from '../image-upload-modal/image-upload-modal';
 
-import UploadModal from '../upload-modal/upload-modal';
-
+import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
 const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
@@ -82,14 +79,6 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     setActivePlace({ ...activePlace, images: [...images] });
   }
 
-	const handleFileChange = (file) => {
-    stageImage(file);
-  }
-
-	const handleCancel = () => {
-		stageImage(null);
-	}
-
   return (
     <>
       <Button {...otherProps} onClick={handleShow}>{buttonText}</Button>
@@ -137,10 +126,8 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               date={activePlace?.arrivalDate}
               setDate={onArrivalDateChange}
             />
-            <UploadModal
+            <ImageUploadModal
 							handleAccept={handleAccept}
-							handleFileChange={handleFileChange}
-							handleCancel={handleCancel}
 						/>
             
           </Container>

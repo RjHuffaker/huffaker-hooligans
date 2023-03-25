@@ -1,119 +1,79 @@
-import { useState } from "react";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject
-} from "firebase/storage";
+import { useContext, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from 'react-bootstrap/Modal';
 
-import { storage } from "../../config/firebase-storage";
+import { ImagesContext } from "../../contexts/images-context";
 
-const ImageUploadModal = ({imageUrl, setImageUrl}) => {
-    
+const ImageUploadModal = ({handleAccept}) => {
+  
+  const { stageImage, stagePercent } = useContext(ImagesContext);
+
+  const [ previewImage, setPreviewImage ] = useState();
+
   const [ show, setShow ] = useState(false);
-  const [ imageFile, setImageFile ] = useState(null);
-  const [ percent, setPercent ] = useState();
-  const [ downloadUrl, setDownloadUrl ] = useState();
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const onAccept = () => {
-    setImageUrl(downloadUrl);
+  const onAccept = async () => {
+    setPreviewImage(null);
+    handleAccept();
     handleClose();
   }
 
   const onCancel = () => {
+    setPreviewImage(null);
+    stageImage(null);
     handleClose();
   }
 
-  const onDelete = () => {
-    setImageUrl(null);
-    const imageRef = ref(storage, imageUrl);
-
-    console.log(imageRef);
-
-    deleteObject(imageRef).then(() => {
-      handleClose();
-    }).catch((error) => {
-      console.log(error);
-    });
-
+  const onFileChange = (file) => {
+    setPreviewImage(URL.createObjectURL(file));
+    stageImage(file);
   }
-
-  const uploadFile = (imageFile) => {
-    if (imageFile == null) return;
-    const imageRef = ref(storage, `images/${imageFile.name}`);
-    const uploadTask = uploadBytesResumable(imageRef, imageFile);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100 
-        );
-      
-        // update progress
-        setPercent(percent);
-      },
-      (err) => console.log(err),
-      () => {
-        // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setDownloadUrl(url);
-        });
-      }
-    );
-  };
 
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
         Upload Image
       </Button>
-      {imageUrl && <img className="w-100" src={imageUrl} alt={imageUrl}/>}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Upload Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
           <InputGroup>
             <input
               type="file"
               className="form-control"
               onChange={(event) => {
-                uploadFile(event.target.files[0]);
+                onFileChange(event.target.files[0]);
               }}
             />
           </InputGroup>
-
-          {
-            downloadUrl ? <img className="w-100" src={downloadUrl} alt={downloadUrl}/> :
-              imageUrl ? <img className="w-100" src={imageUrl} alt={imageUrl}/> :
-              percent > 0 ? <p>{percent}% done</p> : <p>Upload Image</p>
+          
+          {previewImage && 
+            <img className="h-100 w-100" src={previewImage} alt="preview" /> 
           }
+          
 
         </Modal.Body>
         <Modal.Footer>
-          {percent===100 &&
+          {stagePercent === 100 &&
             <Button variant="primary" onClick={onAccept}>
               Accept
             </Button>
           }
+          
+          {stagePercent !== 0 && stagePercent !== 100 &&
+            <p>{stagePercent}% done</p>
+          }
+
           <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
-          {imageFile &&
-            <Button variant="danger" onClick={onDelete}>
-              Delete
-            </Button>
-          }
         </Modal.Footer>
       </Modal>
     </>

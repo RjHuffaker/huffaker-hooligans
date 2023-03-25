@@ -9,10 +9,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import { ImagesContext } from '../../contexts/images-context';
 
-import UploadModal from '../upload-modal/upload-modal';
-import TagSelector from "../tag-selector/tag-selector"
-import DateSelector from "../date-selector/date-selector";
-import Checkbox from "../checkbox/checkbox"
+import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
+import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
+import TagSelector from "../../components/tag-selector/tag-selector"
+import DateSelector from "../../components/date-selector/date-selector";
+import Checkbox from "../../components/checkbox/checkbox"
 
 import QuillEditor from '../quill-editor/quill-editor';
 
@@ -57,7 +58,6 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, featured: checked });
   }
 
-
   const handleAccept = async () => {
 		
     const downloadUrls = await uploadImage(stagedImages);
@@ -69,14 +69,9 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, titleImage: newImage });
   }
 
-	const handleFileChange = (file) => {
-    stageImage(file);
+  const acceptImage = async (newImage) => {
+    setPost({ ...post, titleImage: newImage });
   }
-
-	const handleCancel = () => {
-		stageImage(null);
-	}
-
 
   return (
     <Container>
@@ -121,10 +116,11 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
         <Col xl={3} className="my-2">
           <Card className="h-100">
-            <UploadModal
+            <ImageUploadModal
 							handleAccept={handleAccept}
-							handleFileChange={handleFileChange}
-							handleCancel={handleCancel}
+						/>
+            <ImageSelectModal
+							handleAccept={acceptImage}
 						/>
             <img src={post?.titleImage?.xs_img} alt="title" />
           </Card>

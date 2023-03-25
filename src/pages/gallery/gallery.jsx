@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 import { ImagesContext } from '../../contexts/images-context';
 
-import UploadModal from '../../components/upload-modal/upload-modal';
+import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
 import ImageCardModal from '../../components/image-card-modal/image-card-modal';
 
 import './gallery.css';
@@ -32,14 +32,6 @@ const Gallery = () => {
 		getAllImages();
   }
 
-	const handleFileChange = (file) => {
-    stageImage(file);
-  }
-
-	const handleCancel = () => {
-		stageImage(null);
-	}
-
 	return (
 		<Container>
 			<Row className="g-2">
@@ -53,10 +45,8 @@ const Gallery = () => {
 				
 				<Col xl={3} md={4} xs={6} className="gallery-item my-auto">
 					{uploadPercent===0 ?
-						<UploadModal
+						<ImageUploadModal
 							handleAccept={handleAccept}
-							handleFileChange={handleFileChange}
-							handleCancel={handleCancel}
 						/> : 
 						<p>{uploadPercent}</p>
 					}
