@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
-import InputGroup from "react-bootstrap/InputGroup";
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
 
 import { ImagesContext } from "../../contexts/images-context";
 
@@ -18,8 +19,8 @@ const ImageSelectModal = ({handleAccept}) => {
   const handleShow = () => setShow(true);
 
   const onAccept = async (image) => {
-    handleAccept(image);
     handleClose();
+    handleAccept(image);
   }
 
   return (
@@ -33,6 +34,11 @@ const ImageSelectModal = ({handleAccept}) => {
 
           <Container>
             <Row className="g-2">
+              <Col xl={3} md={4} xs={6} className="gallery-item my-auto">
+                <ImageUploadModal
+                  handleAccept={onAccept}
+                />
+              </Col>
               {allImages?.map((image, i)=>(
                 <Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
                   <div className="image-thumb">

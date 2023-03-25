@@ -23,14 +23,9 @@ const Gallery = () => {
 		createImageData
 	} = useContext(ImagesContext);
 
-	const handleAccept = async () => {
-		
-    const downloadUrls = await uploadImage(stagedImages);
-	
-    createImageData(downloadUrls);
-		stageImage(null);
+	const handleAccept = async (newImageData) => {
 		getAllImages();
-  }
+	}
 
 	return (
 		<Container>

@@ -3,8 +3,8 @@ import Carousel from 'react-bootstrap/Carousel';
 const ImageCarousel = ({slideList}) => {
   return (
     <Carousel>
-      {slideList.map((slide) => (
-        <Carousel.Item key={slide?.id}>
+      {slideList.map((slide, i) => (
+        <Carousel.Item key={i}>
           <img
             className="d-block w-100"
             src={slide?.md_img}

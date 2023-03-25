@@ -8,7 +8,13 @@ import { ImagesContext } from "../../contexts/images-context";
 
 const ImageUploadModal = ({handleAccept}) => {
   
-  const { stageImage, stagePercent } = useContext(ImagesContext);
+  const {
+    stageImage,
+    stagedImages,
+    uploadImage,
+    createImageData,
+    stagePercent
+  } = useContext(ImagesContext);
 
   const [ previewImage, setPreviewImage ] = useState();
 
@@ -18,8 +24,11 @@ const ImageUploadModal = ({handleAccept}) => {
 
   const onAccept = async () => {
     setPreviewImage(null);
-    handleAccept();
+    stageImage(null);
     handleClose();
+    const downloadUrls = await uploadImage(stagedImages);
+		const newImageData = await createImageData(downloadUrls);
+    handleAccept(newImageData);
   }
 
   const onCancel = () => {

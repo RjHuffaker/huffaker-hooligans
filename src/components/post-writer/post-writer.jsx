@@ -9,7 +9,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import { ImagesContext } from '../../contexts/images-context';
 
-import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
 import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
 import TagSelector from "../../components/tag-selector/tag-selector"
 import DateSelector from "../../components/date-selector/date-selector";
@@ -58,15 +57,8 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, featured: checked });
   }
 
-  const handleAccept = async () => {
-		
-    const downloadUrls = await uploadImage(stagedImages);
-	
-    const newImage = await createImageData(downloadUrls);
-		stageImage(null);
-
-    console.log(newImage);
-    setPost({ ...post, titleImage: newImage });
+  const handleAccept = async (newImageData) => {
+    setPost({ ...post, titleImage: newImageData });
   }
 
   const acceptImage = async (newImage) => {
@@ -116,9 +108,6 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
         <Col xl={3} className="my-2">
           <Card className="h-100">
-            <ImageUploadModal
-							handleAccept={handleAccept}
-						/>
             <ImageSelectModal
 							handleAccept={acceptImage}
 						/>

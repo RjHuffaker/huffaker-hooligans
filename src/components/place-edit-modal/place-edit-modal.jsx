@@ -11,7 +11,7 @@ import { ImagesContext } from '../../contexts/images-context';
 
 import DateSelector from '../date-selector/date-selector';
 
-import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
+import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
 const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
@@ -67,15 +67,9 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     updateJourney(journey);
   }
 
-  const handleAccept = async () => {
-    const downloadUrls = await uploadImage(stagedImages);
-    const newImage = await createImageData(downloadUrls);
-
-		stageImage(null);
-
+  const handleAccept = async (newImageData) => {
     let images = activePlace.images ? activePlace.images : [];
-    images.push(newImage);
-
+    images.push(newImageData);
     setActivePlace({ ...activePlace, images: [...images] });
   }
 
@@ -126,7 +120,7 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               date={activePlace?.arrivalDate}
               setDate={onArrivalDateChange}
             />
-            <ImageUploadModal
+            <ImageSelectModal
 							handleAccept={handleAccept}
 						/>
             
