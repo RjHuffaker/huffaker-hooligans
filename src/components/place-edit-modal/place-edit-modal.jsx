@@ -121,8 +121,12 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
         <Modal.Footer>
           <Row>
             <Col>
-              <Button variant="outline-success" onClick={()=>{onPlaceUpdate(activePlace); handleClose()}}>&#x2714;</Button>
-              <DeleteModalButton deleteObject={activePlace} deleteAction={() => onPlaceDelete(activePlace)}>&#128465;</DeleteModalButton>
+              <Button variant="outline-success" onClick={()=>{onPlaceUpdate(activePlace); handleClose()}}>
+                &#x2714;
+              </Button>
+              <DeleteModalButton deleteObject={activePlace} deleteAction={() => onPlaceDelete(activePlace)}>
+                &#128465;
+              </DeleteModalButton>
             </Col>
           </Row>
         </Modal.Footer>

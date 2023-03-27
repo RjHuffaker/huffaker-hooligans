@@ -11,6 +11,8 @@ import {
   uploadFiles
 } from '../config/firebase-storage';
 
+import { useImageSize } from 'react-image-size';
+
 import { resizeImageFile } from '../config/image-resizer';
 
 export const ImagesContext = createContext({
@@ -25,7 +27,6 @@ const imageSizes = [
   { size: 'lg_img', maxWidth: 800, maxHeight: 800 },
   { size: 'xl_img', maxWidth: 1000, maxHeight: 1000 }
 ];
-
 
 export const ImagesProvider = ({ children }) => {
 

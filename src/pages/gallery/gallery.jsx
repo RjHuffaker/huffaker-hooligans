@@ -16,14 +16,10 @@ const Gallery = () => {
   const {
 		allImages,
 		getAllImages,
-		stageImage,
-		stagedImages,
-		uploadImage,
-		uploadPercent,
-		createImageData
+		uploadPercent
 	} = useContext(ImagesContext);
 
-	const handleAccept = async (newImageData) => {
+	const handleAccept = async () => {
 		getAllImages();
 	}
 

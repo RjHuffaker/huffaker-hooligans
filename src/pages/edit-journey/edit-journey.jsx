@@ -47,7 +47,7 @@ const EditJourney = () => {
     }
 
     fetchJourney();
-  }, []);
+  }, [journeyId]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
