@@ -7,11 +7,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import { JourneysContext } from '../../contexts/journeys-context';
-import { ImagesContext } from '../../contexts/images-context';
 
-import DateSelector from '../date-selector/date-selector';
-
+import DateSelector from '../../components/date-selector/date-selector';
 import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
+import ImageCarousel from '../../components/image-carousel/image-carousel';
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
 
 const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
@@ -21,14 +20,6 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     setActivePlace,
     updateJourney
   } = useContext(JourneysContext);
-
-  const {
-		stageImage,
-		stagedImages,
-		uploadImage,
-		uploadPercent,
-		createImageData
-	} = useContext(ImagesContext);
   
   const [show, setShow] = useState(false);
 
@@ -42,10 +33,6 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
 
   const onArrivalDateChange = (date) => {
     setActivePlace({ ...activePlace, arrivalDate: date.getTime() });
-  }
-
-  const setTitleImage = (value) => {
-    setActivePlace({ ...activePlace, titleImage: value });
   }
 
   const onPlaceUpdate = (place) => {
@@ -120,6 +107,11 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               date={activePlace?.arrivalDate}
               setDate={onArrivalDateChange}
             />
+            <Row>
+              {activePlace?.images &&
+                <ImageCarousel slideList={activePlace?.images} />
+              }
+            </Row>
             <ImageSelectModal
 							handleAccept={handleAccept}
 						/>

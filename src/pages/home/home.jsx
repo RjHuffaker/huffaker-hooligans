@@ -3,7 +3,6 @@ import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
 
 import { PostsContext } from "../../contexts/posts-context";
 
@@ -22,10 +21,10 @@ const Home = () => {
   return (
     <Container>
       <Row className="my-3">
-        <Col>
+        <Col lg={5} md={12} className="mb-3">
           <ImageCarousel slideList={allImages} />
         </Col>
-        <Col>
+        <Col lg={7} md={12}>
           {featuredPosts.map(post =>
             <PostSummary key={post.id} post={post} />
           )}

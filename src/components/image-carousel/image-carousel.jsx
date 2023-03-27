@@ -9,10 +9,10 @@ const ImageCarousel = ({slideList}) => {
             className="d-block w-100"
             src={slide?.md_img}
             srcSet={`
-                ${slide?.md_img} 992w,
-                ${slide?.lg_img} 1200w,
-                ${slide?.xl_img} 1400w
-              `}
+              ${slide?.md_img} 992w,
+              ${slide?.lg_img} 1200w,
+              ${slide?.xl_img} 1400w
+            `}
             alt={slide?.id}
           />
         </Carousel.Item>

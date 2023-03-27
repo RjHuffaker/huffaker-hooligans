@@ -1,13 +1,9 @@
-import { useContext } from 'react';
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
-
-import { ImagesContext } from '../../contexts/images-context';
 
 import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
 import TagSelector from "../../components/tag-selector/tag-selector"
@@ -19,20 +15,6 @@ import QuillEditor from '../quill-editor/quill-editor';
 import './post-writer.css';
 
 const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit, onCancel }) => {
-
-  console.log(post);
-
-  const {
-		stageImage,
-		stagedImages,
-		uploadImage,
-		uploadPercent,
-		createImageData
-	} = useContext(ImagesContext);
-
-  const setTitleImage = (value) => {
-    setPost({ ...post, titleImage: value });
-  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,6 +29,10 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
     setPost({ ...post, datePublished: date.getTime() });
   }
 
+  const onTagChange = (data) => {
+    setPost({ ...post, tags: data});
+  }
+
   const onCheckPublished = (event) => {
     const checked = event.target.checked;
     setPost({ ...post, published: checked });
@@ -55,10 +41,6 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
   const onCheckFeatured = (event) => {
     const checked = event.target.checked;
     setPost({ ...post, featured: checked });
-  }
-
-  const handleAccept = async (newImageData) => {
-    setPost({ ...post, titleImage: newImageData });
   }
 
   const acceptImage = async (newImage) => {
@@ -88,7 +70,7 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
                     </InputGroup>
                   </Col>
                   <Col lg={6}>
-                    <TagSelector name="tags" value={post.tags} onChange={handleChange} />
+                    <TagSelector name="tags" value={post.tags} onChange={onTagChange} />
                   </Col>
                 </Row>
                 <Row>
@@ -142,6 +124,7 @@ const PostWriter = ({ headerText, post, setPost, bodyText, setBodyText, onSubmit
         </Col>
         <Col md={2} xs={6}>
           <Checkbox
+            name="published"
             label="Published"
             value={post.published}
             onChange={onCheckPublished}
