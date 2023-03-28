@@ -50,6 +50,8 @@ const PostCard = ({ post }) => {
       <Card.Footer>
         <span className="float-start">
           @{post.author.name}
+          {currentUser?.uid && post.featured && <> &#129351; </>}
+          {currentUser?.uid && post.published && <> &#128226; </>}
         </span>
         {
           currentUser?.uid === post.author.id &&

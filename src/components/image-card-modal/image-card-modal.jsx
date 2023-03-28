@@ -25,12 +25,8 @@ const ImageCardModal = ({image}) => {
     <>
       <div className="image-thumb">
           <img
-            src={image.xs_img}
-            srcSet={`
-              ${image.xs_img} 1200w,
-              ${image.sm_img} 1400w
-            `}
-            alt={image.xs_img}
+            src={image.sm_img}
+            alt={image.sm_img}
             onClick={handleShow}
           />
       </div>

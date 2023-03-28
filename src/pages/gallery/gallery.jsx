@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 
 import { ImagesContext } from '../../contexts/images-context';
 
@@ -13,7 +14,7 @@ import './gallery.css';
 
 const Gallery = () => {
 	
-  const {
+	const {
 		allImages,
 		getAllImages,
 		uploadPercent
@@ -26,22 +27,28 @@ const Gallery = () => {
 	return (
 		<Container>
 			<Row className="g-2">
-				{allImages?.map((image, i)=>(
+				<Col className="gallery-item">
+					<Card xl={3} md={4} xs={6} className="align-items-center text-center">
+						<Card.Body>
+							{uploadPercent===0 ?
+								<ImageUploadModal
+									handleAccept={handleAccept}
+								/> : 
+								<p>{uploadPercent}</p>
+							}
+						</Card.Body>
+					</Card>
+				</Col>
+				
+
+				{allImages?.sort((a, b)=> a.xs_img - a.xs_img)
+					.map((image, i)=>(
 					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
-						<div>
+						
 							<ImageCardModal image={image} />
-						</div>
+						
 					</Col>
 				))}
-				
-				<Col xl={3} md={4} xs={6} className="gallery-item my-auto">
-					{uploadPercent===0 ?
-						<ImageUploadModal
-							handleAccept={handleAccept}
-						/> : 
-						<p>{uploadPercent}</p>
-					}
-				</Col>
 				
 			</Row>
 		</Container>
