@@ -3,15 +3,14 @@ import { createContext, useEffect, useState } from "react";
 import {
   getAllDocuments,
   createDocument,
+  updateDocument,
   deleteDocument
 } from '../config/firebase-firestore';
 
 import {
   deleteFile,
-  uploadFiles
+  uploadFiles,
 } from '../config/firebase-storage';
-
-import { useImageSize } from 'react-image-size';
 
 import { resizeImageFile } from '../config/image-resizer';
 
@@ -110,6 +109,21 @@ export const ImagesProvider = ({ children }) => {
     return createDocument('imageData', imageData);
   }
 
+  const updateImageData = async (imageData) => {
+    const imageToUpdate = await updateDocument('imageData', imageData);
+
+    const index = allImages.findIndex(obj => obj.id === imageToUpdate.id);
+
+    if (index !== -1) {
+      setAllImages(oldImages => {
+        const newImages = [...oldImages];
+        newImages[index] = imageToUpdate;
+        return [...newImages];
+      });
+    } else {
+      console.error('Image data not found in memory');
+    }
+  }
 
   const deleteImage = async (image) => {
     imageSizes
@@ -127,14 +141,15 @@ export const ImagesProvider = ({ children }) => {
   const value = {
     allImages,
     getAllImages,
-    stageImage,
     stagedImages,
+    stageImage,
     stagePercent,
     setStagePercent,
     uploadImage,
     uploadPercent,
     setUploadPercent,
     createImageData,
+    updateImageData,
     deleteImage,
     imageFile,
     setImageFile

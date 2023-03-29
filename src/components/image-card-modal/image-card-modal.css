@@ -15,10 +15,10 @@
   width: auto;
   height: auto;
   object-fit: cover;
-	border: 1px solid red;
 }
 
 .image-modal {
+  position: relative;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;

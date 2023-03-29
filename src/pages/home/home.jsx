@@ -22,7 +22,7 @@ const Home = () => {
     <Container>
       <Row className="my-3">
         <Col lg={5} md={12} className="mb-3">
-          <ImageCarousel slideList={allImages} />
+          <ImageCarousel slideList={allImages.filter((obj) => obj.featured)} />
         </Col>
         <Col lg={7} md={12}>
           {featuredPosts.map(post =>

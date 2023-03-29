@@ -66,10 +66,10 @@ export const PostsProvider = ({children}) => {
 
     const postToUpdate = await updateDocument('posts', {
       ...post,
-          dateModified: dateModified,
-          author: {
-          name: currentUser.displayName,
-          id: currentUser.uid
+        dateModified: dateModified,
+      author: {
+        name: currentUser.displayName,
+        id: currentUser.uid
       }
     });
 
