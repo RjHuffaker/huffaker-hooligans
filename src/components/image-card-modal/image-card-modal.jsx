@@ -37,6 +37,11 @@ const ImageCardModal = ({image}) => {
     setImageData({...imageData, featured: checked});
   }
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setImageData({ ...imageData, [name]: value })
+  }
+
   return (
     <>
       <div className="image-thumb">
@@ -66,6 +71,12 @@ const ImageCardModal = ({image}) => {
             <Button variant="outline-success" onClick={acceptHandler}>
               &#x2714;
             </Button>
+            <input
+              name="caption"
+              type="text"
+              value={imageData.caption}
+              onChange={handleChange}
+            />
             <Checkbox
               name="featured"
               label="Featured"
@@ -75,7 +86,9 @@ const ImageCardModal = ({image}) => {
             <DeleteModalButton
               deleteObject={imageData}
               deleteAction={deleteHandler}
-            >&#128465;</DeleteModalButton>
+            >
+              &#128465;
+            </DeleteModalButton>
           </>}
         </Modal.Footer>
       </Modal>

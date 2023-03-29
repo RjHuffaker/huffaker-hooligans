@@ -1,0 +1,22 @@
+.carousel-inner, .carousel-slide {
+  height: 80vh;
+}
+
+.carousel-item {
+  position: relative;
+  width: 100%; /* set the desired width */
+  height: 100%; /* set the desired height */
+  overflow: hidden;
+}
+
+.carousel-item img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+}
