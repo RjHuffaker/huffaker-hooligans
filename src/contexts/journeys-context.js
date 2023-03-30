@@ -43,7 +43,7 @@ export const JourneysProvider = ({ children }) => {
   }
 
   const updateJourney = async (journey) => {
-    const journeyToUpdate = await updateDocument('journeys', journey);
+    const journeyToUpdate = await updateDocument('journeys', {...journey, selected: false});
 
     const index = journeys.findIndex(obj => obj.id === journeyToUpdate.id);
     
