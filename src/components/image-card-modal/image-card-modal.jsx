@@ -45,11 +45,14 @@ const ImageCardModal = ({image}) => {
   return (
     <>
       <div className="image-thumb">
-          <img
-            src={imageData.sm_img}
-            alt={imageData.sm_img}
-            onClick={handleShow}
-          />
+        <img
+          src={imageData.sm_img}
+          alt={imageData.sm_img}
+          onClick={handleShow}
+        />
+        <span className="float-start">
+          {imageData.featured && <> &#129351; </>}
+        </span>
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>

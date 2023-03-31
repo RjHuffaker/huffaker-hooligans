@@ -17,6 +17,12 @@
   object-fit: cover;
 }
 
+.image-thumb span {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .image-modal {
   position: relative;
 	overflow: hidden;
