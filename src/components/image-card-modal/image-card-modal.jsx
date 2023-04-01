@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 import { UserContext } from "../../contexts/user-context";
 import { ImagesContext } from '../../contexts/images-context';
@@ -71,27 +72,35 @@ const ImageCardModal = ({image}) => {
         </Modal.Body>
         <Modal.Footer>
           {currentUser && <>
-            <Button variant="outline-success" onClick={acceptHandler}>
-              &#x2714;
-            </Button>
-            <input
-              name="caption"
-              type="text"
-              value={imageData.caption}
-              onChange={handleChange}
-            />
-            <Checkbox
-              name="featured"
-              label="Featured"
-              value={imageData.featured}
-              onChange={onCheckFeatured}
-            />
-            <DeleteModalButton
-              deleteObject={imageData}
-              deleteAction={deleteHandler}
-            >
-              &#128465;
-            </DeleteModalButton>
+            <Col>
+              <input
+                className="w-100"
+                name="caption"
+                type="text"
+                placeholder="Carousel Caption..."
+                value={imageData.caption}
+                onChange={handleChange}
+              />
+            </Col>
+            <Col xl={1} lg={2} md={3}>
+              <Checkbox
+                name="featured"
+                label="Featured"
+                value={imageData.featured}
+                onChange={onCheckFeatured}
+              />
+            </Col>
+            <Col xl={1} lg={2} md={3}>
+              <Button variant="outline-success" onClick={acceptHandler}>
+                &#x2714;
+              </Button>
+              <DeleteModalButton
+                deleteObject={imageData}
+                deleteAction={deleteHandler}
+              >
+                &#128465;
+              </DeleteModalButton>
+            </Col>
           </>}
         </Modal.Footer>
       </Modal>
