@@ -12,7 +12,7 @@ import Checkbox from '../../components/checkbox/checkbox'
 
 import './image-card-modal.css';
 
-const ImageCardModal = ({image}) => {
+const ImageCardModal = ({image, onAccept, onDelete}) => {
 
   const { currentUser } = useContext(UserContext);
   const { deleteImage, updateImageData } = useContext(ImagesContext);
@@ -26,10 +26,12 @@ const ImageCardModal = ({image}) => {
 
   const deleteHandler = () => {
     deleteImage(imageData);
+    onDelete(image);
   }
 
   const acceptHandler = () => {
     updateImageData(imageData);
+    onAccept(image);
     handleClose();
   }
 
