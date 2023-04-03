@@ -15,7 +15,6 @@ import './image-card-modal.css';
 const ImageCardModal = ({image, onAccept, onDelete}) => {
 
   const { currentUser } = useContext(UserContext);
-  const { deleteImage, updateImageData } = useContext(ImagesContext);
   
   const [ imageData, setImageData ] = useState(image);
 
@@ -25,12 +24,11 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
 
 
   const deleteHandler = () => {
-    deleteImage(imageData);
     onDelete(image);
+    handleClose();
   }
 
   const acceptHandler = () => {
-    updateImageData(imageData);
     onAccept(image);
     handleClose();
   }

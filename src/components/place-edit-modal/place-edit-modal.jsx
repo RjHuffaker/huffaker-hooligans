@@ -78,8 +78,10 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
     }
   }
 
-  const handleImageDelete = (image) => {
-    console.log('handleImageDelete', image);
+  const handleImageDelete = (imageData) => {
+    console.log('handleImageDelete', imageData);
+    let newImages = activePlace.images.filter(item => item.id !== imageData.id);
+    setActivePlace({ ...activePlace, images: [...newImages] });
   }
 
   return (
