@@ -8,6 +8,8 @@ import { PostsContext } from "../../contexts/posts-context";
 
 import { ImagesContext } from "../../contexts/images-context";
 
+import ReadPost from "../../components/post-read/post-read";
+
 import PostSummary from "../../components/post-summary/post-summary";
 
 import ImageCarousel from "../../components/image-carousel/image-carousel";
@@ -30,6 +32,7 @@ const Home = () => {
           )}
         </Col>
       </Row>
+      <ReadPost postId={'mZklEwRx8gFzZcRQ8P02'} />
     </Container>
   )
 }
