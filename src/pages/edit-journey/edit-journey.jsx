@@ -115,21 +115,22 @@ const EditJourney = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <ListGroup className="w-100">
-                {journey?.places.map((place) =>
-                  <ListGroup.Item
-                    key={place.id}
-                    variant="light"
-                    action
-                    active={place.id === activePlace?.id}
-                    onClick={() => activePlace?.id === place.id ? setActivePlace(null) : setActivePlace(place)}
-                  >
-                    <Row>
-                      <Col>
-                        {place.title}
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                )}
+                {journey?.places.sort((a, b) => a.arrivalDate - b.arrivalDate)
+                  .map((place) =>
+                    <ListGroup.Item
+                      key={place.id}
+                      variant="light"
+                      action
+                      active={place.id === activePlace?.id}
+                      onClick={() => activePlace?.id === place.id ? setActivePlace(null) : setActivePlace(place)}
+                    >
+                      <Row>
+                        <Col>
+                          {place.title}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  )}
               </ListGroup>
 
             </Offcanvas.Body>

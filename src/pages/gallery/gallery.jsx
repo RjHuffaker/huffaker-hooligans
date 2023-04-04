@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
+import { UserContext } from '../../contexts/user-context';
 import { ImagesContext } from '../../contexts/images-context';
 
 import ImageUploadModal from '../../components/image-upload-modal/image-upload-modal';
@@ -18,9 +19,11 @@ const Gallery = () => {
 		allImages,
 		getAllImages,
 		uploadPercent,
-    updateImageData,
-    deleteImage
+		updateImageData,
+		deleteImage
 	} = useContext(ImagesContext);
+
+	const { currentUser } = useContext(UserContext);
 
 	const handleAccept = async () => {
 		getAllImages();
@@ -38,7 +41,7 @@ const Gallery = () => {
 	return (
 		<Container>
 			<Row className="g-2">
-				<Col className="gallery-item">
+				{currentUser?.uid && <Col className="gallery-item">
 					<Card xl={3} md={4} xs={6} className="align-items-center text-center">
 						<Card.Body>
 							{uploadPercent===0 ?
@@ -49,9 +52,8 @@ const Gallery = () => {
 							}
 						</Card.Body>
 					</Card>
-				</Col>
+				</Col>}
 				
-
 				{allImages?.sort((a, b)=> a.xs_img - a.xs_img)
 					.map((image, i)=>(
 					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
