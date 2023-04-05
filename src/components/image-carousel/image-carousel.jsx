@@ -5,23 +5,28 @@ import './image-carousel.css';
 const ImageCarousel = ({slideList}) => {
   return (
     <Carousel>
-      {slideList.map((slide, i) => (
-        <Carousel.Item key={i}>
-          <img
-            className="carousel-image d-block w-100"
-            src={slide?.md_img}
-            srcSet={`
-              ${slide?.md_img} 992w,
-              ${slide?.lg_img} 1200w,
-              ${slide?.xl_img} 1400w
-            `}
-            alt={slide?.id}
-          />
-          <Carousel.Caption>
-            <p>{slide?.caption}</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      ))}
+      {slideList.sort((a, b) => a.dateTaken - b.dateTaken)
+        .map((slide) => {
+          console.log(slide.dateTaken);
+          return slide;
+        })
+        .map((slide, i) => (
+          <Carousel.Item key={i}>
+            <img
+              className="carousel-image d-block w-100"
+              src={slide?.md_img}
+              srcSet={`
+                ${slide?.md_img} 992w,
+                ${slide?.lg_img} 1200w,
+                ${slide?.xl_img} 1400w
+              `}
+              alt={slide?.id}
+            />
+            <Carousel.Caption>
+              <p>{slide?.caption}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
     </Carousel>
   );
 }

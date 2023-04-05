@@ -30,8 +30,8 @@ const Gallery = () => {
 	}
 
 	const handleImageAccept = (imageData) => {
-    updateImageData(imageData);
-    getAllImages();
+		updateImageData(imageData);
+		getAllImages();
 	}
 
 	const handleImageDelete = (imageData) => {
@@ -54,7 +54,7 @@ const Gallery = () => {
 					</Card>
 				</Col>}
 				
-				{allImages?.sort((a, b)=> a.xs_img - a.xs_img)
+				{allImages?.sort((a, b) => a.dateTaken - b.dateTaken)
 					.map((image, i)=>(
 					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
 						<ImageCardModal

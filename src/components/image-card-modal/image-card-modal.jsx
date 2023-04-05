@@ -8,6 +8,7 @@ import { UserContext } from "../../contexts/user-context";
 import { ImagesContext } from '../../contexts/images-context';
 
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button'
+import DateSelector from "../../components/date-selector/date-selector";
 import Checkbox from '../../components/checkbox/checkbox'
 
 import './image-card-modal.css';
@@ -29,7 +30,7 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
   }
 
   const acceptHandler = () => {
-    onAccept(image);
+    onAccept(imageData);
     handleClose();
   }
 
@@ -41,6 +42,10 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setImageData({ ...imageData, [name]: value })
+  }
+
+  const onDateTakenChange = (date) => {
+    setImageData({...imageData, dateTaken: date.getTime()});
   }
 
   return (
@@ -57,6 +62,9 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>
+        <Modal.Header>
+          {imageData.md_img} - {imageData.dateTaken}
+        </Modal.Header>
         <Modal.Body>
           <div className="image-modal">
             <img
@@ -72,6 +80,13 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
         </Modal.Body>
         <Modal.Footer>
           {currentUser && <>
+            <Col>
+              <DateSelector
+                labelText={"Date Taken:"}
+                date={imageData.dateTaken}
+                setDate={onDateTakenChange}
+              />
+            </Col>
             <Col>
               <input
                 className="w-100"
