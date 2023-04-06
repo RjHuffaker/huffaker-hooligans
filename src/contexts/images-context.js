@@ -41,7 +41,6 @@ export const ImagesProvider = ({ children }) => {
 
   const getAllImages = async () => {
     const images = await getAllDocuments('imageData');
-    console.log(images);
     setAllImages(images);
   }
 

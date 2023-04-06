@@ -42,7 +42,6 @@ export const PostsProvider = ({children}) => {
   }
 
   const getPost = async (postId) => {
-    console.log(postId);
     return await readDocument("posts", postId);
   }
 

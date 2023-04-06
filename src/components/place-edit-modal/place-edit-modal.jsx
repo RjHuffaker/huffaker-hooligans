@@ -62,12 +62,14 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
 
   const handleImageAccept = (imageData) => {
     let imageIndex = -1;
-    activePlace.images.forEach((image, i) => {
-      if (image?.xs_img === imageData.xs_img){
-        imageIndex = i;
-      }
-    });
-    if(imageIndex > 0){
+    if(activePlace.images){
+      activePlace.images.forEach((image, i) => {
+        if (image?.id === imageData.id){
+          imageIndex = i;
+        }
+      });
+    }
+    if(imageIndex > -1){
       let newImages = activePlace.images;
       newImages[imageIndex] = imageData;
       setActivePlace({ ...activePlace, images: [...newImages] });

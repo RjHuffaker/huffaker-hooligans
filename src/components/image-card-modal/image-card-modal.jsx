@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
 import { UserContext } from "../../contexts/user-context";
-import { ImagesContext } from '../../contexts/images-context';
 
 import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button'
 import DateSelector from "../../components/date-selector/date-selector";
@@ -16,7 +15,7 @@ import './image-card-modal.css';
 const ImageCardModal = ({image, onAccept, onDelete}) => {
 
   const { currentUser } = useContext(UserContext);
-  
+
   const [ imageData, setImageData ] = useState(image);
 
   const [ show, setShow ] = useState(false);
@@ -56,9 +55,11 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
           alt={imageData.sm_img}
           onClick={handleShow}
         />
-        <span className="float-start">
-          {imageData.featured && <> &#129351; </>}
-        </span>
+        {currentUser?.uid && 
+          <span className="float-start">
+            {imageData.featured && <> &#129351; </>}
+          </span>
+        }
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>

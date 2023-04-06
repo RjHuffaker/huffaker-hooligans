@@ -5,11 +5,8 @@ import './image-carousel.css';
 const ImageCarousel = ({slideList}) => {
   return (
     <Carousel>
-      {slideList.sort((a, b) => a.dateTaken - b.dateTaken)
-        .map((slide) => {
-          console.log(slide.dateTaken);
-          return slide;
-        })
+      {slideList
+        .sort((a, b) => b.dateTaken - a.dateTaken)
         .map((slide, i) => (
           <Carousel.Item key={i}>
             <img

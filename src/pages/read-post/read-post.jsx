@@ -61,7 +61,7 @@ const ReadPost = () => {
             <Card.Title><h2>{post.title}</h2></Card.Title>
             <Card.Body>
               <ReactQuill
-                value={post.body}
+                value={post?.body}
                 readOnly={true}
                 theme={"bubble"}
               />

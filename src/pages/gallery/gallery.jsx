@@ -54,7 +54,7 @@ const Gallery = () => {
 					</Card>
 				</Col>}
 				
-				{allImages?.sort((a, b) => a.dateTaken - b.dateTaken)
+				{allImages?.sort((a, b) => b.dateTaken - a.dateTaken)
 					.map((image, i)=>(
 					<Col xl={3} md={4} xs={6} key={i} className="gallery-item my-auto">
 						<ImageCardModal

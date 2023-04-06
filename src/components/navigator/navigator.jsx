@@ -9,6 +9,8 @@ import { UserContext } from '../../contexts/user-context';
 
 import { signOutUser } from '../../config/firebase-auth';
 
+import './navigator.css';
+
 const Navigator = () => {
 
   const { currentUser } = useContext(UserContext);
@@ -23,7 +25,7 @@ const Navigator = () => {
 
   return (
     <>
-      <Navbar sticky="top" bg="light" variant="light" expand="lg">
+      <Navbar sticky="top" expand="lg" variant="dark" className="custom-navbar">
         <Container>
           <Navbar.Brand href="/">
             <h1 className="woodenLog">Huffaker Hooligans</h1>

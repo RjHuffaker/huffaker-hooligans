@@ -10,7 +10,7 @@ import ImageUploadModal from '../../components/image-upload-modal/image-upload-m
 
 import { ImagesContext } from "../../contexts/images-context";
 
-const ImageSelectModal = ({handleAccept}) => {
+const ImageSelectModal = ({handleAccept, ...otherProps}) => {
 
   const { allImages } = useContext(ImagesContext);
 
@@ -25,7 +25,7 @@ const ImageSelectModal = ({handleAccept}) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button {...otherProps} onClick={handleShow}>
         Select Image
       </Button>
 
@@ -36,6 +36,7 @@ const ImageSelectModal = ({handleAccept}) => {
             <Row className="g-2">
               <Col xl={3} md={4} xs={6} className="gallery-item my-auto">
                 <ImageUploadModal
+                  variant="primary"
                   handleAccept={onAccept}
                 />
               </Col>

@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { ImagesContext } from "../../contexts/images-context";
 
-const ImageUploadModal = ({handleAccept}) => {
+const ImageUploadModal = ({handleAccept, ...otherProps}) => {
   
   const {
     stageImage,
@@ -44,7 +44,7 @@ const ImageUploadModal = ({handleAccept}) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button {...otherProps} onClick={handleShow}>
         Upload Image
       </Button>
 
