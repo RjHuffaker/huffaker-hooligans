@@ -44,7 +44,7 @@ const Gallery = () => {
 				{currentUser?.uid && <Col className="gallery-item">
 					<Card xl={3} md={4} xs={6} className="align-items-center text-center">
 						<Card.Body>
-							{uploadPercent===0 ?
+							{uploadPercent === 0 || uploadPercent === 100 ?
 								<ImageUploadModal
 									handleAccept={handleAccept}
 								/> : 
