@@ -19,7 +19,7 @@ const Home = () => {
 
   const { featuredPosts, getPost } = useContext(PostsContext);
 
-  const { allImages } = useContext(ImagesContext);
+  const { featuredImages } = useContext(ImagesContext);
 
   const [ post, setPost ] = useState();
 
@@ -37,8 +37,7 @@ const Home = () => {
       <Row className="my-3">
         <Col lg={7} md={12} className="mb-3">
           <ImageCarousel
-            slideList={allImages
-              .filter((obj) => obj.featured)
+            slideList={featuredImages
               .sort((a, b) => b.dateTaken - a.dateTaken)
             }
           />

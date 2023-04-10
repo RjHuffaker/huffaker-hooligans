@@ -44,7 +44,19 @@ export const getPublishedDocuments = async (key, timestamp) => {
   return querySnapShot.docs.map((docSnapShot) => docSnapShot.data());
 }
 
-export const getFeaturedDocuments = async (key, timestamp) => {
+export const getFeaturedDocuments = async (key) => {
+  const nowTimestamp = new Date().getTime();
+  const collectionRef = collection(db, key);
+  const q = query(collectionRef,
+    where("featured", "==", true)
+  );
+
+  const querySnapShot = await getDocs(q);
+
+  return querySnapShot.docs.map((docSnapShot) => docSnapShot.data());
+}
+
+export const getFeaturedPublishedDocuments = async (key) => {
   const nowTimestamp = new Date().getTime();
   const collectionRef = collection(db, key);
   const q = query(collectionRef,

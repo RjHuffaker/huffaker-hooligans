@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import {
   getAllDocuments,
   getPublishedDocuments,
-  getFeaturedDocuments,
+  getFeaturedPublishedDocuments,
   createDocument,
   updateDocument,
   deleteDocument,
@@ -37,8 +37,8 @@ export const PostsProvider = ({children}) => {
   }
 
   const getFeaturedPosts = async () => {
-    const featuredPosts = await getFeaturedDocuments('posts');
-    setFeaturedPosts(featuredPosts);
+    const featuredDocs = await getFeaturedPublishedDocuments('posts');
+    setFeaturedPosts(featuredDocs);
   }
 
   const getPost = async (postId) => {

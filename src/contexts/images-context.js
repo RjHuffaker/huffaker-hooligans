@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 import {
   getAllDocuments,
+  getFeaturedDocuments,
   createDocument,
   updateDocument,
   deleteDocument
@@ -31,6 +32,8 @@ export const ImagesProvider = ({ children }) => {
 
   const [ allImages, setAllImages ] = useState([]);
 
+  const [ featuredImages, setFeaturedImages ] = useState([]);
+
   const [ stagedImages, setStagedImages ] = useState([]);
 
   const [ stagePercent, setStagePercent ] = useState(0);
@@ -42,6 +45,11 @@ export const ImagesProvider = ({ children }) => {
   const getAllImages = async () => {
     const images = await getAllDocuments('imageData');
     setAllImages(images);
+  }
+
+  const getFeaturedImages = async () => {
+    const featuredDocs = await getFeaturedDocuments('imageData');
+    setFeaturedImages(featuredDocs);
   }
 
   const stageImage = async (imageFile) => {
@@ -135,11 +143,13 @@ export const ImagesProvider = ({ children }) => {
 
   useEffect(() => {
     getAllImages();
+    getFeaturedImages();
   }, []);
 
   const value = {
     allImages,
     getAllImages,
+    featuredImages,
     stagedImages,
     stageImage,
     stagePercent,
