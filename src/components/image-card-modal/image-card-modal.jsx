@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { UserContext } from "../../contexts/user-context";
@@ -63,9 +64,50 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>
-        <Modal.Header>
-          {imageData.md_img} - {imageData.dateTaken}
-        </Modal.Header>
+        {currentUser && <>
+          <Modal.Header>
+            {imageData.md_img}
+          </Modal.Header>
+          <Modal.Header>
+              <Col>
+                <DateSelector
+                  labelText={"Date Taken:"}
+                  date={imageData.dateTaken}
+                  setDate={onDateTakenChange}
+                />
+              </Col>
+              <Col>
+                <input
+                  className="w-100"
+                  name="caption"
+                  type="text"
+                  placeholder="Carousel Caption..."
+                  value={imageData.caption}
+                  onChange={handleChange}
+                />
+              </Col>
+              <Col xl={1} lg={2} md={3}>
+                <Checkbox
+                  name="featured"
+                  label="Featured"
+                  value={imageData.featured}
+                  onChange={onCheckFeatured}
+                />
+              </Col>
+              <Col xl={1} lg={2} md={3}>
+                <Button variant="outline-success" onClick={acceptHandler}>
+                  &#x2714;
+                </Button>
+                <DeleteModalButton
+                  deleteObject={imageData}
+                  deleteAction={deleteHandler}
+                >
+                  &#128465;
+                </DeleteModalButton>
+              </Col>
+          </Modal.Header>
+          </>
+        }
         <Modal.Body>
           <div className="image-modal">
             <img
@@ -79,46 +121,6 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
             />
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          {currentUser && <>
-            <Col>
-              <DateSelector
-                labelText={"Date Taken:"}
-                date={imageData.dateTaken}
-                setDate={onDateTakenChange}
-              />
-            </Col>
-            <Col>
-              <input
-                className="w-100"
-                name="caption"
-                type="text"
-                placeholder="Carousel Caption..."
-                value={imageData.caption}
-                onChange={handleChange}
-              />
-            </Col>
-            <Col xl={1} lg={2} md={3}>
-              <Checkbox
-                name="featured"
-                label="Featured"
-                value={imageData.featured}
-                onChange={onCheckFeatured}
-              />
-            </Col>
-            <Col xl={1} lg={2} md={3}>
-              <Button variant="outline-success" onClick={acceptHandler}>
-                &#x2714;
-              </Button>
-              <DeleteModalButton
-                deleteObject={imageData}
-                deleteAction={deleteHandler}
-              >
-                &#128465;
-              </DeleteModalButton>
-            </Col>
-          </>}
-        </Modal.Footer>
       </Modal>
     </>
   );
