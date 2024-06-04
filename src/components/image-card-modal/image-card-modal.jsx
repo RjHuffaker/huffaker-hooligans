@@ -1,52 +1,49 @@
-import { useState, useContext } from 'react';
+import { useState, useContext } from "react";
 
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
 
 import { UserContext } from "../../contexts/user-context";
 
-import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button'
+import DeleteModalButton from "../../components/delete-modal-button/delete-modal-button";
 import DateSelector from "../../components/date-selector/date-selector";
-import Checkbox from '../../components/checkbox/checkbox'
+import Checkbox from "../../components/checkbox/checkbox";
 
-import './image-card-modal.css';
+import "./image-card-modal.css";
 
-const ImageCardModal = ({image, onAccept, onDelete}) => {
-
+const ImageCardModal = ({ image, onAccept, onDelete }) => {
   const { currentUser } = useContext(UserContext);
 
-  const [ imageData, setImageData ] = useState(image);
+  const [imageData, setImageData] = useState(image);
 
-  const [ show, setShow ] = useState(false);
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   const deleteHandler = () => {
     onDelete(image);
     handleClose();
-  }
+  };
 
   const acceptHandler = () => {
     onAccept(imageData);
     handleClose();
-  }
+  };
 
   const onCheckFeatured = (event) => {
     const checked = event.target.checked;
-    setImageData({...imageData, featured: checked});
-  }
+    setImageData({ ...imageData, featured: checked });
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setImageData({ ...imageData, [name]: value })
-  }
+    setImageData({ ...imageData, [name]: value });
+  };
 
   const onDateTakenChange = (date) => {
-    setImageData({...imageData, dateTaken: date.getTime()});
-  }
+    setImageData({ ...imageData, dateTaken: date.getTime() });
+  };
 
   return (
     <>
@@ -56,19 +53,18 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
           alt={imageData.sm_img}
           onClick={handleShow}
         />
-        {currentUser?.uid && 
+        {currentUser?.uid && (
           <span className="float-start">
             {imageData.featured && <> &#129351; </>}
           </span>
-        }
+        )}
       </div>
 
       <Modal size="xl" show={show} onHide={handleClose}>
-        {currentUser && <>
-          <Modal.Header>
-            {imageData.md_img}
-          </Modal.Header>
-          <Modal.Header>
+        {currentUser && (
+          <>
+            <Modal.Header>{imageData.md_img}</Modal.Header>
+            <Modal.Header>
               <Col>
                 <DateSelector
                   labelText={"Date Taken:"}
@@ -105,9 +101,9 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
                   &#128465;
                 </DeleteModalButton>
               </Col>
-          </Modal.Header>
+            </Modal.Header>
           </>
-        }
+        )}
         <Modal.Body>
           <div className="image-modal">
             <img
@@ -124,6 +120,6 @@ const ImageCardModal = ({image, onAccept, onDelete}) => {
       </Modal>
     </>
   );
-}
+};
 
 export default ImageCardModal;

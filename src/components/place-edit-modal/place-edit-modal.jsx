@@ -1,26 +1,27 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from "react";
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-import { JourneysContext } from '../../contexts/journeys-context';
+import { JourneysContext } from "../../contexts/journeys-context";
 
-import DateSelector from '../../components/date-selector/date-selector';
-import ImageSelectModal from '../../components/image-select-modal/image-select-modal';
-import ImageGallery from '../../components/image-gallery/image-gallery';
-import DeleteModalButton from '../../components/delete-modal-button/delete-modal-button';
+import DateSelector from "../../components/date-selector/date-selector";
+import ImageSelectModal from "../../components/image-select-modal/image-select-modal";
+import ImageGallery from "../../components/image-gallery/image-gallery";
+import DeleteModalButton from "../../components/delete-modal-button/delete-modal-button";
 
-const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => {
-  
-  const {
-    activePlace,
-    setActivePlace,
-    updateJourney
-  } = useContext(JourneysContext);
-  
+const PlaceEditModal = ({
+  journey,
+  modalHeader,
+  buttonText,
+  ...otherProps
+}) => {
+  const { activePlace, setActivePlace, updateJourney } =
+    useContext(JourneysContext);
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -28,48 +29,43 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setActivePlace({ ...activePlace, [name]: value })
-  }
+    setActivePlace({ ...activePlace, [name]: value });
+  };
 
   const onArrivalDateChange = (date) => {
     setActivePlace({ ...activePlace, arrivalDate: date.getTime() });
-  }
+  };
 
   const onPlaceUpdate = (place) => {
-    if(place.id){
-      const index = journey.places.findIndex(obj => obj.id === place.id);
+    if (place.id) {
+      const index = journey.places.findIndex((obj) => obj.id === place.id);
       if (index !== -1) {
         journey.places[index] = place;
       }
     } else {
-      place.id = place?.position.lat.toString() + place?.position.lng.toString();
+      place.id =
+        place?.position.lat.toString() + place?.position.lng.toString();
       journey.places.push(place);
     }
     updateJourney(journey);
     setActivePlace(null);
-  }
+  };
 
   const onPlaceDelete = (place) => {
     journey.places = journey.places.filter((obj) => obj.id !== place.id);
     updateJourney(journey);
-  }
-
-  const handleAccept = async (newImageData) => {
-    let images = activePlace.images ? activePlace.images : [];
-    images.push(newImageData);
-    setActivePlace({ ...activePlace, images: [...images] });
-  }
+  };
 
   const handleImageAccept = (imageData) => {
     let imageIndex = -1;
-    if(activePlace.images){
+    if (activePlace.images) {
       activePlace.images.forEach((image, i) => {
-        if (image?.id === imageData.id){
+        if (image?.id === imageData.id) {
           imageIndex = i;
         }
       });
     }
-    if(imageIndex > -1){
+    if (imageIndex > -1) {
       let newImages = activePlace.images;
       newImages[imageIndex] = imageData;
       setActivePlace({ ...activePlace, images: [...newImages] });
@@ -78,17 +74,21 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
       newImages.push(imageData);
       setActivePlace({ ...activePlace, images: [...newImages] });
     }
-  }
+  };
 
   const handleImageDelete = (imageData) => {
-    console.log('handleImageDelete', imageData);
-    let newImages = activePlace.images.filter(item => item.id !== imageData.id);
+    console.log("handleImageDelete", imageData);
+    let newImages = activePlace.images.filter(
+      (item) => item.id !== imageData.id
+    );
     setActivePlace({ ...activePlace, images: [...newImages] });
-  }
+  };
 
   return (
     <>
-      <Button {...otherProps} onClick={handleShow}>{buttonText}</Button>
+      <Button {...otherProps} onClick={handleShow}>
+        {buttonText}
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -134,27 +134,33 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
               setDate={onArrivalDateChange}
             />
             <Row>
-              {activePlace?.images &&
+              {activePlace?.images && (
                 <ImageGallery
-                  images={activePlace?.images} 
+                  images={activePlace?.images}
                   onAccept={handleImageAccept}
                   onDelete={handleImageDelete}
                 />
-              }
+              )}
             </Row>
-            <ImageSelectModal
-							handleAccept={handleImageAccept}
-						/>
-            
+            <ImageSelectModal handleAccept={handleImageAccept} />
           </Container>
         </Modal.Body>
         <Modal.Footer>
           <Row>
             <Col>
-              <Button variant="outline-success" onClick={()=>{onPlaceUpdate(activePlace); handleClose()}}>
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  onPlaceUpdate(activePlace);
+                  handleClose();
+                }}
+              >
                 &#x2714;
               </Button>
-              <DeleteModalButton deleteObject={activePlace} deleteAction={() => onPlaceDelete(activePlace)}>
+              <DeleteModalButton
+                deleteObject={activePlace}
+                deleteAction={() => onPlaceDelete(activePlace)}
+              >
                 &#128465;
               </DeleteModalButton>
             </Col>
@@ -163,6 +169,6 @@ const PlaceEditModal = ({ journey, modalHeader, buttonText, ...otherProps }) => 
       </Modal>
     </>
   );
-}
+};
 
 export default PlaceEditModal;
