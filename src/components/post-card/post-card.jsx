@@ -10,10 +10,11 @@ import { UserContext } from "../../contexts/user-context";
 import { PostsContext } from "../../contexts/posts-context";
 import DeleteModalButton from "../delete-modal-button/delete-modal-button";
 
-import './post-card.css';
+import mtn_logo from "../../assets/mtn_logo.png";
+
+import "./post-card.css";
 
 const PostCard = ({ post }) => {
-
   const { currentUser } = useContext(UserContext);
   const { deletePost } = useContext(PostsContext);
 
@@ -21,18 +22,17 @@ const PostCard = ({ post }) => {
 
   const editHandler = (postId) => {
     navigate(`/editPost/` + postId);
-  }
+  };
 
   const deleteHandler = (post) => {
     deletePost(post);
-  }
+  };
 
   return (
-    <Card key={post.id} className="h-100" >
+    <Card key={post.id} className="h-100">
       <Link to={`/readPost/${post.id}`}>
         <Card.Img
-          src={post.titleImage?.sm_img}
-          
+          src={post.titleImage ? post.titleImage.sm_img : mtn_logo}
           className="postCardImage"
           alt="title"
         />
@@ -43,9 +43,12 @@ const PostCard = ({ post }) => {
         </Link>
       </Card.Title>
       <Card.Body>
-        {post.tags && post.tags.map((tag) => (
-          <Badge bg="secondary" className="m-1" key={tag.value}>{tag.label}</Badge>
-        ))}
+        {post.tags &&
+          post.tags.map((tag) => (
+            <Badge bg="secondary" className="m-1" key={tag.value}>
+              {tag.label}
+            </Badge>
+          ))}
       </Card.Body>
       <Card.Footer>
         <span className="float-start">
@@ -53,17 +56,24 @@ const PostCard = ({ post }) => {
           {currentUser?.uid && post.featured && <> &#129351; </>}
           {currentUser?.uid && post.published && <> &#128226; </>}
         </span>
-        {
-          currentUser?.uid === post.author.id &&
+        {currentUser?.uid === post.author.id && (
           <ButtonGroup className="float-end">
-            <Button variant="outline-primary" onClick={() => { editHandler(post.id) }}>&#9998;</Button>
-            <DeleteModalButton deleteObject={post} deleteAction={deleteHandler}>&#128465;</DeleteModalButton>
+            <Button
+              variant="outline-primary"
+              onClick={() => {
+                editHandler(post.id);
+              }}
+            >
+              &#9998;
+            </Button>
+            <DeleteModalButton deleteObject={post} deleteAction={deleteHandler}>
+              &#128465;
+            </DeleteModalButton>
           </ButtonGroup>
-
-        }
+        )}
       </Card.Footer>
     </Card>
   );
-}
+};
 
 export default PostCard;
