@@ -29,7 +29,7 @@ const Navigator = () => {
       <Navbar sticky="top" expand="lg" variant="dark" className="custom-navbar">
         <Container>
           <Navbar.Brand href="/">
-            <img src={app_logo} alt="Huffaker Hooligans" />
+            <img src={app_logo} alt="Huffaker Hooligans" width="350px" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
