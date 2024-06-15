@@ -1,28 +1,20 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-@font-face {
-  font-family: "WoodenLog";
-  src: local("WoodenLog"),
-    url("./fonts/wooden-log.regular.ttf") format("truetype");
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "CaveatBrush";
-  src: local("CaveatBrush"),
-    url("./fonts/CaveatBrush-Regular.ttf") format("truetype");
-  font-weight: normal;
+.caveat-brush-regular {
+  font-family: "Caveat Brush", cursive;
+  font-weight: 500;
+  font-style: normal;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -35,15 +27,12 @@ a {
   box-sizing: border-box;
 }
 
-.woodenLog {
-  font-family: WoodenLog;
-  color: #d7954a;
-}
-
 .caveatBrush {
   font-family: CaveatBrush;
 }
 
-html, body, body>div {
-  height: 100%
+html,
+body,
+body > div {
+  height: 100%;
 }

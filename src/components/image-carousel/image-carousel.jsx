@@ -1,8 +1,8 @@
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from "react-bootstrap/Carousel";
 
-import './image-carousel.css';
+import "./image-carousel.css";
 
-const ImageCarousel = ({slideList}) => {
+const ImageCarousel = ({ slideList }) => {
   return (
     <Carousel>
       {slideList
@@ -18,6 +18,7 @@ const ImageCarousel = ({slideList}) => {
                 ${slide?.xl_img} 1400w
               `}
               alt={slide?.id}
+              loading={i === 0 ? "eager" : "lazy"}
             />
             <Carousel.Caption>
               <p>{slide?.caption}</p>
@@ -26,6 +27,6 @@ const ImageCarousel = ({slideList}) => {
         ))}
     </Carousel>
   );
-}
+};
 
 export default ImageCarousel;
